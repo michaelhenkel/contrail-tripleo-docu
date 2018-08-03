@@ -20,7 +20,6 @@
 
 .admonition {
   font-size: 50%; /* match code size */
-  background: rgb(240, 240, 240);
   color: rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0.5em 1em 0.75em 1em;
@@ -29,6 +28,7 @@
 
 .admonition-green {
   background-color: #ffe8e8;
+  background: rgb(100, 100, 100);
 }
 
 .admonition p {
