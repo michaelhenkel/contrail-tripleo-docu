@@ -153,8 +153,8 @@ Network interface configuration
 
 There are NIC configuration files per role.
 
-.. note:: vi ~/tripleo-heat-templates/network/config/contrail
+.. note:: cd ~/tripleo-heat-templates/network/config/contrail
 
   .. admonition:: OpenStack Controller
 
-    `OpenStack Controller NIC config`_
+    :doc:`nics/controller-nic-config`
