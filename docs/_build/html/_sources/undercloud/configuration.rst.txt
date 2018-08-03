@@ -38,7 +38,7 @@ Setup repositories
       Repositoriy setup is different for CentOS and RHEL.
 
       .. admonition:: CentOS
-         :class: centos
+         :class: red
 
          ::
 
@@ -47,7 +47,7 @@ Setup repositories
            tripleo-repos -b queens current
 
       .. admonition:: RHEL
-         :class: rhel
+         :class: green
 
          ::
 

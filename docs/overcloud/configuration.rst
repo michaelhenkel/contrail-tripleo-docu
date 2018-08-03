@@ -30,7 +30,7 @@ Get Overcloud images
    .. admonition:: Overcloud images
 
             .. admonition:: tripleo
-                     :class: tripleo
+                     :class: violet
 
                            ::
 
@@ -40,7 +40,7 @@ Get Overcloud images
                              tar xvf overcloud-full.tar
 
             .. admonition:: OSP13
-                     :class: OSP13
+                     :class: yellow
 
                            ::
                           
@@ -146,7 +146,7 @@ Create OpenStack container file
    .. note::
 
             .. admonition:: tripleo
-                     :class: tripleo
+                     :class: violet
 
                            ::
 
@@ -166,7 +166,7 @@ Create OpenStack container file
                                --output-images-file=~/local_registry_images.yaml
 
             .. admonition:: OSP13
-                     :class: osp13
+                     :class: yellow
 
                            ::
 

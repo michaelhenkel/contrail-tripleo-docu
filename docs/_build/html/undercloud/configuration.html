@@ -89,7 +89,7 @@ echo ${undercloud_ip} ${undercloud_name}.${undercloud_suffix} ${undercloud_name}
 <div><div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>Repositoriy setup is different for CentOS and RHEL.</p>
-<div class="centos admonition">
+<div class="red admonition">
 <p class="first admonition-title">CentOS</p>
 <div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>tripeo_repos=`python -c &#39;import requests;r = requests.get(&quot;https://trunk.rdoproject.org/centos7-queens/current&quot;); print r.text &#39; |grep python2-tripleo-repos|awk -F&quot;href=\&quot;&quot; &#39;{print $2}&#39;|awk -F&quot;\&quot;&quot; &#39;{print $1}&#39;`
 yum install -y https://trunk.rdoproject.org/centos7-queens/current/${tripeo_repos}
@@ -97,7 +97,7 @@ tripleo-repos -b queens current
 </pre></div>
 </div>
 </div>
-<div class="rhel last admonition">
+<div class="green last admonition">
 <p class="first admonition-title">RHEL</p>
 <div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>#Register with Satellite (can be done with CDN as well)
 satellite_fqdn=satellite.englab.juniper.net

@@ -205,7 +205,7 @@ Create Undercloud VM definition on the Undercloud KVM host (KVM1)
       using different methods:
 
       .. admonition:: CentOS
-         :class: centos
+         :class: red
 
          ::
 
@@ -215,7 +215,7 @@ Create Undercloud VM definition on the Undercloud KVM host (KVM1)
              cloud_image=~/images/CentOS-7-x86_64-GenericCloud-1804_02.qcow2
 
       .. admonition:: RHEL
-         :class: rhel
+         :class: green
 
          ::
      
