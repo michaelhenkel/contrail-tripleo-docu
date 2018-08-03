@@ -25,6 +25,21 @@
   background-color: #ff9fb1;
 }
 
+.admonition p {
+  font-size: inherit;
+}
+
+.admonition p.last {
+  margin-bottom: 0;
+}
+
+.admonition p.first.admonition-title {
+  display: inline;
+  background: #8c3337;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.75);
+}
+
 .admonition.green {
   padding: 12px;
   line-height: 24px;
