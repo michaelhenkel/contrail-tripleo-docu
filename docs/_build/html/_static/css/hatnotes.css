@@ -1,5 +1,11 @@
 .hatnote
 {
+    font-size: 100%; /* match code size */
+    background: rgb(240, 240, 240);
+    color: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0.5em 1em 0.75em 1em;
+    margin-bottom: 24px;
     border-color: #c8c8c8 ;
     border-style: solid ;
     border-width: 1px ;
