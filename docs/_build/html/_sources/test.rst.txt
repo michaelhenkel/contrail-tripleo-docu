@@ -7,7 +7,7 @@ test
 
    This article is a stub. Please improve the docs by expanding it.
 
-.. container:: admonition
+.. container:: admonition admonition-red
 
    blabla
 
