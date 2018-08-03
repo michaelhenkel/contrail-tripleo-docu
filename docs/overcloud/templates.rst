@@ -157,4 +157,4 @@ There are NIC configuration files per role.
 
   .. admonition:: OpenStack Controller
 
-    :doc:`nics/controller-nic-config.rst`
+    `OpenStack Controller NIC config`_
