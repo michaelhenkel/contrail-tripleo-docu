@@ -25,26 +25,3 @@
   background: #da858d;
   background-color: #ffe8e8;
 }
-
-.admonition-green {
-  background-color: #ffe8e8;
-  background: #da858d;
-  background: rgb(100, 100, 100);
-}
-
-.admonition p {
-  font-size: 76%
-}
-
-.admonition p.last {
-  margin-bottom: 0;
-  background-color: #ffe8e8;
-}
-
-.admonition p.first.admonition-title {
-  display: inline;
-  background: none;
-  background-color: #ffffe8;
-  font-weight: bold;
-  color: rgba(0, 0, 0, 0.75);
-}
