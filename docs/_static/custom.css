@@ -17,3 +17,29 @@
 .hatnote-yellow { background-color: #ffffe8 ; color: #000000 ; }
 .hatnote-red { background-color: #ffe8e8 ; color: #000000 ; }
 .hatnote-icon { height: 16px ; width: 16px ; }
+
+.admonition {
+  font-size: 50%; /* match code size */
+  background: rgb(240, 240, 240);
+  color: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.5em 1em 0.75em 1em;
+  margin-bottom: 24px;
+}
+
+.admonition p {
+  font-size: 76%
+}
+
+.admonition p.last {
+  margin-bottom: 0;
+  background-color: #ffe8e8;
+}
+
+.admonition p.first.admonition-title {
+  display: inline;
+  background: none;
+  background-color: #ffffe8;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.75);
+}
