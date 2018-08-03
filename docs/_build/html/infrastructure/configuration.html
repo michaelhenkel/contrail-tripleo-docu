@@ -1,0 +1,620 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Configuration &mdash; Contrail Tripleo queens documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/hatnotes.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/hatnotes.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Configuration" href="../undercloud/configuration.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Contrail Tripleo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../test.html">test</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Infrastructure</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#physical-switch">Physical switch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#under-and-overcloud-kvm-host-configuration">Under- and Overcloud KVM host configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-basic-packages">Install basic packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#start-libvirtd-and-ovs">Start libvirtd and ovs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vswitch-configuration">vSwitch configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#create-bridges">Create bridges</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#create-overcloud-vm-definitions-on-the-overcloud-kvm-hosts-kvm2-4">Create Overcloud VM definitions on the Overcloud KVM hosts (KVM2-4)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-undercloud-vm-definition-on-the-undercloud-kvm-host-kvm1">Create Undercloud VM definition on the Undercloud KVM host (KVM1)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Undercloud</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../undercloud/configuration.html">Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Overcloud</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overcloud/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overcloud/templates.html">Templates</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Contrail Tripleo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Configuration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/infrastructure/configuration.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="configuration">
+<h1><a class="toc-backref" href="#id1">Configuration</a><a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#configuration" id="id1">Configuration</a><ul>
+<li><a class="reference internal" href="#physical-switch" id="id2">Physical switch</a></li>
+<li><a class="reference internal" href="#under-and-overcloud-kvm-host-configuration" id="id3">Under- and Overcloud KVM host configuration</a><ul>
+<li><a class="reference internal" href="#install-basic-packages" id="id4">Install basic packages</a></li>
+<li><a class="reference internal" href="#start-libvirtd-and-ovs" id="id5">Start libvirtd and ovs</a></li>
+<li><a class="reference internal" href="#vswitch-configuration" id="id6">vSwitch configuration</a><ul>
+<li><a class="reference internal" href="#create-bridges" id="id7">Create bridges</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-overcloud-vm-definitions-on-the-overcloud-kvm-hosts-kvm2-4" id="id8">Create Overcloud VM definitions on the Overcloud KVM hosts (KVM2-4)</a></li>
+<li><a class="reference internal" href="#create-undercloud-vm-definition-on-the-undercloud-kvm-host-kvm1" id="id9">Create Undercloud VM definition on the Undercloud KVM host (KVM1)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="physical-switch">
+<h2><a class="toc-backref" href="#id2">Physical switch</a><a class="headerlink" href="#physical-switch" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="44%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Port</th>
+<th class="head">Trunked Vlans</th>
+<th class="head">Native Vlan</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ge0</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>ge1</td>
+<td>700, 720</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>ge2</td>
+<td>700, 710, 720,
+730, 740, 750</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>ge3</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>ge4</td>
+<td>710, 730</td>
+<td>700</td>
+</tr>
+<tr class="row-odd"><td>ge5</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="under-and-overcloud-kvm-host-configuration">
+<h2><a class="toc-backref" href="#id3">Under- and Overcloud KVM host configuration</a><a class="headerlink" href="#under-and-overcloud-kvm-host-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Under- and Overcloud KVM hosts will need virtual switches and
+virtual machine definitions configured.
+The KVM host operating system can be any decent Linux supporting
+KVM and OVS. In this example a RHEL/CentOS based system is used.
+In case of RHEL the system must be subscriped.</p>
+<div class="section" id="install-basic-packages">
+<h3><a class="toc-backref" href="#id4">Install basic packages</a><a class="headerlink" href="#install-basic-packages" title="Permalink to this headline">¶</a></h3>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">libguestfs</span> \
+  <span class="n">libguestfs</span><span class="o">-</span><span class="n">tools</span> \
+  <span class="n">openvswitch</span> \
+  <span class="n">virt</span><span class="o">-</span><span class="n">install</span> \
+  <span class="n">kvm</span> <span class="n">libvirt</span> \
+  <span class="n">libvirt</span><span class="o">-</span><span class="n">python</span> \
+  <span class="n">python</span><span class="o">-</span><span class="n">virtualbmc</span> \
+  <span class="n">python</span><span class="o">-</span><span class="n">virtinst</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="start-libvirtd-and-ovs">
+<h3><a class="toc-backref" href="#id5">Start libvirtd and ovs</a><a class="headerlink" href="#start-libvirtd-and-ovs" title="Permalink to this headline">¶</a></h3>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">start</span> <span class="n">libvirtd</span>
+<span class="n">systemctl</span> <span class="n">start</span> <span class="n">openvswitch</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="vswitch-configuration">
+<h3><a class="toc-backref" href="#id6">vSwitch configuration</a><a class="headerlink" href="#vswitch-configuration" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="43%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Bridge</th>
+<th class="head">Trunked Vlans</th>
+<th class="head">Native Vlan</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>br0</td>
+<td>710, 720, 730
+740, 750</td>
+<td>700</td>
+</tr>
+<tr class="row-odd"><td>br1</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="create-bridges">
+<h4><a class="toc-backref" href="#id7">Create bridges</a><a class="headerlink" href="#create-bridges" title="Permalink to this headline">¶</a></h4>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ovs</span><span class="o">-</span><span class="n">vsctl</span> <span class="n">add</span><span class="o">-</span><span class="n">br</span> <span class="n">br0</span>
+<span class="n">ovs</span><span class="o">-</span><span class="n">vsctl</span> <span class="n">add</span><span class="o">-</span><span class="n">br</span> <span class="n">br1</span>
+<span class="n">ovs</span><span class="o">-</span><span class="n">vsctl</span> <span class="n">add</span><span class="o">-</span><span class="n">port</span> <span class="n">br0</span> <span class="n">NIC1</span>
+<span class="n">ovs</span><span class="o">-</span><span class="n">vsctl</span> <span class="n">add</span><span class="o">-</span><span class="n">port</span> <span class="n">br1</span> <span class="n">NIC2</span>
+<span class="n">cat</span> <span class="o">&lt;&lt;</span> <span class="n">EOF</span> <span class="o">&gt;</span> <span class="n">br0</span><span class="o">.</span><span class="n">xml</span>
+<span class="o">&lt;</span><span class="n">network</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="n">br0</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">forward</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bridge&#39;</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="n">bridge</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;br0&#39;</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="n">virtualport</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;openvswitch&#39;</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="n">portgroup</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;overcloud&#39;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">vlan</span> <span class="n">trunk</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">tag</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;700&#39;</span> <span class="n">nativeMode</span><span class="o">=</span><span class="s1">&#39;untagged&#39;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">tag</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;710&#39;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">tag</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;720&#39;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">tag</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;730&#39;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">tag</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;740&#39;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">tag</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;750&#39;</span><span class="o">/&gt;</span>
+    <span class="o">&lt;/</span><span class="n">vlan</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="n">portgroup</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">network</span><span class="o">&gt;</span>
+<span class="n">EOF</span>
+<span class="n">cat</span> <span class="o">&lt;&lt;</span> <span class="n">EOF</span> <span class="o">&gt;</span> <span class="n">br1</span><span class="o">.</span><span class="n">xml</span>
+<span class="o">&lt;</span><span class="n">network</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="n">br1</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">forward</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bridge&#39;</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="n">bridge</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;br1&#39;</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="n">virtualport</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;openvswitch&#39;</span><span class="o">/&gt;</span>
+<span class="o">&lt;/</span><span class="n">network</span><span class="o">&gt;</span>
+<span class="n">EOF</span>
+<span class="n">virsh</span> <span class="n">net</span><span class="o">-</span><span class="n">define</span> <span class="n">br0</span><span class="o">.</span><span class="n">xml</span>
+<span class="n">virsh</span> <span class="n">net</span><span class="o">-</span><span class="n">start</span> <span class="n">br0</span>
+<span class="n">virsh</span> <span class="n">net</span><span class="o">-</span><span class="n">autostart</span> <span class="n">br0</span>
+<span class="n">virsh</span> <span class="n">net</span><span class="o">-</span><span class="n">define</span> <span class="n">br1</span><span class="o">.</span><span class="n">xml</span>
+<span class="n">virsh</span> <span class="n">net</span><span class="o">-</span><span class="n">start</span> <span class="n">br1</span>
+<span class="n">virsh</span> <span class="n">net</span><span class="o">-</span><span class="n">autostart</span> <span class="n">br1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="create-overcloud-vm-definitions-on-the-overcloud-kvm-hosts-kvm2-4">
+<h3><a class="toc-backref" href="#id8">Create Overcloud VM definitions on the Overcloud KVM hosts (KVM2-4)</a><a class="headerlink" href="#create-overcloud-vm-definitions-on-the-overcloud-kvm-hosts-kvm2-4" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This has to be done on each of the Overcloud KVM hosts</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="docutils">
+<dt>Define the roles and the number of that roles per Overcloud KVM host.</dt>
+<dd><dl class="first last docutils">
+<dt>This example defines:</dt>
+<dd>2x compute nodes
+1x cotrail controller node
+1x openstack controller node</dd>
+</dl>
+</dd>
+</dl>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ROLES</span><span class="o">=</span><span class="n">compute</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="n">contrail</span><span class="o">-</span><span class="n">controller</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="n">control</span><span class="p">:</span><span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>num=0
+ipmi_user=ADMIN
+ipmi_password=ADMIN
+libvirt_path=/var/lib/libvirt/images
+port_group=overcloud
+prov_switch=br0
+
+/bin/rm ironic_list
+IFS=&#39;,&#39; read -ra role_list &lt;&lt;&lt; &quot;${ROLES}&quot;
+for role in ${role_list[@]}; do
+  role_name=`echo $role|cut -d &quot;:&quot; -f 1`
+  role_count=`echo $role|cut -d &quot;:&quot; -f 2`
+  for count in `seq 1 ${role_count}`; do
+    echo $role_name $count
+    qemu-img create -f qcow2 ${libvirt_path}/${role_name}_${count}.qcow2 99G
+    virsh define /dev/stdin &lt;&lt;EOF
+    $(virt-install --name ${role_name}_${count} \
+--disk ${libvirt_path}/${role_name}_${count}.qcow2 \
+--vcpus=4 \
+--ram=16348 \
+--network network=br0,model=virtio,portgroup=${port_group} \
+--network network=br1,model=virtio \
+--virt-type kvm \
+--cpu host \
+--import \
+--os-variant rhel7 \
+--serial pty \
+--console pty,target_type=virtio \
+--graphics vnc \
+--print-xml)
+EOF
+    vbmc add ${role_name}_${count} --port 1623${num} --username ${ipmi_user} --password ${ipmi_password}
+    vbmc start ${role_name}_${count}
+    prov_mac=`virsh domiflist ${role_name}_${count}|grep ${prov_switch}|awk &#39;{print $5}&#39;`
+    vm_name=${role_name}-${count}-`hostname -s`
+    kvm_ip=`ip route get 1  |grep src |awk &#39;{print $7}&#39;`
+    echo ${prov_mac} ${vm_name} ${kvm_ip} ${role_name} 1623${num}&gt;&gt; ironic_list
+    num=$(expr $num + 1)
+  done
+done
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There will be one ironic_list file per KVM host. The ironic_list files of all KVM hosts
+has to be combined on the Undercloud.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>example of a combined list from all three Overcloud KVM hosts:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="n">e7</span><span class="p">:</span><span class="n">ca</span><span class="p">:</span><span class="mi">9</span><span class="n">a</span> <span class="n">compute</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s31</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.32</span> <span class="n">compute</span> <span class="mi">16230</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">6</span><span class="n">c</span><span class="p">:</span><span class="mi">3</span><span class="n">f</span> <span class="n">compute</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s31</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.32</span> <span class="n">compute</span> <span class="mi">16231</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">9</span><span class="n">a</span><span class="p">:</span><span class="mi">0</span><span class="n">c</span><span class="p">:</span><span class="n">d5</span> <span class="n">contrail</span><span class="o">-</span><span class="n">controller</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s31</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.32</span> <span class="n">contrail</span><span class="o">-</span><span class="n">controller</span> <span class="mi">16232</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="n">cc</span><span class="p">:</span><span class="mi">93</span><span class="p">:</span><span class="n">d4</span> <span class="n">control</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s31</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.32</span> <span class="n">control</span> <span class="mi">16233</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">28</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="n">d4</span> <span class="n">compute</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s30</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.31</span> <span class="n">compute</span> <span class="mi">16230</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">7</span><span class="n">f</span><span class="p">:</span><span class="mi">36</span><span class="p">:</span><span class="n">e7</span> <span class="n">compute</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s30</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.31</span> <span class="n">compute</span> <span class="mi">16231</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="n">e5</span><span class="p">:</span><span class="mi">3</span><span class="n">e</span> <span class="n">contrail</span><span class="o">-</span><span class="n">controller</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s30</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.31</span> <span class="n">contrail</span><span class="o">-</span><span class="n">controller</span> <span class="mi">16232</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="n">d4</span><span class="p">:</span><span class="mi">31</span><span class="p">:</span><span class="n">aa</span> <span class="n">control</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s30</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.31</span> <span class="n">control</span> <span class="mi">16233</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="n">d1</span><span class="p">:</span><span class="n">d2</span><span class="p">:</span><span class="n">ab</span> <span class="n">compute</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s32</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.33</span> <span class="n">compute</span> <span class="mi">16230</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="n">ad</span><span class="p">:</span><span class="n">a7</span><span class="p">:</span><span class="n">cc</span> <span class="n">compute</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s32</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.33</span> <span class="n">compute</span> <span class="mi">16231</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">55</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">50</span> <span class="n">contrail</span><span class="o">-</span><span class="n">controller</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s32</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.33</span> <span class="n">contrail</span><span class="o">-</span><span class="n">controller</span> <span class="mi">16232</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">91</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">35</span> <span class="n">control</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s32</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.33</span> <span class="n">control</span> <span class="mi">16233</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="create-undercloud-vm-definition-on-the-undercloud-kvm-host-kvm1">
+<h3><a class="toc-backref" href="#id9">Create Undercloud VM definition on the Undercloud KVM host (KVM1)</a><a class="headerlink" href="#create-undercloud-vm-definition-on-the-undercloud-kvm-host-kvm1" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This has to be done on the Undercloud KVM host only</p>
+</div>
+<ol class="arabic simple">
+<li>Create images directory</li>
+</ol>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">~/</span><span class="n">images</span>
+<span class="n">cd</span> <span class="n">images</span>
+</pre></div>
+</div>
+<ol class="arabic" start="2">
+<li><p class="first">Getting the images</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Depending on the operating system the image must be retrieved
+using different methods:</p>
+<div class="centos admonition">
+<p class="first admonition-title">CentOS</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">cloud</span><span class="o">.</span><span class="n">centos</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">centos</span><span class="o">/</span><span class="mi">7</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">CentOS</span><span class="o">-</span><span class="mi">7</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="n">GenericCloud</span><span class="o">-</span><span class="mf">1802.</span><span class="n">qcow2</span><span class="o">.</span><span class="n">xz</span> \
+  <span class="o">-</span><span class="n">o</span> <span class="n">CentOS</span><span class="o">-</span><span class="mi">7</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="n">GenericCloud</span><span class="o">-</span><span class="mf">1802.</span><span class="n">qcow2</span><span class="o">.</span><span class="n">xz</span>
+<span class="n">zx</span> <span class="o">-</span><span class="n">d</span> <span class="n">images</span><span class="o">/</span><span class="n">CentOS</span><span class="o">-</span><span class="mi">7</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="n">GenericCloud</span><span class="o">-</span><span class="mf">1802.</span><span class="n">qcow2</span><span class="o">.</span><span class="n">xz</span>
+<span class="n">cloud_image</span><span class="o">=~/</span><span class="n">images</span><span class="o">/</span><span class="n">CentOS</span><span class="o">-</span><span class="mi">7</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="n">GenericCloud</span><span class="o">-</span><span class="mi">1804</span><span class="n">_02</span><span class="o">.</span><span class="n">qcow2</span>
+</pre></div>
+</div>
+</div>
+<div class="rhel last admonition">
+<p class="first admonition-title">RHEL</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Download</span> <span class="n">rhel</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="mf">7.5</span><span class="o">-</span><span class="n">update</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="n">kvm</span><span class="o">.</span><span class="n">qcow2</span> <span class="kn">from</span> <span class="nn">RedHat</span> <span class="n">portal</span> <span class="n">to</span> <span class="o">~/</span><span class="n">images</span>
+<span class="n">cloud_image</span><span class="o">=~/</span><span class="n">images</span><span class="o">/</span><span class="n">rhel</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="mf">7.5</span><span class="o">-</span><span class="n">update</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="n">kvm</span><span class="o">.</span><span class="n">qcow2</span>
+</pre></div>
+</div>
+</div>
+</div>
+</li>
+<li><p class="first">Customize the Undercloud image</p>
+</li>
+</ol>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>undercloud_name=queensa
+undercloud_suffix=local
+root_password=contrail123
+stack_password=contrail123
+export LIBGUESTFS_BACKEND=direct
+qemu-img create -f qcow2 /var/lib/libvirt/images/${undercloud_name}.qcow2 100G
+virt-resize --expand /dev/sda1 ${cloud_image} /var/lib/libvirt/images/${undercloud_name}.qcow2
+virt-customize  -a /var/lib/libvirt/images/${undercloud_name}.qcow2 \
+  --run-command &#39;xfs_growfs /&#39; \
+  --root-password password:${root_password} \
+  --hostname ${undercloud_name}.${undercloud_suffix} \
+  --run-command &#39;useradd stack&#39; \
+  --password stack:password:${stack_password} \
+  --run-command &#39;echo &quot;stack ALL=(root) NOPASSWD:ALL&quot; | tee -a /etc/sudoers.d/stack&#39; \
+  --chmod 0440:/etc/sudoers.d/stack \
+  --run-command &#39;sed -i &quot;s/PasswordAuthentication no/PasswordAuthentication yes/g&quot; /etc/ssh/sshd_config&#39; \
+  --run-command &#39;systemctl enable sshd&#39; \
+  --run-command &#39;yum remove -y cloud-init&#39; \
+  --selinux-relabel
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Define the Undercloud virsh template</li>
+</ol>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>vcpus=8
+vram=32000
+virt-install --name ${undercloud_name} \
+  --disk /var/lib/libvirt/images/${undercloud_name}.qcow2 \
+  --vcpus=${vcpus} \
+  --ram=${vram} \
+  --network network=default,model=virtio \
+  --network network=br0,model=virtio,portgroup=overcloud \
+  --virt-type kvm \
+  --import \
+  --os-variant rhel7 \
+  --graphics vnc \
+  --serial pty \
+  --noautoconsole \
+  --console pty,target_type=virtio
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>Start the Undercloud VM</li>
+</ol>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>virsh start ${undercloud_name}
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li>Retrieve the Undercloud IP (might take a few secconds before the IP is available</li>
+</ol>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>undercloud_ip=`virsh domifaddr ${undercloud_name} |grep ipv4 |awk &#39;{print $4}&#39; |awk -F&quot;/&quot; &#39;{print $1}&#39;`
+ssh-copy-id ${undercloud_ip}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../undercloud/configuration.html" class="btn btn-neutral float-right" title="Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Michael Henkel.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'queens',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
