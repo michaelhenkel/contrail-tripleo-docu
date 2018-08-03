@@ -18,18 +18,30 @@
 .hatnote-red { background-color: #ffe8e8 ; color: #000000 ; }
 .hatnote-icon { height: 16px ; width: 16px ; }
 
-.admonition.admonition-green {
+.admonition.red {
   padding: 12px;
   line-height: 24px;
   margin-bottom: 24px;
-  background: #da858d;
-  background-color: #ffe8e8;
+  background-color: #ff9fb1;
 }
 
-.admonition.admonition-red {
+.admonition.green {
   padding: 12px;
   line-height: 24px;
   margin-bottom: 24px;
-  background: #da858d;
-  background-color: #ffe8e8;
+  background-color: #05de0d;
+}
+
+.admonition.violet {
+  padding: 12px;
+  line-height: 24px;
+  margin-bottom: 24px;
+  background-color: #e39fff;
+}
+
+.admonition.yellow {
+  padding: 12px;
+  line-height: 24px;
+  margin-bottom: 24px;
+  background-color: #fff39f;
 }

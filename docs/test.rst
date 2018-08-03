@@ -3,29 +3,26 @@ test
 ====
 
 
-.. container:: hatnote hatnote-red
-
-   This article is a stub. Please improve the docs by expanding it.
-
 .. container:: admonition admonition-red
 
    blabla
 
-.. admonition:: hatnote hatnote-red
+.. admonition:: Red
+   :class: red
 
-   Step that should only be run when using RHEL
+   Red box text
 
-.. admonition:: RHEL Portal Registration
-   :class: admonition-green
+.. admonition:: Green
+   :class: green
 
-   Step that should only be run when using RHEL Portal Registration
+   Green box text
 
-.. admonition:: RHEL Satellite Registration
-   :class: rhel
+.. admonition:: Violet
+   :class: violet
 
-   Step that should only be run when using RHEL Satellite Registration
+   Violet box text
 
-.. admonition:: CentOS
-   :class: centos
+.. admonition:: Yellow
+   :class: yellow
 
-   blabla
+   Yellow box text
