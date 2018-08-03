@@ -25,7 +25,7 @@
   background-color: #ff9fb1;
 }
 
-.admonition p.first.admonition-title {
+.admonition.red p.first.admonition-title {
   background: #e05353;
 }
 
@@ -36,7 +36,7 @@
   background-color: #05de0d;
 }
 
-.admonition p.first.admonition-title {
+.admonition.green p.first.admonition-title {
   background: #31840f;
 }
 
