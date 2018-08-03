@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Advanced Deployment &mdash; tripleo-docs 0.0.1.dev17 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1.dev17',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/cookies.js"></script>
+    <script type="text/javascript" src="../_static/expandable.js"></script>
+    <script type="text/javascript" src="../_static/admonition_selector.js"></script>
+    <script type="text/javascript" src="../_static/jquery.scrollTo.js"></script>
+    <script type="text/javascript" src="../_static/jquery.nav.js"></script>
+    <script type="text/javascript" src="../_static/menu.js"></script>
+    <link rel="top" title="tripleo-docs 0.0.1.dev17 documentation" href="../index.html" />
+    <link rel="next" title="Setting the Root Device for Deployment" href="root_device.html" />
+    <link rel="prev" title="Basic Deployment (CLI)" href="../basic_deployment/basic_deployment_cli.html" /> 
+  </head>
+  <body>
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="advanced-deployment">
+<h1>Advanced Deployment<a class="headerlink" href="#advanced-deployment" title="Permalink to this headline">¶</a></h1>
+<p>In this chapter you will find advanced deployment of various TripleO areas.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="root_device.html">Setting the Root Device for Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="root_device.html#using-introspection-data-to-find-the-root-device">Using introspection data to find the root device</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build_single_image.html">Building a Single Image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build_single_image.html#uploading-the-new-single-image">Uploading the New Single Image</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introspect_single_node.html">Introspecting a Single Node</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile_matching.html">Advanced Profile Matching</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="profile_matching.html#manual-profile-tagging">Manual profile tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="profile_matching.html#automated-profile-tagging">Automated profile tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="profile_matching.html#use-the-flavors-to-deploy">Use the flavors to deploy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="profile_matching.html#examples-of-introspection-rules">Examples of introspection rules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="profile_matching.html#example-1">Example 1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="profile_matching.html#create-flavors-to-use-profile-matching">Create flavors to use profile matching</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ready_state.html">Ready-state configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ready_state.html#define-the-target-bios-configuration">Define the target BIOS configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ready_state.html#trigger-the-ready-state-configuration">Trigger the ready-state configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introspection_data.html">Accessing Introspection Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introspection_data.html#accessing-raw-additional-data">Accessing raw additional data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introspection_data.html#running-benchmarks">Running benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introspection_data.html#extra-data-examples">Extra data examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="node_config.html">Modifying default node configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="node_config.html#making-configuration-changes">Making configuration changes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extra_config.html">Node customization and Third-Party Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extra_config.html#firstboot-extra-configuration">Firstboot extra configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extra_config.html#per-node-extra-configuration">Per-node extra configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extra_config.html#post-deploy-extra-configuration">Post-Deploy extra configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="template_deploy.html">Deploying with Heat Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="template_deploy.html#deploying-an-overcloud-using-the-default-templates">Deploying an Overcloud using the default templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template_deploy.html#overriding-specific-templates-with-local-versions">Overriding specific templates with local versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template_deploy.html#using-a-custom-location-for-all-templates">Using a custom location for all templates</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="network_isolation.html">Configuring Network Isolation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#create-network-environment-file">Create Network Environment File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#configure-ip-subnets">Configure IP Subnets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#configure-vlans-and-bonding-options">Configure VLANs and Bonding Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#creating-custom-interface-templates">Creating Custom Interface Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#customizing-the-interface-templates">Customizing the Interface Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#configuring-interfaces">Configuring Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#configuring-routes-and-default-routes">Configuring Routes and Default Routes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#using-a-dedicated-interface-for-tenant-vlans">Using a Dedicated Interface For Tenant VLANs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#using-the-native-vlan-for-floating-ips">Using the Native VLAN for Floating IPs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#using-the-native-vlan-on-a-trunked-interface">Using the Native VLAN on a Trunked Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#configuring-jumbo-frames">Configuring Jumbo Frames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#assigning-openstack-services-to-isolated-networks">Assigning OpenStack Services to Isolated Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#updating-existing-configuration-templates-to-support-new-parameters">Updating Existing Configuration Templates To Support New Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#deploying-the-overcloud-with-network-isolation">Deploying the Overcloud With Network Isolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#creating-floating-ip-networks">Creating Floating IP Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_isolation.html#creating-provider-networks">Creating Provider Networks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_manila.html">Deploying Manila in the Overcloud</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deploy_manila.html#deploying-the-overcloud">Deploying the Overcloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy_manila.html#creating-the-share">Creating the Share</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy_manila.html#accessing-the-share">Accessing the Share</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cinder_netapp.html">Configuring Cinder with a NetApp Backend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cinder_netapp.html#deploying-the-overcloud">Deploying the Overcloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cinder_netapp.html#creating-a-netapp-volume">Creating a NetApp Volume</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="neutron_midonet.html">Configuring MidoNet as a Neutron Backend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="neutron_midonet.html#deploying-the-overcloud">Deploying the overcloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neutron_midonet.html#using-network-isolation">Using Network Isolation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ssl.html">Deploying with SSL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ssl.html#overcloud-ssl">Overcloud SSL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ssl.html#public-vip-details">Public VIP Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssl.html#certificate-details">Certificate Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssl.html#dns-endpoint-configuration">DNS Endpoint Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssl.html#deploying-an-ssl-environment">Deploying an SSL Environment</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="node_placement.html">Controlling Node Placement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="node_placement.html#assign-per-node-capabilities">Assign per-node capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_placement.html#create-an-environment-file-with-scheduler-hints">Create an environment file with Scheduler Hints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_placement.html#custom-hostnames">Custom Hostnames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_placement.html#predictable-ips">Predictable IPs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tripleo.sh.html">tripleo.sh</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tripleo.sh.html#get-tripleo-sh">Get tripleo.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tripleo.sh.html#using-tripleo-sh">Using tripleo.sh</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tripleo.sh.html#options">Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tripleo.sh.html#environment-variables">Environment variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="in_progress_review.html">Using an In-Progress Review</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../basic_deployment/basic_deployment_cli.html"
+                                  title="previous chapter">Basic Deployment (CLI)</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="root_device.html"
+                                  title="next chapter">Setting the Root Device for Deployment</a></p>
+            <h3>Project Source</h3>
+            <ul class="this-page-menu">
+              <li><a href="http://git.openstack.org/cgit/michaelhenkel/contrail-tripleo-docu
+"
+                     rel="nofollow">Project Source</a></li>
+            </ul>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/advanced_deployment/advanced_deployment.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+  <div id="admonition_selector">
+    <span class="trigger">Limit Environment Specific Content</span>
+
+    <div class="content">
+      <span class="title">Operating Systems</span>
+      <ul>
+        <li><input type="checkbox" id="centos" checked="checked"><label for="centos" title="Step that should only be run when using CentOS.">CentOS</label></li>
+        <li><input type="checkbox" id="rhel" checked="checked"><label for="rhel" title="Step that should only be run when using RHEL.">RHEL</label></li>
+      </ul>
+
+      <span class="title">RHEL Registration Types</span>
+      <ul>
+        <li><input type="checkbox" id="portal" checked="checked"><label for="portal" title="Step that should only be run when registering to the Red Hat Portal.">Portal</label></li>
+        <li><input type="checkbox" id="satellite" checked="checked"><label for="satellite" title="Step that should only be run when registering to Red Hat Satellite.">Satellite</label></li>
+      </ul>
+
+      <span class="title">Environments</span>
+      <ul>
+        <li><input type="checkbox" id="baremetal" checked="checked"><label for="baremetal" title="Step that should only be run when deploying to baremetal.">Baremetal</label></li>
+        <li><input type="checkbox" id="virtual" checked="checked"><label for="virtual" title="Step that should only be run when deploying to virtual machines.">Virtual</label></li>
+        <li><input type="checkbox" id="ssl" checked="checked"><label for="ssl" title="Step that should only be run when deploying with SSL OpenStack endpoints.">SSL</label></li>
+        <li><input type="checkbox" id="selfsigned" checked="checked"><label for="selfsigned" title="Step that should only be run when deploying with SSL and a self-signed certificate.">Self-Signed SSL</label></li>
+      </ul>
+
+      <span class="title">Additional Overcloud Roles</span>
+      <ul>
+        <li><input type="checkbox" id="ceph" checked="checked"><label for="ceph" title="Step that should only be run when deploying Ceph for use by the Overcloud.">Ceph</label></li>
+      </ul>
+
+      <span class="title">Development options</span>
+      <ul>
+         <li><input type="checkbox" id="source" checked=""><label for="source"
+            title="Step that should only be run when choosing to use some components directly from their git source code repositories instead of packages.">Install from source</label></li>
+        <li><input type="checkbox" id="stable" checked=""><label for="stable"
+            title="Step that should only be run when choosing to use components from their stable branches rather than using packages/source based on current master.">Install from stable branch</label></li>
+      </ul>
+
+
+    </div>
+  </div>
+
+  
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="root_device.html" title="Setting the Root Device for Deployment"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../basic_deployment/basic_deployment_cli.html" title="Basic Deployment (CLI)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">tripleo-docs 0.0.1.dev17 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, OpenStack Foundation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/tripleo-docs");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

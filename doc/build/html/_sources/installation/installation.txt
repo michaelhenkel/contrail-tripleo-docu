@@ -1,0 +1,10 @@
+Undercloud Installation
+=======================
+
+This section contains instructions on how to install the undercloud and how to
+update components after installation.
+
+.. include:: installing.rst
+
+.. include:: updating.rst
+

@@ -1,0 +1,39 @@
+actionid: docs
+msg: developpkg
+cmdargs: ['/Users/mhenkel/contrail-tripleo-docu/.tox/docs/bin/pip', 'install', '-e', '/Users/mhenkel/contrail-tripleo-docu']
+
+Obtaining file:///Users/mhenkel/contrail-tripleo-docu
+Requirement already satisfied: six>=1.9.0 in ./.tox/docs/lib/python2.7/site-packages (from tripleo-docs==0.0.1.dev17) (1.11.0)
+Requirement already satisfied: python-novaclient in ./.tox/docs/lib/python2.7/site-packages (from tripleo-docs==0.0.1.dev17) (11.0.0)
+Requirement already satisfied: oslo.config in ./.tox/docs/lib/python2.7/site-packages (from tripleo-docs==0.0.1.dev17) (6.4.0)
+Requirement already satisfied: oslo.utils>=3.33.0 in ./.tox/docs/lib/python2.7/site-packages (from python-novaclient->tripleo-docs==0.0.1.dev17) (3.36.4)
+Requirement already satisfied: iso8601>=0.1.11 in ./.tox/docs/lib/python2.7/site-packages (from python-novaclient->tripleo-docs==0.0.1.dev17) (0.1.12)
+Requirement already satisfied: pbr!=2.1.0,>=2.0.0 in ./.tox/docs/lib/python2.7/site-packages (from python-novaclient->tripleo-docs==0.0.1.dev17) (4.2.0)
+Requirement already satisfied: oslo.serialization!=2.19.1,>=2.18.0 in ./.tox/docs/lib/python2.7/site-packages (from python-novaclient->tripleo-docs==0.0.1.dev17) (2.27.0)
+Requirement already satisfied: simplejson>=3.5.1 in ./.tox/docs/lib/python2.7/site-packages (from python-novaclient->tripleo-docs==0.0.1.dev17) (3.16.0)
+Requirement already satisfied: PrettyTable<0.8,>=0.7.2 in ./.tox/docs/lib/python2.7/site-packages (from python-novaclient->tripleo-docs==0.0.1.dev17) (0.7.2)
+Requirement already satisfied: keystoneauth1>=3.4.0 in ./.tox/docs/lib/python2.7/site-packages (from python-novaclient->tripleo-docs==0.0.1.dev17) (3.10.0)
+Requirement already satisfied: oslo.i18n>=3.15.3 in ./.tox/docs/lib/python2.7/site-packages (from python-novaclient->tripleo-docs==0.0.1.dev17) (3.21.0)
+Requirement already satisfied: Babel!=2.4.0,>=2.3.4 in ./.tox/docs/lib/python2.7/site-packages (from python-novaclient->tripleo-docs==0.0.1.dev17) (2.6.0)
+Requirement already satisfied: enum34>=1.0.4; python_version == "2.7" or python_version == "2.6" or python_version == "3.3" in ./.tox/docs/lib/python2.7/site-packages (from oslo.config->tripleo-docs==0.0.1.dev17) (1.1.6)
+Requirement already satisfied: rfc3986>=0.3.1 in ./.tox/docs/lib/python2.7/site-packages (from oslo.config->tripleo-docs==0.0.1.dev17) (1.1.0)
+Requirement already satisfied: stevedore>=1.20.0 in ./.tox/docs/lib/python2.7/site-packages (from oslo.config->tripleo-docs==0.0.1.dev17) (1.29.0)
+Requirement already satisfied: debtcollector>=1.2.0 in ./.tox/docs/lib/python2.7/site-packages (from oslo.config->tripleo-docs==0.0.1.dev17) (1.20.0)
+Requirement already satisfied: PyYAML>=3.12 in ./.tox/docs/lib/python2.7/site-packages (from oslo.config->tripleo-docs==0.0.1.dev17) (3.13)
+Requirement already satisfied: netaddr>=0.7.18 in ./.tox/docs/lib/python2.7/site-packages (from oslo.config->tripleo-docs==0.0.1.dev17) (0.7.19)
+Requirement already satisfied: requests>=2.18.0 in ./.tox/docs/lib/python2.7/site-packages (from oslo.config->tripleo-docs==0.0.1.dev17) (2.19.1)
+Requirement already satisfied: pytz>=2013.6 in ./.tox/docs/lib/python2.7/site-packages (from oslo.utils>=3.33.0->python-novaclient->tripleo-docs==0.0.1.dev17) (2018.5)
+Requirement already satisfied: monotonic>=0.6 in ./.tox/docs/lib/python2.7/site-packages (from oslo.utils>=3.33.0->python-novaclient->tripleo-docs==0.0.1.dev17) (1.5)
+Requirement already satisfied: funcsigs>=1.0.0; python_version == "2.7" or python_version == "2.6" in ./.tox/docs/lib/python2.7/site-packages (from oslo.utils>=3.33.0->python-novaclient->tripleo-docs==0.0.1.dev17) (1.0.2)
+Requirement already satisfied: pyparsing>=2.1.0 in ./.tox/docs/lib/python2.7/site-packages (from oslo.utils>=3.33.0->python-novaclient->tripleo-docs==0.0.1.dev17) (2.2.0)
+Requirement already satisfied: netifaces>=0.10.4 in ./.tox/docs/lib/python2.7/site-packages (from oslo.utils>=3.33.0->python-novaclient->tripleo-docs==0.0.1.dev17) (0.10.7)
+Requirement already satisfied: msgpack>=0.5.2 in ./.tox/docs/lib/python2.7/site-packages (from oslo.serialization!=2.19.1,>=2.18.0->python-novaclient->tripleo-docs==0.0.1.dev17) (0.5.6)
+Requirement already satisfied: os-service-types>=1.2.0 in ./.tox/docs/lib/python2.7/site-packages (from keystoneauth1>=3.4.0->python-novaclient->tripleo-docs==0.0.1.dev17) (1.2.0)
+Requirement already satisfied: wrapt>=1.7.0 in ./.tox/docs/lib/python2.7/site-packages (from debtcollector>=1.2.0->oslo.config->tripleo-docs==0.0.1.dev17) (1.10.11)
+Requirement already satisfied: urllib3<1.24,>=1.21.1 in ./.tox/docs/lib/python2.7/site-packages (from requests>=2.18.0->oslo.config->tripleo-docs==0.0.1.dev17) (1.23)
+Requirement already satisfied: chardet<3.1.0,>=3.0.2 in ./.tox/docs/lib/python2.7/site-packages (from requests>=2.18.0->oslo.config->tripleo-docs==0.0.1.dev17) (3.0.4)
+Requirement already satisfied: certifi>=2017.4.17 in ./.tox/docs/lib/python2.7/site-packages (from requests>=2.18.0->oslo.config->tripleo-docs==0.0.1.dev17) (2018.4.16)
+Requirement already satisfied: idna<2.8,>=2.5 in ./.tox/docs/lib/python2.7/site-packages (from requests>=2.18.0->oslo.config->tripleo-docs==0.0.1.dev17) (2.7)
+Installing collected packages: tripleo-docs
+  Running setup.py develop for tripleo-docs
+Successfully installed tripleo-docs

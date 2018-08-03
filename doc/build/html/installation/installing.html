@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing the Undercloud &mdash; tripleo-docs 0.0.1.dev17 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1.dev17',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/cookies.js"></script>
+    <script type="text/javascript" src="../_static/expandable.js"></script>
+    <script type="text/javascript" src="../_static/admonition_selector.js"></script>
+    <script type="text/javascript" src="../_static/jquery.scrollTo.js"></script>
+    <script type="text/javascript" src="../_static/jquery.nav.js"></script>
+    <script type="text/javascript" src="../_static/menu.js"></script>
+    <link rel="top" title="tripleo-docs 0.0.1.dev17 documentation" href="../index.html" /> 
+  </head>
+  <body>
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-the-undercloud">
+<h1>Installing the Undercloud<a class="headerlink" href="#installing-the-undercloud" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic">
+<li><p class="first">Log in to your machine (baremetal or VM) where you want to install the
+undercloud as a non-root user (such as the stack user):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ssh &lt;non-root-user&gt;@&lt;undercloud-machine&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If you don&#8217;t have a non-root user created yet, log in as root and create
+one with following commands:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span>sudo useradd stack
+sudo passwd stack  # specify a password
+
+echo &quot;stack ALL=(root) NOPASSWD:ALL&quot; | sudo tee -a /etc/sudoers.d/stack
+sudo chmod 0440 /etc/sudoers.d/stack
+
+su - stack
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The undercloud is intended to work correctly with SELinux enforcing, and
+cannot be installed to a system with SELinux disabled.  If SELinux
+enforcement must be turned off for some reason, it should instead be set
+to permissive.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">vlan tagged interfaces must follow the if_name.vlan_id convention, like for
+example: eth0.vlan100 or bond0.vlan120.</p>
+</div>
+<div class="baremetal admonition">
+<p class="first admonition-title">Baremetal</p>
+<p>Ensure that there is a FQDN hostname set and that the $HOSTNAME environment
+variable matches that value.</p>
+<p>Use <tt class="docutils literal"><span class="pre">hostnamectl</span></tt> to set a hostname if needed:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo hostnamectl set-hostname myhost.mydomain
+sudo hostnamectl set-hostname --transient myhost.mydomain
+</pre></div>
+</div>
+<p>An entry for the system&#8217;s FQDN hostname is also needed in /etc/hosts. For
+example, if the system is named <em>myhost.mydomain</em>, /etc/hosts should have
+an entry like:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span>127.0.0.1   myhost.mydomain myhost
+</pre></div>
+</div>
+</div>
+</li>
+<li><p class="first">Enable needed repositories:</p>
+</li>
+</ol>
+<blockquote>
+<div><div class="rhel admonition">
+<p class="first admonition-title">RHEL</p>
+<p>Enable optional repo:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span>sudo yum install -y yum-utils
+sudo yum-config-manager --enable rhelosp-rhel-7-server-opt
+</pre></div>
+</div>
+</div>
+<p>Enable epel:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo yum -y install epel-release
+</pre></div>
+</div>
+</div></blockquote>
+<blockquote>
+<div><p>Enable last known good RDO Trunk Delorean repository for core openstack packages</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo curl -o /etc/yum.repos.d/delorean.repo http://trunk.rdoproject.org/centos7/current-tripleo/delorean.repo
+</pre></div>
+</div>
+<p>Enable latest RDO Trunk Delorean repository only for the TripleO packages</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo curl -o /etc/yum.repos.d/delorean-current.repo http://trunk.rdoproject.org/centos7/current/delorean.repo
+sudo sed -i &#39;s/\[delorean\]/\[delorean-current\]/&#39; /etc/yum.repos.d/delorean-current.repo
+sudo /bin/bash -c &quot;cat &lt;&lt;EOF&gt;&gt;/etc/yum.repos.d/delorean-current.repo
+
+includepkgs=diskimage-builder,instack,instack-undercloud,os-apply-config,os-cloud-config,os-collect-config,os-net-config,os-refresh-config,python-tripleoclient,tripleo-common,openstack-tripleo-heat-templates,openstack-tripleo-image-elements,openstack-tripleo,openstack-tripleo-puppet-elements,openstack-puppet-modules
+EOF&quot;
+</pre></div>
+</div>
+<p>Enable the Delorean Deps repository</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo curl -o /etc/yum.repos.d/delorean-deps.repo http://trunk.rdoproject.org/centos7/delorean-deps.repo
+</pre></div>
+</div>
+<div class="stable admonition">
+<p class="first admonition-title">Stable Branch</p>
+<p><em>Skip all repos mentioned above, other than epel-release which is still required.</em></p>
+<p>Enable latest RDO Stable Delorean repository for all packages</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo curl -o /etc/yum.repos.d/delorean-liberty.repo https://trunk.rdoproject.org/centos7-liberty/current/delorean.repo
+</pre></div>
+</div>
+<p>Enable the Delorean Deps repository</p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span>sudo curl -o /etc/yum.repos.d/delorean-deps-liberty.repo http://trunk.rdoproject.org/centos7-liberty/delorean-deps.repo
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+<ol class="arabic" start="3">
+<li><p class="first">Install the yum-plugin-priorities package so that the Delorean repository takes precedence over the main RDO repositories:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo yum -y install yum-plugin-priorities
+</pre></div>
+</div>
+</li>
+<li><p class="first">Install the TripleO CLI, which will pull in all other necessary packages as dependencies:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo yum install -y python-tripleoclient
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run the script to install the undercloud:</p>
+</li>
+</ol>
+<blockquote>
+<div><div class="baremetal admonition">
+<p class="first admonition-title">Baremetal</p>
+<p>Copy in the sample configuration file and edit it to reflect your environment:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span>cp /usr/share/instack-undercloud/undercloud.conf.sample ~/undercloud.conf
+</pre></div>
+</div>
+</div>
+<div class="source admonition">
+<p class="first admonition-title">Source</p>
+<p>Git checkouts of the puppet modules can be used instead of packages. Export the
+following environment variable:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>export DIB_INSTALLTYPE_puppet_modules=source
+</pre></div>
+</div>
+<p class="last">It is also possible to use this functionality to use an in-progress review
+as part of the undercloud install.  See
+<a class="reference internal" href="../advanced_deployment/in_progress_review.html"><em>Using an In-Progress Review</em></a> for details.</p>
+</div>
+<div class="ssl admonition">
+<p class="first admonition-title">SSL</p>
+<p>To enable SSL on the undercloud, you must set the <tt class="docutils literal"><span class="pre">undercloud_service_certificate</span></tt>
+option in <tt class="docutils literal"><span class="pre">undercloud.conf</span></tt> to an appropriate certificate file.  Important:
+The certificate file&#8217;s Common Name <em>must</em> be set to the value of
+<tt class="docutils literal"><span class="pre">undercloud_public_vip</span></tt> in undercloud.conf.</p>
+<p>If you do not have a trusted CA signed certificate file, you can alternatively
+generate a self-signed certificate file using the following commands:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>openssl genrsa -out privkey.pem 2048
+</pre></div>
+</div>
+<p>The next command will prompt for some identification details.  Most of these don&#8217;t
+matter, but make sure the <tt class="docutils literal"><span class="pre">Common</span> <span class="pre">Name</span></tt> entered matches the value of
+<tt class="docutils literal"><span class="pre">undercloud_public_vip</span></tt> in undercloud.conf:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>openssl req -new -x509 -key privkey.pem -out cacert.pem -days 365
+</pre></div>
+</div>
+<p>Combine the two files into one for HAProxy to use.  The order of the
+files in this command matters, so do not change it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>cat cacert.pem privkey.pem &gt; undercloud.pem
+</pre></div>
+</div>
+<p>Move the file to a more appropriate location and set the SELinux context:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo mkdir /etc/pki/instack-certs
+sudo cp undercloud.pem /etc/pki/instack-certs
+sudo semanage fcontext -a -t etc_t &quot;/etc/pki/instack-certs(/.*)?&quot;
+sudo restorecon -R /etc/pki/instack-certs
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">undercloud_service_certificate</span></tt> should then be set to
+<tt class="docutils literal"><span class="pre">/etc/pki/instack-certs/undercloud.pem</span></tt>.</p>
+<p>Add the self-signed CA certificate to the undercloud system&#8217;s trusted
+certificate store:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span>sudo cp cacert.pem /etc/pki/ca-trust/source/anchors/
+sudo update-ca-trust extract
+</pre></div>
+</div>
+</div>
+<p>Install the undercloud:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>openstack undercloud install
+</pre></div>
+</div>
+</div></blockquote>
+<p>Once the install has completed, you should take note of the files <tt class="docutils literal"><span class="pre">stackrc</span></tt> and
+<tt class="docutils literal"><span class="pre">undercloud-passwords.conf</span></tt>.  You can source <tt class="docutils literal"><span class="pre">stackrc</span></tt> to interact with the
+undercloud via the OpenStack command-line client.  <tt class="docutils literal"><span class="pre">undercloud-passwords.conf</span></tt>
+contains the passwords used for each service in the undercloud.  These passwords
+will be automatically reused if the undercloud is reinstalled on the same system,
+so it is not necessary to copy them to <tt class="docutils literal"><span class="pre">undercloud.conf</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Any passwords set in <tt class="docutils literal"><span class="pre">undercloud.conf</span></tt> will take precedence over the ones in
+<tt class="docutils literal"><span class="pre">undercloud-passwords.conf</span></tt>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">openstack</span> <span class="pre">undercloud</span> <span class="pre">install</span></tt> can be rerun to reapply changes from
+undercloud.conf to the undercloud. Note that this should <strong>not</strong> be done if an
+overcloud has already been deployed or is in progress.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h3>Project Source</h3>
+            <ul class="this-page-menu">
+              <li><a href="http://git.openstack.org/cgit/michaelhenkel/contrail-tripleo-docu
+"
+                     rel="nofollow">Project Source</a></li>
+            </ul>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/installation/installing.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+  <div id="admonition_selector">
+    <span class="trigger">Limit Environment Specific Content</span>
+
+    <div class="content">
+      <span class="title">Operating Systems</span>
+      <ul>
+        <li><input type="checkbox" id="centos" checked="checked"><label for="centos" title="Step that should only be run when using CentOS.">CentOS</label></li>
+        <li><input type="checkbox" id="rhel" checked="checked"><label for="rhel" title="Step that should only be run when using RHEL.">RHEL</label></li>
+      </ul>
+
+      <span class="title">RHEL Registration Types</span>
+      <ul>
+        <li><input type="checkbox" id="portal" checked="checked"><label for="portal" title="Step that should only be run when registering to the Red Hat Portal.">Portal</label></li>
+        <li><input type="checkbox" id="satellite" checked="checked"><label for="satellite" title="Step that should only be run when registering to Red Hat Satellite.">Satellite</label></li>
+      </ul>
+
+      <span class="title">Environments</span>
+      <ul>
+        <li><input type="checkbox" id="baremetal" checked="checked"><label for="baremetal" title="Step that should only be run when deploying to baremetal.">Baremetal</label></li>
+        <li><input type="checkbox" id="virtual" checked="checked"><label for="virtual" title="Step that should only be run when deploying to virtual machines.">Virtual</label></li>
+        <li><input type="checkbox" id="ssl" checked="checked"><label for="ssl" title="Step that should only be run when deploying with SSL OpenStack endpoints.">SSL</label></li>
+        <li><input type="checkbox" id="selfsigned" checked="checked"><label for="selfsigned" title="Step that should only be run when deploying with SSL and a self-signed certificate.">Self-Signed SSL</label></li>
+      </ul>
+
+      <span class="title">Additional Overcloud Roles</span>
+      <ul>
+        <li><input type="checkbox" id="ceph" checked="checked"><label for="ceph" title="Step that should only be run when deploying Ceph for use by the Overcloud.">Ceph</label></li>
+      </ul>
+
+      <span class="title">Development options</span>
+      <ul>
+         <li><input type="checkbox" id="source" checked=""><label for="source"
+            title="Step that should only be run when choosing to use some components directly from their git source code repositories instead of packages.">Install from source</label></li>
+        <li><input type="checkbox" id="stable" checked=""><label for="stable"
+            title="Step that should only be run when choosing to use components from their stable branches rather than using packages/source based on current master.">Install from stable branch</label></li>
+      </ul>
+
+
+    </div>
+  </div>
+
+  
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">tripleo-docs 0.0.1.dev17 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, OpenStack Foundation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/tripleo-docs");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

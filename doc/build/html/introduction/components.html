@@ -1,0 +1,557 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>TripleO Components &mdash; tripleo-docs 0.0.1.dev17 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1.dev17',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/cookies.js"></script>
+    <script type="text/javascript" src="../_static/expandable.js"></script>
+    <script type="text/javascript" src="../_static/admonition_selector.js"></script>
+    <script type="text/javascript" src="../_static/jquery.scrollTo.js"></script>
+    <script type="text/javascript" src="../_static/jquery.nav.js"></script>
+    <script type="text/javascript" src="../_static/menu.js"></script>
+    <link rel="top" title="tripleo-docs 0.0.1.dev17 documentation" href="../index.html" />
+    <link rel="up" title="TripleO Introduction" href="introduction.html" />
+    <link rel="next" title="Environment Setup" href="../environments/environments.html" />
+    <link rel="prev" title="TripleO Architecture" href="architecture.html" /> 
+  </head>
+  <body>
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="project-components">
+<h1>TripleO Components<a class="headerlink" href="#project-components" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#project-components" id="id20">TripleO Components</a><ul>
+<li><a class="reference internal" href="#shared-libraries" id="id21">Shared Libraries</a></li>
+<li><a class="reference internal" href="#installer" id="id22">Installer</a></li>
+<li><a class="reference internal" href="#node-management" id="id23">Node Management</a></li>
+<li><a class="reference internal" href="#deployment-orchestration" id="id24">Deployment &amp; Orchestration</a></li>
+<li><a class="reference internal" href="#user-interfaces" id="id25">User Interfaces</a></li>
+<li><a class="reference internal" href="#deprecated" id="id26">Deprecated</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>This section contains a list of components that TripleO uses. The components
+are organized in categories, and include a basic description, useful links, and
+contribution information.</p>
+<div class="section" id="shared-libraries">
+<h2>Shared Libraries<a class="headerlink" href="#shared-libraries" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="diskimage-builder">
+<h3>diskimage-builder<a class="headerlink" href="#diskimage-builder" title="Permalink to this headline">¶</a></h3>
+<p>diskimage-builder is an image building tool. It is used by
+<tt class="docutils literal"><span class="pre">openstack</span> <span class="pre">overcloud</span> <span class="pre">image</span> <span class="pre">build</span> <span class="pre">--all</span></tt>.</p>
+<p><strong>How to contribute</strong></p>
+<p>See the diskimage-builder <a class="reference external" href="https://git.openstack.org/cgit/openstack/diskimage-builder/tree/README.rst">README.rst</a>
+for a further explanation of the tooling. Submit your changes via
+OpenStack Gerrit (see <a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</p>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Upstream Project Documentation: <a class="reference external" href="http://docs.openstack.org/developer/diskimage-builder/">http://docs.openstack.org/developer/diskimage-builder/</a></li>
+<li>Bugs: <a class="reference external" href="https://bugs.launchpad.net/diskimage-builder">https://bugs.launchpad.net/diskimage-builder</a></li>
+<li>Git repository: <a class="reference external" href="https://git.openstack.org/cgit/openstack/diskimage-builder/">https://git.openstack.org/cgit/openstack/diskimage-builder/</a></li>
+</ul>
+</div>
+<div class="section" id="dib-utils">
+<h3>dib-utils<a class="headerlink" href="#dib-utils" title="Permalink to this headline">¶</a></h3>
+<p>dib-utils contains tools that are used by diskimage-builder.</p>
+<p><strong>How to contribute</strong></p>
+<p>Submit your changes via OpenStack Gerrit (see <a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</p>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Bugs: <a class="reference external" href="https://bugs.launchpad.net/diskimage-builder">https://bugs.launchpad.net/diskimage-builder</a></li>
+<li>Git repository: <a class="reference external" href="https://git.openstack.org/cgit/openstack/dib-utils/">https://git.openstack.org/cgit/openstack/dib-utils/</a></li>
+</ul>
+</div>
+<div class="section" id="os-config">
+<h3>os-*-config<a class="headerlink" href="#os-config" title="Permalink to this headline">¶</a></h3>
+<p>The os-*-config projects are a suite of tools used to configure instances
+deployed via TripleO. They include:</p>
+<ul class="simple">
+<li>os-collect-config</li>
+<li>os-refresh-config</li>
+<li>os-apply-config</li>
+<li>os-net-config</li>
+</ul>
+<p><strong>How to contribute</strong></p>
+<p>Each tool uses <a class="reference external" href="https://tox.readthedocs.org/en/latest/">tox</a> to manage the
+development environment. Submit your changes via OpenStack Gerrit (see
+<a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</p>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Bugs:<ul>
+<li>os-collect-config: <a class="reference external" href="https://bugs.launchpad.net/os-collect-config">https://bugs.launchpad.net/os-collect-config</a></li>
+<li>os-refresh-config: <a class="reference external" href="https://bugs.launchpad.net/os-refresh-config">https://bugs.launchpad.net/os-refresh-config</a></li>
+<li>os-apply-config: <a class="reference external" href="https://bugs.launchpad.net/os-apply-config">https://bugs.launchpad.net/os-apply-config</a></li>
+<li>os-net-config: <a class="reference external" href="https://bugs.launchpad.net/os-net-config">https://bugs.launchpad.net/os-net-config</a></li>
+</ul>
+</li>
+<li>Git repositories:<ul>
+<li>os-collect-config: <a class="reference external" href="https://git.openstack.org/cgit/openstack/os-collect-config">https://git.openstack.org/cgit/openstack/os-collect-config</a></li>
+<li>os-refresh-config <a class="reference external" href="https://git.openstack.org/cgit/openstack/os-refresh-config">https://git.openstack.org/cgit/openstack/os-refresh-config</a></li>
+<li>os-apply-config <a class="reference external" href="https://git.openstack.org/cgit/openstack/os-apply-config">https://git.openstack.org/cgit/openstack/os-apply-config</a></li>
+<li>os-net-config <a class="reference external" href="https://git.openstack.org/cgit/openstack/os-net-config">https://git.openstack.org/cgit/openstack/os-net-config</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="tripleo-image-elements">
+<h3>tripleo-image-elements<a class="headerlink" href="#tripleo-image-elements" title="Permalink to this headline">¶</a></h3>
+<p>tripleo-image-elements is a repository of diskimage-builder style elements used
+for installing various software components.</p>
+<p><strong>How to contribute</strong></p>
+<p>Submit your changes via OpenStack Gerrit (see
+<a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</p>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Git repository: <a class="reference external" href="https://git.openstack.org/cgit/openstack/tripleo-image-elements">https://git.openstack.org/cgit/openstack/tripleo-image-elements</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="installer">
+<h2>Installer<a class="headerlink" href="#installer" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="instack">
+<h3>instack<a class="headerlink" href="#instack" title="Permalink to this headline">¶</a></h3>
+<p>instack executes diskimage-builder style elements on the current system. This
+enables a current running system to have an element applied in the same way
+that diskimage-builder applies the element to an image build.</p>
+<p>instack, in its current form, should be considered low level tooling. It is
+meant to be used by higher level scripting that understands what elements and
+hook scripts need execution. Using instack requires a rather in depth knowledge
+of the elements within diskimage-builder and tripleo-image-elements.</p>
+<p><strong>How to contribute</strong></p>
+<p>Submit your changes via OpenStack Gerrit (see
+<a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</p>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Git repository: <a class="reference external" href="https://git.openstack.org/cgit/openstack/instack">https://git.openstack.org/cgit/openstack/instack</a></li>
+<li>Bugs: <a class="reference external" href="https://launchpad.net/tripleo">https://launchpad.net/tripleo</a></li>
+</ul>
+</div>
+<div class="section" id="instack-undercloud">
+<h3>instack-undercloud<a class="headerlink" href="#instack-undercloud" title="Permalink to this headline">¶</a></h3>
+<p>instack-undercloud is a TripleO style undercloud installer based around
+instack.</p>
+<p><strong>How to contribute</strong></p>
+<p>Submit your changes via OpenStack Gerrit (see
+<a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</p>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Git repository: <a class="reference external" href="https://git.openstack.org/cgit/openstack/instack-undercloud">https://git.openstack.org/cgit/openstack/instack-undercloud</a></li>
+<li>Bugs: <a class="reference external" href="https://launchpad.net/tripleo">https://launchpad.net/tripleo</a></li>
+</ul>
+</div>
+<div class="section" id="tripleo-incubator">
+<h3>tripleo-incubator<a class="headerlink" href="#tripleo-incubator" title="Permalink to this headline">¶</a></h3>
+<p>tripleo-incubator contains various scripts to aid in deploying a TripleO cloud.</p>
+<p><strong>How to contribute</strong></p>
+<p>Submit your changes via OpenStack Gerrit (see
+<a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</p>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="http://docs.openstack.org/developer/tripleo-incubator/index.html">http://docs.openstack.org/developer/tripleo-incubator/index.html</a></li>
+<li>Git repository: <a class="reference external" href="https://git.openstack.org/cgit/openstack/tripleo-incubator">https://git.openstack.org/cgit/openstack/tripleo-incubator</a></li>
+<li>Bugs: <a class="reference external" href="https://launchpad.net/tripleo">https://launchpad.net/tripleo</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="node-management">
+<h2>Node Management<a class="headerlink" href="#node-management" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ironic">
+<h3>ironic<a class="headerlink" href="#ironic" title="Permalink to this headline">¶</a></h3>
+<p>Ironic project is responsible for provisioning and managing bare metal
+instances.</p>
+<p>For testing purposes Ironic can also be used for provisioning and managing
+virtual machines which act as bare metal nodes via special driver <tt class="docutils literal"><span class="pre">pxe_ssh</span></tt>.</p>
+<p><strong>How to contribute</strong></p>
+<p>Ironic uses <a class="reference external" href="https://tox.readthedocs.org/en/latest/">tox</a> to manage the
+development environment, see <a class="reference external" href="http://docs.openstack.org/developer/ironic/dev/contributing.html">OpenStack&#8217;s Documentation</a>,
+<a class="reference external" href="https://wiki.openstack.org/wiki/Ironic/Developer_guidelines">Ironic Developer Guidelines</a>
+and <a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a> for details.</p>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Upstream Project: <a class="reference external" href="http://docs.openstack.org/developer/ironic/index.html">http://docs.openstack.org/developer/ironic/index.html</a></li>
+<li>Bugs: <a class="reference external" href="https://bugs.launchpad.net/ironic">https://bugs.launchpad.net/ironic</a></li>
+<li>Blueprints: <a class="reference external" href="https://blueprints.launchpad.net/ironic">https://blueprints.launchpad.net/ironic</a><ul>
+<li><a class="reference external" href="https://wiki.openstack.org/wiki/Ironic/Specs_Process">Specs process</a>
+should be followed for suggesting new features.</li>
+<li>Approved Specs: <a class="reference external" href="http://specs.openstack.org/openstack/ironic-specs/">http://specs.openstack.org/openstack/ironic-specs/</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="ironic-inspector-former-ironic-discoverd">
+<h3>ironic inspector (former ironic-discoverd)<a class="headerlink" href="#ironic-inspector-former-ironic-discoverd" title="Permalink to this headline">¶</a></h3>
+<p>Ironic Inspector project is responsible for inspection of hardware properties
+for newly enrolled nodes (see also <a class="reference internal" href="#ironic">ironic</a>).</p>
+<p><strong>How to contribute</strong></p>
+<p>Ironic Inspector uses <a class="reference external" href="https://tox.readthedocs.org/en/latest/">tox</a> to manage
+the development environment, see <a class="reference external" href="https://github.com/openstack/ironic-inspector/blob/master/CONTRIBUTING.rst">upstream documentation</a>
+for details.</p>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Upstream Project: <a class="reference external" href="https://github.com/openstack/ironic-inspector">https://github.com/openstack/ironic-inspector</a></li>
+<li>PyPI: <a class="reference external" href="https://pypi.python.org/pypi/ironic-inspector">https://pypi.python.org/pypi/ironic-inspector</a></li>
+<li>Bugs: <a class="reference external" href="https://bugs.launchpad.net/ironic-inspector">https://bugs.launchpad.net/ironic-inspector</a></li>
+<li>Blueprints: <a class="reference external" href="https://blueprints.launchpad.net/ironic-inspector">https://blueprints.launchpad.net/ironic-inspector</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="deployment-orchestration">
+<h2>Deployment &amp; Orchestration<a class="headerlink" href="#deployment-orchestration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="heat">
+<h3>heat<a class="headerlink" href="#heat" title="Permalink to this headline">¶</a></h3>
+<p>Heat is OpenStack&#8217;s orchestration tool. It reads YAML files describing
+the OpenStack deployment&#8217;s resources (machines, their configurations
+etc.) and gets those resources into the desired state, often by
+talking to other components (e.g. Nova).</p>
+<p><strong>How to contribute</strong></p>
+<ul class="simple">
+<li>Use <a class="reference external" href="http://docs.openstack.org/developer/heat/getting_started/on_devstack.html">devstack with Heat</a>
+to set up a development environment. Submit your changes via
+OpenStack Gerrit (see <a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</li>
+</ul>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Upstream Project: <a class="reference external" href="https://wiki.openstack.org/wiki/Heat">https://wiki.openstack.org/wiki/Heat</a></li>
+<li>Bugs: <a class="reference external" href="https://bugs.launchpad.net/heat">https://bugs.launchpad.net/heat</a></li>
+<li>Blueprints: <a class="reference external" href="https://blueprints.launchpad.net/heat">https://blueprints.launchpad.net/heat</a></li>
+</ul>
+</div>
+<div class="section" id="heat-templates">
+<h3>heat-templates<a class="headerlink" href="#heat-templates" title="Permalink to this headline">¶</a></h3>
+<p>The heat-templates repository contains additional image elements for
+producing disk images ready to be configured by Puppet via Heat.</p>
+<p><strong>How to contribute</strong></p>
+<ul class="simple">
+<li>Use <a class="reference external" href="http://docs.openstack.org/developer/tripleo-incubator/puppet.html">devtest with Puppet</a>
+to set up a development environment. Submit your changes via
+OpenStack Gerrit (see <a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</li>
+</ul>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Upstream Project: <a class="reference external" href="https://git.openstack.org/cgit/openstack/heat-templates">https://git.openstack.org/cgit/openstack/heat-templates</a></li>
+<li>Bugs: <a class="reference external" href="https://bugs.launchpad.net/heat-templates">https://bugs.launchpad.net/heat-templates</a></li>
+<li>Blueprints: <a class="reference external" href="https://blueprints.launchpad.net/heat-templates">https://blueprints.launchpad.net/heat-templates</a></li>
+</ul>
+</div>
+<div class="section" id="tripleo-heat-templates">
+<h3>tripleo-heat-templates<a class="headerlink" href="#tripleo-heat-templates" title="Permalink to this headline">¶</a></h3>
+<p>The tripleo-heat-templates describe the OpenStack deployment in Heat
+Orchestration Template YAML files and Puppet manifests. The templates
+are deployed via Heat.</p>
+<p><strong>How to contribute</strong></p>
+<ul class="simple">
+<li>Use <a class="reference external" href="http://docs.openstack.org/developer/tripleo-incubator/puppet.html">devtest with Puppet</a>
+to set up a development environment. Submit your changes via
+OpenStack Gerrit (see <a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</li>
+</ul>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Upstream Project: <a class="reference external" href="https://git.openstack.org/cgit/openstack/tripleo-heat-templates">https://git.openstack.org/cgit/openstack/tripleo-heat-templates</a></li>
+<li>Bugs: <a class="reference external" href="https://bugs.launchpad.net/tripleo">https://bugs.launchpad.net/tripleo</a></li>
+<li>Blueprints: <a class="reference external" href="https://blueprints.launchpad.net/tripleo">https://blueprints.launchpad.net/tripleo</a></li>
+</ul>
+</div>
+<div class="section" id="nova">
+<h3>nova<a class="headerlink" href="#nova" title="Permalink to this headline">¶</a></h3>
+<p>TBD</p>
+</div>
+<div class="section" id="puppet">
+<h3>puppet-*<a class="headerlink" href="#puppet" title="Permalink to this headline">¶</a></h3>
+<p>The OpenStack Puppet modules are used to configure the OpenStack
+deployment (write configuration, start services etc.). They are used
+via the tripleo-heat-templates.</p>
+<p><strong>How to contribute</strong></p>
+<ul class="simple">
+<li>Use <a class="reference external" href="http://docs.openstack.org/developer/tripleo-incubator/puppet.html">devtest with Puppet</a>
+to set up a development environment. Submit your changes via
+OpenStack Gerrit (see <a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</li>
+</ul>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Upstream Project: <a class="reference external" href="https://wiki.openstack.org/wiki/Puppet">https://wiki.openstack.org/wiki/Puppet</a></li>
+</ul>
+</div>
+<div class="section" id="tripleo-puppet-elements">
+<h3>tripleo-puppet-elements<a class="headerlink" href="#tripleo-puppet-elements" title="Permalink to this headline">¶</a></h3>
+<p>The tripleo-puppet-elements describe the contents of disk images which
+TripleO uses to deploy OpenStack. It&#8217;s the same kind of elements
+as in tripleo-image-elements, but tripleo-puppet-elements are specific
+for Puppet-enabled images.</p>
+<p><strong>How to contribute</strong></p>
+<ul class="simple">
+<li>Use <a class="reference external" href="http://docs.openstack.org/developer/tripleo-incubator/puppet.html">devtest with Puppet</a>
+to set up a development environment. Submit your changes via
+OpenStack Gerrit (see <a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</li>
+</ul>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Upstream Project: <a class="reference external" href="https://git.openstack.org/cgit/openstack/tripleo-puppet-elements">https://git.openstack.org/cgit/openstack/tripleo-puppet-elements</a></li>
+<li>Bugs: <a class="reference external" href="https://bugs.launchpad.net/tripleo">https://bugs.launchpad.net/tripleo</a></li>
+<li>Blueprints: <a class="reference external" href="https://blueprints.launchpad.net/tripleo">https://blueprints.launchpad.net/tripleo</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="user-interfaces">
+<h2>User Interfaces<a class="headerlink" href="#user-interfaces" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python-openstackclient">
+<h3>python-openstackclient<a class="headerlink" href="#python-openstackclient" title="Permalink to this headline">¶</a></h3>
+<p>The python-openstackclient is an upstream CLI tool which can manage multiple
+openstack services. It wraps openstack clients like glance, nova, etc. and maps
+them under intuitive names like openstack image, compute, etc.</p>
+<p>The main value is that all services can be controlled by a single (openstack)
+command with consistent syntax and behaviour.</p>
+<p><strong>How to contribute</strong></p>
+<ul class="simple">
+<li>python-openstackclient uses <a class="reference external" href="https://tox.readthedocs.org/en/latest/">tox</a>
+to manage the development environment, see <a class="reference external" href="https://github.com/openstack/python-openstackclient/blob/master/README.rst">upstream documentation</a>
+for details. Submit your changes via OpenStack Gerrit
+(see <a class="reference external" href="http://docs.openstack.org/infra/manual/developers.html">OpenStack Developer&#8217;s Guide</a>).</li>
+</ul>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Upstream Project: <a class="reference external" href="http://git.openstack.org/cgit/openstack/python-openstackclient">http://git.openstack.org/cgit/openstack/python-openstackclient</a></li>
+<li>Bugs: <a class="reference external" href="https://bugs.launchpad.net/python-openstackclient">https://bugs.launchpad.net/python-openstackclient</a></li>
+<li>Blueprints: <a class="reference external" href="https://blueprints.launchpad.net/python-openstackclient">https://blueprints.launchpad.net/python-openstackclient</a></li>
+<li>Human interface guide: <a class="reference external" href="http://docs.openstack.org/developer/python-openstackclient/humaninterfaceguide.html">http://docs.openstack.org/developer/python-openstackclient/humaninterfaceguide.html</a></li>
+</ul>
+</div>
+<div class="section" id="python-tripleoclient">
+<h3>python-tripleoclient<a class="headerlink" href="#python-tripleoclient" title="Permalink to this headline">¶</a></h3>
+<p>The python-tripleoclient is a CLI tool embedded into python-openstackclient. It
+provides functions related to instack installation and initial configuration
+like node introspection, overcloud image building and uploading, etc.</p>
+<p><strong>How to contribute</strong></p>
+<ul class="simple">
+<li>python-tripleoclient uses <a class="reference external" href="https://tox.readthedocs.org/en/latest/">tox</a>
+to manage the development environment, see <a class="reference external" href="http://git.openstack.org/cgit/openstack/python-tripleoclient/tree/CONTRIBUTING.rst">documentation</a>
+for details. Submit your changes via
+<a class="reference external" href="https://review.openstack.org/#/q/project:openstack/python-tripleoclient,n,z">Gerrit</a>.</li>
+</ul>
+<p><strong>Useful links</strong></p>
+<ul class="simple">
+<li>Project: <a class="reference external" href="https://git.openstack.org/cgit/openstack/python-tripleoclient">https://git.openstack.org/cgit/openstack/python-tripleoclient</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="deprecated">
+<h2>Deprecated<a class="headerlink" href="#deprecated" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tuskar">
+<h3>Tuskar<a class="headerlink" href="#tuskar" title="Permalink to this headline">¶</a></h3>
+<p>The Tuskar project was responsible for planning the deployments and
+generating the corresponding Heat templates. This is no longer
+necessary as Heat supports this composability out of the box.</p>
+<p>The source code is available below, but please note that it should not
+be used for new deployments.</p>
+<p><a class="reference external" href="https://github.com/openstack/tuskar">https://github.com/openstack/tuskar</a></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h3>Table Of Contents</h3>
+            <ul><li><a href="../index.html">Return to project home page</a></li></ul>
+            <ul>
+<li><a class="reference internal" href="#">TripleO Components</a><ul>
+<li><a class="reference internal" href="#shared-libraries">Shared Libraries</a><ul>
+<li><a class="reference internal" href="#diskimage-builder">diskimage-builder</a></li>
+<li><a class="reference internal" href="#dib-utils">dib-utils</a></li>
+<li><a class="reference internal" href="#os-config">os-*-config</a></li>
+<li><a class="reference internal" href="#tripleo-image-elements">tripleo-image-elements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installer">Installer</a><ul>
+<li><a class="reference internal" href="#instack">instack</a></li>
+<li><a class="reference internal" href="#instack-undercloud">instack-undercloud</a></li>
+<li><a class="reference internal" href="#tripleo-incubator">tripleo-incubator</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#node-management">Node Management</a><ul>
+<li><a class="reference internal" href="#ironic">ironic</a></li>
+<li><a class="reference internal" href="#ironic-inspector-former-ironic-discoverd">ironic inspector (former ironic-discoverd)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deployment-orchestration">Deployment &amp; Orchestration</a><ul>
+<li><a class="reference internal" href="#heat">heat</a></li>
+<li><a class="reference internal" href="#heat-templates">heat-templates</a></li>
+<li><a class="reference internal" href="#tripleo-heat-templates">tripleo-heat-templates</a></li>
+<li><a class="reference internal" href="#nova">nova</a></li>
+<li><a class="reference internal" href="#puppet">puppet-*</a></li>
+<li><a class="reference internal" href="#tripleo-puppet-elements">tripleo-puppet-elements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#user-interfaces">User Interfaces</a><ul>
+<li><a class="reference internal" href="#python-openstackclient">python-openstackclient</a></li>
+<li><a class="reference internal" href="#python-tripleoclient">python-tripleoclient</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deprecated">Deprecated</a><ul>
+<li><a class="reference internal" href="#tuskar">Tuskar</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="architecture.html"
+                                  title="previous chapter">TripleO Architecture</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../environments/environments.html"
+                                  title="next chapter">Environment Setup</a></p>
+            <h3>Project Source</h3>
+            <ul class="this-page-menu">
+              <li><a href="http://git.openstack.org/cgit/michaelhenkel/contrail-tripleo-docu
+"
+                     rel="nofollow">Project Source</a></li>
+            </ul>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/introduction/components.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+  <div id="admonition_selector">
+    <span class="trigger">Limit Environment Specific Content</span>
+
+    <div class="content">
+      <span class="title">Operating Systems</span>
+      <ul>
+        <li><input type="checkbox" id="centos" checked="checked"><label for="centos" title="Step that should only be run when using CentOS.">CentOS</label></li>
+        <li><input type="checkbox" id="rhel" checked="checked"><label for="rhel" title="Step that should only be run when using RHEL.">RHEL</label></li>
+      </ul>
+
+      <span class="title">RHEL Registration Types</span>
+      <ul>
+        <li><input type="checkbox" id="portal" checked="checked"><label for="portal" title="Step that should only be run when registering to the Red Hat Portal.">Portal</label></li>
+        <li><input type="checkbox" id="satellite" checked="checked"><label for="satellite" title="Step that should only be run when registering to Red Hat Satellite.">Satellite</label></li>
+      </ul>
+
+      <span class="title">Environments</span>
+      <ul>
+        <li><input type="checkbox" id="baremetal" checked="checked"><label for="baremetal" title="Step that should only be run when deploying to baremetal.">Baremetal</label></li>
+        <li><input type="checkbox" id="virtual" checked="checked"><label for="virtual" title="Step that should only be run when deploying to virtual machines.">Virtual</label></li>
+        <li><input type="checkbox" id="ssl" checked="checked"><label for="ssl" title="Step that should only be run when deploying with SSL OpenStack endpoints.">SSL</label></li>
+        <li><input type="checkbox" id="selfsigned" checked="checked"><label for="selfsigned" title="Step that should only be run when deploying with SSL and a self-signed certificate.">Self-Signed SSL</label></li>
+      </ul>
+
+      <span class="title">Additional Overcloud Roles</span>
+      <ul>
+        <li><input type="checkbox" id="ceph" checked="checked"><label for="ceph" title="Step that should only be run when deploying Ceph for use by the Overcloud.">Ceph</label></li>
+      </ul>
+
+      <span class="title">Development options</span>
+      <ul>
+         <li><input type="checkbox" id="source" checked=""><label for="source"
+            title="Step that should only be run when choosing to use some components directly from their git source code repositories instead of packages.">Install from source</label></li>
+        <li><input type="checkbox" id="stable" checked=""><label for="stable"
+            title="Step that should only be run when choosing to use components from their stable branches rather than using packages/source based on current master.">Install from stable branch</label></li>
+      </ul>
+
+
+    </div>
+  </div>
+
+  
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../environments/environments.html" title="Environment Setup"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="architecture.html" title="TripleO Architecture"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">tripleo-docs 0.0.1.dev17 documentation</a> &raquo;</li>
+          <li><a href="introduction.html" accesskey="U">TripleO Introduction</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, OpenStack Foundation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/tripleo-docs");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

@@ -1,0 +1,45 @@
+Metadata-Version: 2.0
+Name: oslosphinx
+Version: 4.18.0
+Summary: OpenStack Sphinx Extensions and Theme
+Home-page: http://docs.openstack.org/developer/oslosphinx
+Author: OpenStack
+Author-email: openstack-dev@lists.openstack.org
+License: UNKNOWN
+Description-Content-Type: UNKNOWN
+Platform: UNKNOWN
+Classifier: Environment :: OpenStack
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Topic :: Documentation
+Requires-Dist: pbr (!=2.1.0,>=2.0.0)
+Requires-Dist: requests (>=2.14.2)
+Requires-Dist: six (>=1.10.0)
+
+=============================
+ OpenStack Sphinx Extensions
+=============================
+
+oslosphinx is obsolete. The openstackdocstheme package should be used
+instead. oslosphinx will be maintained for the pike, ocata, and newton
+release series and completely remove after that pike is marked
+end-of-life.
+
+The contents of this repository are still available in the Git source
+code management system.  To see the contents of this repository before
+it reached its end of life, please check out the previous commit with
+"git checkout HEAD^1", or check out one of the supported stable
+branches.
+
+For any further questions, please email
+openstack-dev@lists.openstack.org or join #openstack-oslo on Freenode.
+
+
+

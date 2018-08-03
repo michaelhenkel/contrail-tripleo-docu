@@ -1,0 +1,661 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Troubleshooting &mdash; tripleo-docs 0.0.1.dev17 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1.dev17',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/cookies.js"></script>
+    <script type="text/javascript" src="../_static/expandable.js"></script>
+    <script type="text/javascript" src="../_static/admonition_selector.js"></script>
+    <script type="text/javascript" src="../_static/jquery.scrollTo.js"></script>
+    <script type="text/javascript" src="../_static/jquery.nav.js"></script>
+    <script type="text/javascript" src="../_static/menu.js"></script>
+    <link rel="top" title="tripleo-docs 0.0.1.dev17 documentation" href="../index.html" />
+    <link rel="next" title="Composable roles tutorial" href="../tht_walkthrough/tht_walkthrough.html" />
+    <link rel="prev" title="Backing up and Restoring your Undercloud" href="../post_deployment/backup_restore_undercloud.html" /> 
+  </head>
+  <body>
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h1>
+<p>At this chapter you will find answers for frequently asked questions and
+help with troubleshooting when using TripleO.</p>
+<div class="section" id="troubleshooting-instack-virt-setup-failures">
+<h2>Troubleshooting instack-virt-setup Failures<a class="headerlink" href="#troubleshooting-instack-virt-setup-failures" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="known-issues">
+<h3>Known Issues:<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Due to a <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1195882">bug in libvirt</a>, it is possible for instack-virt-setup to fail
+with an error such as the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>libvirt: QEMU Driver error : unsupported configuration: This QEMU doesn&#39;t support virtio scsi controller
+Traceback (most recent call last):
+File &quot;/usr/libexec/openstack-tripleo/configure-vm&quot;, line 133, in &lt;module&gt;
+    main()
+File &quot;/usr/libexec/openstack-tripleo/configure-vm&quot;, line 129, in main
+    a = conn.defineXML(libvirt_template)
+File &quot;/usr/lib64/python2.7/site-packages/libvirt.py&quot;, line 3445, in defineXML
+    if ret is None:raise libvirtError(&#39;virDomainDefineXML() failed&#39;, conn=self)
+libvirt.libvirtError: unsupported configuration: This QEMU doesn&#39;t support virtio scsi controller
+</pre></div>
+</div>
+<p>The workaround is to do delete the libvirt capabilities cache and restart the service:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>rm -Rf  /var/cache/libvirt/qemu/capabilities/
+systemctl restart libvirtd
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="troubleshooting-image-build">
+<h2>Troubleshooting Image Build<a class="headerlink" href="#troubleshooting-image-build" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="images-fail-to-build">
+<h3>Images fail to build<a class="headerlink" href="#images-fail-to-build" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="more-space-needed">
+<h3>More space needed<a class="headerlink" href="#more-space-needed" title="Permalink to this headline">¶</a></h3>
+<p>Images are built in tmpfs by default, to speed up the builds. In case
+your machine doesn&#8217;t have enough free RAM, the image building step
+can fail with a message like &#8220;At least 174MB more space needed on
+the / filesystem&#8221;. If freeing up more RAM isn&#8217;t a possibility,
+images can be built on disk by exporting an environment variable:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>export DIB_NO_TMPFS=1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="troubleshooting-node-management-failures">
+<h2>Troubleshooting Node Management Failures<a class="headerlink" href="#troubleshooting-node-management-failures" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="where-are-the-logs">
+<h3>Where Are the Logs?<a class="headerlink" href="#where-are-the-logs" title="Permalink to this headline">¶</a></h3>
+<p>Some logs are stored in <em>journald</em>, but most are stored as text files in
+<tt class="docutils literal"><span class="pre">/var/log</span></tt>.  Ironic and ironic-inspector logs are stored in journald. Note
+that Ironic has 2 units: <tt class="docutils literal"><span class="pre">openstack-ironic-api</span></tt> and
+<tt class="docutils literal"><span class="pre">openstack-ironic-conductor</span></tt>. Similarly, ironic-inspector has
+<tt class="docutils literal"><span class="pre">openstack-ironic-inspector</span></tt> and <tt class="docutils literal"><span class="pre">openstack-ironic-inspector-dnsmasq</span></tt>.  So
+for example to get all ironic-inspector logs use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo journalctl -u openstack-ironic-inspector -u openstack-ironic-inspector-dnsmasq
+</pre></div>
+</div>
+<p>If something fails during the introspection ramdisk run, ironic-inspector
+stores the ramdisk logs in <tt class="docutils literal"><span class="pre">/var/log/ironic-inspector/ramdisk/</span></tt> as
+gz-compressed tar files. File names contain date, time and IPMI address of the
+node if it was detected (only for bare metal).</p>
+</div>
+<div class="section" id="node-registration-problems">
+<span id="id1"></span><h3>Node Registration Problems<a class="headerlink" href="#node-registration-problems" title="Permalink to this headline">¶</a></h3>
+<p>Any problems with node data registered into Ironic can be fixed using the
+Ironic CLI.</p>
+<p>For example, a wrong MAC can be fixed in two steps:</p>
+<ul>
+<li><p class="first">Find out the assigned port UUID by running</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ironic node-port-list &lt;NODE UUID&gt;
+</pre></div>
+</div>
+</li>
+<li><p class="first">Update the MAC address by running</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ironic port-update &lt;PORT UUID&gt; replace address=&lt;NEW MAC&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+<p>A Wrong IPMI address can be fixed with the following command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ironic node-update &lt;NODE UUID&gt; replace driver_info/ipmi_address=&lt;NEW IPMI ADDRESS&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="hardware-introspection-problems">
+<span id="introspection-problems"></span><h3>Hardware Introspection Problems<a class="headerlink" href="#hardware-introspection-problems" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="introspection-hangs-and-times-out">
+<h3>Introspection hangs and times out<a class="headerlink" href="#introspection-hangs-and-times-out" title="Permalink to this headline">¶</a></h3>
+<p>ironic-inspector times out introspection process after some time (defaulting to
+1 hour) if it never gets response from the introspection ramdisk.  This can be
+a sign of a bug in the introspection ramdisk, but usually it happens due to
+environment misconfiguration, particularly BIOS boot settings. Please refer to
+<a class="reference external" href="http://docs.openstack.org/developer/ironic-inspector/troubleshooting.html">ironic-inspector troubleshooting documentation</a> for information on how to
+detect and fix such problems.</p>
+<div class="section" id="accessing-the-ramdisk">
+<h4>Accessing the ramdisk<a class="headerlink" href="#accessing-the-ramdisk" title="Permalink to this headline">¶</a></h4>
+<p>Note that the introspection ramdisk is by default built with <a class="reference external" href="https://github.com/openstack/diskimage-builder/tree/master/elements/dynamic-login">the
+dynamic-login element</a>, so you can set up an SSH key and log into it for
+debugging.</p>
+<p>First, think of a temporary root password. Generate a hash by feeding it
+into <tt class="docutils literal"><span class="pre">openssl</span> <span class="pre">passwd</span> <span class="pre">-1</span></tt> command. Edit <tt class="docutils literal"><span class="pre">/httpboot/inspector.ipxe</span></tt>
+manually. Find the line starting with &#8220;kernel&#8221; and append rootpwd=&#8221;HASH&#8221; to it.
+Do not append the real password. Alternatively, you can append
+sshkey=&#8221;PUBLIC_SSH_KEY&#8221; with your public SSH key.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In both cases quotation marks are required!</p>
+</div>
+<p>When ramdisk is running, figure out its IP address by checking <tt class="docutils literal"><span class="pre">arp</span></tt> utility
+or DHCP logs from</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo journalctl -u openstack-ironic-inspector-dnsmasq
+</pre></div>
+</div>
+<p>SSH as a root user with the temporary password or the SSH key.</p>
+</div>
+<div class="section" id="accessing-logs-from-the-ramdisk">
+<h4>Accessing logs from the ramdisk<a class="headerlink" href="#accessing-logs-from-the-ramdisk" title="Permalink to this headline">¶</a></h4>
+<p>Introspection logs are saved on ramdisk failures. Starting with the Newton
+release, they are actually stored on all introspection failures. The standard
+location is <tt class="docutils literal"><span class="pre">/var/log/ironic-inspector/ramdisk</span></tt>, and the files there are
+actually <tt class="docutils literal"><span class="pre">tar.gz</span></tt> without an extension.</p>
+<p>To collect introspection logs in other cases, set
+<tt class="docutils literal"><span class="pre">always_store_ramdisk_logs</span> <span class="pre">=</span> <span class="pre">true</span></tt> in
+<tt class="docutils literal"><span class="pre">/etc/ironic-inspector/inspector.conf</span></tt>, restart the
+<tt class="docutils literal"><span class="pre">openstack-ironic-inspector</span></tt> service and retry the introspection.</p>
+</div>
+</div>
+<div class="section" id="refusing-to-introspect-node-with-provision-state-available">
+<h3>Refusing to introspect node with provision state &#8220;available&#8221;<a class="headerlink" href="#refusing-to-introspect-node-with-provision-state-available" title="Permalink to this headline">¶</a></h3>
+<p>If you&#8217;re running introspection directly using ironic-inspector CLI (or in case
+of bugs in our scripts), a node can be in the &#8220;AVAILABLE&#8221; state, which is meant
+for deployment, not for introspection. You should advance node to the
+&#8220;MANAGEABLE&#8221; state before introspection and move it back before deployment.
+Please refer to <a class="reference external" href="http://docs.openstack.org/developer/ironic-inspector/usage.html#node-states">upstream node states documentation</a>
+for information on how to fix it.</p>
+</div>
+<div class="section" id="how-can-introspection-be-stopped">
+<h3>How can introspection be stopped?<a class="headerlink" href="#how-can-introspection-be-stopped" title="Permalink to this headline">¶</a></h3>
+<p>Starting with the Mitaka release, introspection for a node can be stopped with
+the following command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>openstack baremetal introspection abort &lt;NODE UUID&gt;
+</pre></div>
+</div>
+<p>For older versions the recommended path is to wait until it times out.
+Changing <tt class="docutils literal"><span class="pre">timeout</span></tt> setting in <tt class="docutils literal"><span class="pre">/etc/ironic-inspector/inspector.conf</span></tt>
+may be used to reduce this timeout from 1 hour (which usually too much,
+especially on virtual environment).</p>
+<p>If you do need to stop introspection <strong>for all nodes</strong> right now, do the
+following for each node:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ironic node-set-power-state UUID off
+</pre></div>
+</div>
+<p>then remove ironic-inspector cache, rebuild it and restart ironic-inspector:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>rm /var/lib/ironic-inspector/inspector.sqlite
+sudo ironic-inspector-dbsync --config-file /etc/ironic-inspector/inspector.conf upgrade
+sudo systemctl restart openstack-ironic-inspector
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="troubleshooting-a-failed-overcloud-deployment">
+<h2>Troubleshooting a Failed Overcloud Deployment<a class="headerlink" href="#troubleshooting-a-failed-overcloud-deployment" title="Permalink to this headline">¶</a></h2>
+<p>If an Overcloud deployment has failed, the OpenStack clients and service log
+files can be used to troubleshoot the failed deployment. The following commands
+are all run on the Undercloud and assume a stackrc file has been sourced.</p>
+<div class="section" id="identifying-failed-component">
+<h3>Identifying Failed Component<a class="headerlink" href="#identifying-failed-component" title="Permalink to this headline">¶</a></h3>
+<p>In most cases, Heat will show the failed overcloud stack when a deployment
+has failed:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ heat stack-list
+
++--------------------------------------+------------+--------------------+----------------------+
+| id                                   | stack_name | stack_status       | creation_time        |
++--------------------------------------+------------+--------------------+----------------------+
+| 7e88af95-535c-4a55-b78d-2c3d9850d854 | overcloud  | CREATE_FAILED      | 2015-04-06T17:57:16Z |
++--------------------------------------+------------+--------------------+----------------------+
+</pre></div>
+</div>
+<p>Occasionally, Heat is not even able to create the the stack, so the <tt class="docutils literal"><span class="pre">heat</span>
+<span class="pre">stack-list</span></tt> output will be empty. If this is the case, observe the message
+that was printed to the terminal when <tt class="docutils literal"><span class="pre">instack-deploy-overcloud</span></tt> or <tt class="docutils literal"><span class="pre">heat</span>
+<span class="pre">stack-create</span></tt> was run.</p>
+<p>Next, there are a few layers on which the deployment can fail:</p>
+<ul class="simple">
+<li>Orchestration (Heat and Nova services)</li>
+<li>Bare metal provisioning (Ironic service)</li>
+<li>Post-deploy configuration (Puppet)</li>
+</ul>
+<p>As Ironic service is in the middle layer, you can use its shell to guess the
+failed layer. Issue <tt class="docutils literal"><span class="pre">ironic</span> <span class="pre">node-list</span></tt> command to see all registered nodes
+and their current status, you will see something like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>+--------------------------------------+------+---------------+-------------+-----------------+-------------+
+| UUID                                 | Name | Instance UUID | Power State | Provision State | Maintenance |
++--------------------------------------+------+---------------+-------------+-----------------+-------------+
+| f1e26112-5fbd-4fc4-9612-ecce7a1d86aa | None | None          | power off   | available       | False       |
+| f0b8c105-f1d7-4059-a9a3-b050c3340340 | None | None          | power off   | available       | False       |
++--------------------------------------+------+---------------+-------------+-----------------+-------------+
+</pre></div>
+</div>
+<p>Pay close attention to <strong>Provision State</strong> and <strong>Maintenance</strong> columns
+in the resulting table.</p>
+<ul>
+<li><p class="first">If the command shows empty table or less nodes that you expect, or
+<strong>Maintenance</strong> is <tt class="docutils literal"><span class="pre">True</span></tt>, or <strong>Provision State</strong> is <tt class="docutils literal"><span class="pre">manageable</span></tt>,
+there was a problem during node enrolling and introspection.
+Please go back to these steps.</p>
+<p>For example, <strong>Maintenance</strong> goes to <tt class="docutils literal"><span class="pre">True</span></tt> automatically, if wrong power
+credentials are provided.</p>
+</li>
+<li><p class="first">If <strong>Provision State</strong> is <tt class="docutils literal"><span class="pre">available</span></tt> then the problem occurred before
+bare metal deployment has even started. Proceed with <a class="reference internal" href="#debugging-using-heat">Debugging Using Heat</a>.</p>
+</li>
+<li><p class="first">If <strong>Provision State</strong> is <tt class="docutils literal"><span class="pre">active</span></tt> and <strong>Power State</strong> is <tt class="docutils literal"><span class="pre">power</span> <span class="pre">on</span></tt>,
+then bare metal deployment has finished successfully, and problem happened
+during the post-deployment configuration step. Again, refer to <a class="reference internal" href="#debugging-using-heat">Debugging
+Using Heat</a>.</p>
+</li>
+<li><p class="first">If <strong>Provision State</strong> is <tt class="docutils literal"><span class="pre">wait</span> <span class="pre">call-back</span></tt>, then bare metal deployment is
+not finished for this node yet. You may want to wait until the status
+changes.</p>
+</li>
+<li><p class="first">If <strong>Provision State</strong> is <tt class="docutils literal"><span class="pre">error</span></tt> or <tt class="docutils literal"><span class="pre">deploy</span> <span class="pre">failed</span></tt>, then bare metal
+deployment has failed for this node. Issue</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ironic node-show &lt;UUID&gt;
+</pre></div>
+</div>
+<p>and look for <strong>last_error</strong> field. It will contain error description.</p>
+<p>If the error message is vague, you can use logs to clarify it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo journalctl -u openstack-ironic-conductor -u openstack-ironic-api
+</pre></div>
+</div>
+<p>If you see wait timeout error, and node <strong>Power State</strong> is <tt class="docutils literal"><span class="pre">power</span> <span class="pre">on</span></tt>,
+then try to connect to the virtual console of the failed machine. Use
+<tt class="docutils literal"><span class="pre">virt-manager</span></tt> tool for virtual machines and vendor-specific virtual
+console (e.g. iDRAC for DELL) for bare metal machines.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="debugging-using-heat">
+<h3>Debugging Using Heat<a class="headerlink" href="#debugging-using-heat" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Identifying the failed Heat resource</p>
+<p>List all the stack resources to see which one failed.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ heat resource-list overcloud
+
++-----------------------------------+-----------------------------------------------+---------------------------------------------------+-----------------+----------------------+
+| resource_name                     | physical_resource_id                          | resource_type                                     | resource_status | updated_time         |
++-----------------------------------+-----------------------------------------------+---------------------------------------------------+-----------------+----------------------+
+| BlockStorage                      | 9e40a1ee-96d3-4920-868d-683d3788e129          | OS::Heat::ResourceGroup                           | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| BlockStorageAllNodesDeployment    | 2c453f6b-7378-44c8-a0ad-57de57d9c57f          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| BlockStorageNodesPostDeployment   |                                               | OS::TripleO::BlockStoragePostDeployment           | INIT_COMPLETE   | 2015-04-06T21:15:20Z |
+| CephClusterConfig                 | 1684e7a3-0e42-44fe-9db4-7543b742fbfc          | OS::TripleO::CephClusterConfig::SoftwareConfig    | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| CephStorage                       | 48b3460c-bf9a-4663-99fc-2b4fa01b8dc1          | OS::Heat::ResourceGroup                           | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| CephStorageAllNodesDeployment     | 76beb3a9-8327-4d2e-a206-efe12f1613fb          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| CephStorageCephDeployment         | af8fb02a-5bc6-468c-8fac-fbe7e5b2c689          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| CephStorageNodesPostDeployment    |                                               | OS::TripleO::CephStoragePostDeployment            | INIT_COMPLETE   | 2015-04-06T21:15:20Z |
+| Compute                           | e5e6ec84-197f-4bf6-b8ac-eb11fe494cdf          | OS::Heat::ResourceGroup                           | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ComputeAllNodesDeployment         | e6d44fbf-9683-4765-acbb-4a3d31c8fd48          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ControllerNodesPostDeployment     | e551e472-f2db-4468-b586-0374678d71a3          | OS::TripleO::ControllerPostDeployment             | CREATE_FAILED   | 2015-04-06T21:15:20Z |
+| ComputeCephDeployment             | 673608d5-70d7-453a-ac78-7987bc2c0158          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ComputeNodesPostDeployment        | 1078e3e3-9f6f-48b9-8961-a30f44098856          | OS::TripleO::ComputePostDeployment                | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ControlVirtualIP                  | 6402b396-84aa-4cf6-9849-305205755604          | OS::Neutron::Port                                 | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| Controller                        | ffc45352-9708-486d-81ac-3b60efa8e8b8          | OS::Heat::ResourceGroup                           | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ControllerAllNodesDeployment      | f73c6e33-3dd2-46f1-9eca-0d2981a4a986          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ControllerBootstrapNodeConfig     | 01ce5b6a-794a-4828-bad9-49d5fbfd55bf          | OS::TripleO::BootstrapNode::SoftwareConfig        | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ControllerBootstrapNodeDeployment | c963d53d-879b-4a41-a10a-9000ac9f02a1          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ControllerCephDeployment          | 2d4281df-31ea-4433-820d-984a6dca6eb1          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ControllerClusterConfig           | 719c0d30-a4b8-4f77-9ab6-b3c9759abeb3          | OS::Heat::StructuredConfig                        | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ControllerClusterDeployment       | d929aa40-1b73-429e-81d5-aaf966fa6756          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ControllerSwiftDeployment         | cf28f9fe-025d-4eed-b3e5-3a5284a2aa60          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| HeatAuthEncryptionKey             | overcloud-HeatAuthEncryptionKey-5uw6wo7kavnq  | OS::Heat::RandomString                            | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| MysqlClusterUniquePart            | overcloud-MysqlClusterUniquePart-vazyj2s4n2o5 | OS::Heat::RandomString                            | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| MysqlRootPassword                 | overcloud-MysqlRootPassword-nek2iky7zfdm      | OS::Heat::RandomString                            | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ObjectStorage                     | 47327c98-533e-4cc2-b1f3-d8d0eedba822          | OS::Heat::ResourceGroup                           | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ObjectStorageAllNodesDeployment   | 7bb691aa-fa93-4f10-833e-6edeccc61408          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ObjectStorageNodesPostDeployment  | d4d16f39-384a-4d6a-9719-1dd9b2d4ff09          | OS::TripleO::ObjectStoragePostDeployment          | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| ObjectStorageSwiftDeployment      | afc87385-8b40-4097-b529-2a5bc81c94c8          | OS::Heat::StructuredDeployments                   | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| PublicVirtualIP                   | 4dd92878-8f29-49d8-9d3d-bc0cd44d26a9          | OS::Neutron::Port                                 | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| RabbitCookie                      | overcloud-RabbitCookie-uthzbos3l66v           | OS::Heat::RandomString                            | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| SwiftDevicesAndProxyConfig        | e2141170-bb77-4509-b8bd-58447b2cd15f          | OS::TripleO::SwiftDevicesAndProxy::SoftwareConfig | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
+| allNodesConfig                    | cbd42692-fffa-4527-a519-bd4014ebf0fb          | OS::TripleO::AllNodes::SoftwareConfig             | CREATE_COMPLETE | 2015-04-06T21:15:20Z |
++-----------------------------------+-----------------------------------------------+---------------------------------------------------+-----------------+----------------------+
+</pre></div>
+</div>
+<p>In this example, notice how the <strong>ControllerNodesPostDeployment</strong> resource
+has failed. The <strong>*PostDeployment</strong> resources are the configuration that is
+applied to the deployed Overcloud nodes. When these resources have failed it
+indicates that something went wrong during the Overcloud node configuration,
+perhaps when Puppet was run.</p>
+</li>
+<li><p class="first">Show the failed resource</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ heat resource-show overcloud ControllerNodesPostDeployment
+
++------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Property               | Value                                                                                                                                                               |
++------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| attributes             | {}                                                                                                                                                                  |
+| description            |                                                                                                                                                                     |
+| links                  | http://192.0.2.1:8004/v1/cea2a0c78d2447bc9a0f7caa35c9224c/stacks/overcloud/ec3e3251-f949-4df9-92be-dbd37c6992a1/resources/ControllerNodesPostDeployment (self)      |
+|                        | http://192.0.2.1:8004/v1/cea2a0c78d2447bc9a0f7caa35c9224c/stacks/overcloud/ec3e3251-f949-4df9-92be-dbd37c6992a1 (stack)                                             |
+|                        | http://192.0.2.1:8004/v1/cea2a0c78d2447bc9a0f7caa35c9224c/stacks/overcloud-ControllerNodesPostDeployment-6kcqm5zuymqu/e551e472-f2db-4468-b586-0374678d71a3 (nested) |
+| logical_resource_id    | ControllerNodesPostDeployment                                                                                                                                       |
+| physical_resource_id   | e551e472-f2db-4468-b586-0374678d71a3                                                                                                                                |
+| required_by            | BlockStorageNodesPostDeployment                                                                                                                                     |
+|                        | CephStorageNodesPostDeployment                                                                                                                                      |
+| resource_name          | ControllerNodesPostDeployment                                                                                                                                       |
+| resource_status        | CREATE_FAILED                                                                                                                                                       |
+| resource_status_reason | ResourceUnknownStatus: Resource failed - Unknown status FAILED due to &quot;None&quot;                                                                                        |
+| resource_type          | OS::TripleO::ControllerPostDeployment                                                                                                                               |
+| updated_time           | 2015-04-06T21:15:20Z                                                                                                                                                |
++------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">resource-show</span></tt> doesn&#8217;t always show a clear reason why the resource
+failed. In these cases, logging into the Overcloud node is required to
+further troubleshoot the issue.</p>
+</li>
+<li><p class="first">Logging into Overcloud nodes</p>
+<p>Use the nova client to see the IP addresses of the Overcloud nodes.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ nova list
+
++--------------------------------------+-------------------------------------------------------+--------+------------+-------------+---------------------+
+| ID                                   | Name                                                  | Status | Task State | Power State | Networks            |
++--------------------------------------+-------------------------------------------------------+--------+------------+-------------+---------------------+
+| 18014b02-b143-4ca2-aeb9-5553bec93cff | ov-4tvbtgpv7w-0-soqocxy2w4fr-NovaCompute-nlrxd3lgmmlt | ACTIVE | -          | Running     | ctlplane=192.0.2.13 |
+| 96a57a46-1e48-4c66-adaa-342ee4e98972 | ov-rf4hby6sblk-0-iso3zlqmyzfe-Controller-xm2imjkzalhi | ACTIVE | -          | Running     | ctlplane=192.0.2.14 |
++--------------------------------------+-------------------------------------------------------+--------+------------+-------------+---------------------+
+</pre></div>
+</div>
+<p>Login as the <tt class="docutils literal"><span class="pre">heat-admin</span></tt> user to one of the deployed nodes. In this
+example, since the <strong>ControllerNodesPostDeployment</strong> resource failed, login
+to the controller node. The <tt class="docutils literal"><span class="pre">heat-admin</span></tt> user has sudo access.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ ssh heat-admin@192.0.2.14
+</pre></div>
+</div>
+<p>While logged in to the controller node, examine the log for the
+<tt class="docutils literal"><span class="pre">os-collect-config</span></tt> log for a possible reason for the failure.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ sudo journalctl -u os-collect-config
+</pre></div>
+</div>
+</li>
+<li><p class="first">Failed Nova Server ResourceGroup Deployments</p>
+<p>In some cases, Nova fails deploying the node in entirety. This situation
+would be indicated by a failed <tt class="docutils literal"><span class="pre">OS::Heat::ResourceGroup</span></tt> for one of the
+Overcloud role types such as Control or Compute.</p>
+<p>Use nova to see the failure in this case.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ nova list
+$ nova show &lt;server-id&gt;
+</pre></div>
+</div>
+<p>The most common error shown will reference the error message <tt class="docutils literal"><span class="pre">No</span> <span class="pre">valid</span> <span class="pre">host</span>
+<span class="pre">was</span> <span class="pre">found</span></tt>. Refer to <a class="reference internal" href="#no-valid-host-found-error">No Valid Host Found Error</a> below.</p>
+<p>In other cases, look at the following log files for further troubleshooting:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>/var/log/nova/*
+/var/log/heat/*
+/var/log/ironic/*
+</pre></div>
+</div>
+</li>
+<li><p class="first">Using SOS</p>
+<p>SOS is a set of tools that gathers information about system hardware and
+configuration. The information can then be used for diagnostic purposes and
+debugging. SOS is commonly used to help support technicians and developers.</p>
+<p>SOS is useful on both the undercloud and overcloud. Install the <tt class="docutils literal"><span class="pre">sos</span></tt>
+package and then generate a report:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ sudo sosreport --all-logs
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="no-valid-host-found-error">
+<h3>No Valid Host Found Error<a class="headerlink" href="#no-valid-host-found-error" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes <tt class="docutils literal"><span class="pre">/var/log/nova/nova-conductor.log</span></tt> contains the following error:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>NoValidHost: No valid host was found. There are not enough hosts available.
+</pre></div>
+</div>
+<p>&#8220;No valid host was found&#8221; means that the Nova Scheduler could not find a bare
+metal node suitable for booting the new instance.</p>
+<p>This in turn usually means some mismatch between resources that Nova expects
+to find and resources that Ironic advertised to Nova.</p>
+<p>A few things should be checked in this case:</p>
+<ol class="arabic">
+<li><p class="first">Introspection should have succeeded for you before, or you should have
+entered the required Ironic node properties manually.
+For each node in <tt class="docutils literal"><span class="pre">ironic</span> <span class="pre">node-list</span></tt> use</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ironic node-show &lt;IRONIC-NODE-UUID&gt;
+</pre></div>
+</div>
+<p>and make sure that <tt class="docutils literal"><span class="pre">properties</span></tt> JSON field has valid values for keys
+<tt class="docutils literal"><span class="pre">cpus</span></tt>, <tt class="docutils literal"><span class="pre">cpu_arch</span></tt>, <tt class="docutils literal"><span class="pre">memory_mb</span></tt> and <tt class="docutils literal"><span class="pre">local_gb</span></tt>.</p>
+</li>
+<li><p class="first">Nova flavor that you are using does not exceed the Ironic node properties
+above for a required number of nodes. Use</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>nova flavor-show &lt;FLAVOR NAME&gt;
+</pre></div>
+</div>
+<p>to compare.</p>
+</li>
+<li><p class="first">Make sure that enough nodes are in <tt class="docutils literal"><span class="pre">available</span></tt> state according to
+<tt class="docutils literal"><span class="pre">ironic</span> <span class="pre">node-list</span></tt>. Nodes in <tt class="docutils literal"><span class="pre">manageable</span></tt> state usually mean they
+have failed introspection.</p>
+</li>
+<li><p class="first">Make sure nodes you&#8217;re going to deploy to are not in maintenance mode.
+Again, use <tt class="docutils literal"><span class="pre">ironic</span> <span class="pre">node-list</span></tt> to check. A node automatically going to
+maintenance mode usually means wrong power credentials for this node. Check
+them and then remove maintenance mode:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ironic node-set-maintenance &lt;IRONIC-NODE-UUID&gt; off
+</pre></div>
+</div>
+</li>
+<li><p class="first">If you&#8217;re using advanced profile matching with multiple flavors, make sure
+you have enough nodes corresponding to each flavor/profile. Watch
+<tt class="docutils literal"><span class="pre">capabilities</span></tt> key in <tt class="docutils literal"><span class="pre">properties</span></tt> field for <tt class="docutils literal"><span class="pre">ironic</span> <span class="pre">node-show</span></tt>.
+It should contain e.g. <tt class="docutils literal"><span class="pre">profile:compute</span></tt>.</p>
+</li>
+<li><p class="first">It takes some time for nodes information to propagate from Ironic to Nova
+after introspection. Our tooling usually accounts for it, but if you did
+some steps manually, there may be a period of time when nodes are not
+available to Nova yet. Check that</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>nova hypervisor-stats
+</pre></div>
+</div>
+<p>correctly shows total amount of resources in your system.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="debugging-tripleo-heat-templates">
+<h2>Debugging TripleO Heat Templates<a class="headerlink" href="#debugging-tripleo-heat-templates" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="useful-links">
+<h3>Useful Links<a class="headerlink" href="#useful-links" title="Permalink to this headline">¶</a></h3>
+<p>Please follow this flow:
+<a class="reference external" href="http://hardysteven.blogspot.co.uk/2015/04/debugging-tripleo-heat-templates.html">http://hardysteven.blogspot.co.uk/2015/04/debugging-tripleo-heat-templates.html</a></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h3>Table Of Contents</h3>
+            <ul><li><a href="../index.html">Return to project home page</a></li></ul>
+            <ul>
+<li><a class="reference internal" href="#">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#troubleshooting-instack-virt-setup-failures">Troubleshooting instack-virt-setup Failures</a><ul>
+<li><a class="reference internal" href="#known-issues">Known Issues:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshooting-image-build">Troubleshooting Image Build</a><ul>
+<li><a class="reference internal" href="#images-fail-to-build">Images fail to build</a></li>
+<li><a class="reference internal" href="#more-space-needed">More space needed</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshooting-node-management-failures">Troubleshooting Node Management Failures</a><ul>
+<li><a class="reference internal" href="#where-are-the-logs">Where Are the Logs?</a></li>
+<li><a class="reference internal" href="#node-registration-problems">Node Registration Problems</a></li>
+<li><a class="reference internal" href="#hardware-introspection-problems">Hardware Introspection Problems</a></li>
+<li><a class="reference internal" href="#introspection-hangs-and-times-out">Introspection hangs and times out</a><ul>
+<li><a class="reference internal" href="#accessing-the-ramdisk">Accessing the ramdisk</a></li>
+<li><a class="reference internal" href="#accessing-logs-from-the-ramdisk">Accessing logs from the ramdisk</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#refusing-to-introspect-node-with-provision-state-available">Refusing to introspect node with provision state &#8220;available&#8221;</a></li>
+<li><a class="reference internal" href="#how-can-introspection-be-stopped">How can introspection be stopped?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshooting-a-failed-overcloud-deployment">Troubleshooting a Failed Overcloud Deployment</a><ul>
+<li><a class="reference internal" href="#identifying-failed-component">Identifying Failed Component</a></li>
+<li><a class="reference internal" href="#debugging-using-heat">Debugging Using Heat</a></li>
+<li><a class="reference internal" href="#no-valid-host-found-error">No Valid Host Found Error</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#debugging-tripleo-heat-templates">Debugging TripleO Heat Templates</a><ul>
+<li><a class="reference internal" href="#useful-links">Useful Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../post_deployment/backup_restore_undercloud.html"
+                                  title="previous chapter">Backing up and Restoring your Undercloud</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../tht_walkthrough/tht_walkthrough.html"
+                                  title="next chapter">Composable roles tutorial</a></p>
+            <h3>Project Source</h3>
+            <ul class="this-page-menu">
+              <li><a href="http://git.openstack.org/cgit/michaelhenkel/contrail-tripleo-docu
+"
+                     rel="nofollow">Project Source</a></li>
+            </ul>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/troubleshooting/troubleshooting.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+  <div id="admonition_selector">
+    <span class="trigger">Limit Environment Specific Content</span>
+
+    <div class="content">
+      <span class="title">Operating Systems</span>
+      <ul>
+        <li><input type="checkbox" id="centos" checked="checked"><label for="centos" title="Step that should only be run when using CentOS.">CentOS</label></li>
+        <li><input type="checkbox" id="rhel" checked="checked"><label for="rhel" title="Step that should only be run when using RHEL.">RHEL</label></li>
+      </ul>
+
+      <span class="title">RHEL Registration Types</span>
+      <ul>
+        <li><input type="checkbox" id="portal" checked="checked"><label for="portal" title="Step that should only be run when registering to the Red Hat Portal.">Portal</label></li>
+        <li><input type="checkbox" id="satellite" checked="checked"><label for="satellite" title="Step that should only be run when registering to Red Hat Satellite.">Satellite</label></li>
+      </ul>
+
+      <span class="title">Environments</span>
+      <ul>
+        <li><input type="checkbox" id="baremetal" checked="checked"><label for="baremetal" title="Step that should only be run when deploying to baremetal.">Baremetal</label></li>
+        <li><input type="checkbox" id="virtual" checked="checked"><label for="virtual" title="Step that should only be run when deploying to virtual machines.">Virtual</label></li>
+        <li><input type="checkbox" id="ssl" checked="checked"><label for="ssl" title="Step that should only be run when deploying with SSL OpenStack endpoints.">SSL</label></li>
+        <li><input type="checkbox" id="selfsigned" checked="checked"><label for="selfsigned" title="Step that should only be run when deploying with SSL and a self-signed certificate.">Self-Signed SSL</label></li>
+      </ul>
+
+      <span class="title">Additional Overcloud Roles</span>
+      <ul>
+        <li><input type="checkbox" id="ceph" checked="checked"><label for="ceph" title="Step that should only be run when deploying Ceph for use by the Overcloud.">Ceph</label></li>
+      </ul>
+
+      <span class="title">Development options</span>
+      <ul>
+         <li><input type="checkbox" id="source" checked=""><label for="source"
+            title="Step that should only be run when choosing to use some components directly from their git source code repositories instead of packages.">Install from source</label></li>
+        <li><input type="checkbox" id="stable" checked=""><label for="stable"
+            title="Step that should only be run when choosing to use components from their stable branches rather than using packages/source based on current master.">Install from stable branch</label></li>
+      </ul>
+
+
+    </div>
+  </div>
+
+  
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../tht_walkthrough/tht_walkthrough.html" title="Composable roles tutorial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../post_deployment/backup_restore_undercloud.html" title="Backing up and Restoring your Undercloud"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">tripleo-docs 0.0.1.dev17 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, OpenStack Foundation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/tripleo-docs");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

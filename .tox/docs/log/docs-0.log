@@ -1,0 +1,8 @@
+actionid: docs
+msg: getenv
+cmdargs: ['/usr/local/opt/python@2/bin/python2.7', '-m', 'virtualenv', '--python', '/usr/local/opt/python@2/bin/python2.7', 'docs']
+
+Already using interpreter /usr/local/opt/python@2/bin/python2.7
+New python executable in /Users/mhenkel/contrail-tripleo-docu/.tox/docs/bin/python2.7
+Also creating executable in /Users/mhenkel/contrail-tripleo-docu/.tox/docs/bin/python
+Installing setuptools, pip, wheel...done.

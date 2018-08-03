@@ -1,0 +1,12 @@
+[console_scripts]
+stestr = stestr.cli:main
+
+[stestr.cm]
+failing = stestr.commands.failing:Failing
+init = stestr.commands.init:Init
+last = stestr.commands.last:Last
+list = stestr.commands.list:List
+load = stestr.commands.load:Load
+run = stestr.commands.run:Run
+slowest = stestr.commands.slowest:Slowest
+

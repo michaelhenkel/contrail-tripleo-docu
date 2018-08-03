@@ -1,0 +1,209 @@
+actionid: docs
+msg: getenv
+cmdargs: ['/Users/mhenkel/contrail-tripleo-docu/.tox/docs/bin/pip', 'install', '-r/Users/mhenkel/contrail-tripleo-docu/test-requirements.txt', '-r/Users/mhenkel/contrail-tripleo-docu/requirements.txt']
+
+Collecting sphinx!=1.2.0,!=1.3b1,<1.3,>=1.1.2 (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/c8/0f/651c7df6427c01fe9c1d0d4708ab5943cf6eb42adafbdc2670ec3053c210/Sphinx-1.2.3-py2-none-any.whl (1.9MB)
+Collecting oslosphinx>=2.2.0 (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 3))
+  Using cached https://files.pythonhosted.org/packages/29/e5/523d2b1e2d20b2c4d41b7431574807584f76c7e0913e86a908435197a78a/oslosphinx-4.18.0-py2.py3-none-any.whl
+Collecting sphinx_rtd_theme==0.1.7 (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 4))
+  Downloading https://files.pythonhosted.org/packages/7e/4a/3d8898e87c1d31bae7965e81b61afcbfdefec149d5526165a63fcdb09e3c/sphinx_rtd_theme-0.1.7-py2-none-any.whl (220kB)
+Collecting hacking<0.11,>=0.10.0 (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 6))
+  Using cached https://files.pythonhosted.org/packages/7e/ab/40987ca5b2d916ed1c9d57cf5a975c3637ac478de5f6301e1979d21b47dd/hacking-0.10.3-py2.py3-none-any.whl
+Collecting discover (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 8))
+  Downloading https://files.pythonhosted.org/packages/2d/89/28d437f7c96f4062860fed466d81e3d247c6a17aea687a0ecdb1aa30f2c3/discover-0.4.0.tar.gz
+Collecting fixtures>=0.3.14 (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 9))
+  Using cached https://files.pythonhosted.org/packages/a8/28/7eed6bf76792f418029a18d5b2ace87ce7562927cdd00f1cefe481cd148f/fixtures-3.0.0-py2.py3-none-any.whl
+Collecting python-subunit>=0.0.18 (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 10))
+  Using cached https://files.pythonhosted.org/packages/ee/3a/b8a93e1f5b9a9f7e0a7630146f1c62878b6949ac5e4bac6ae2ae13fa9f83/python_subunit-1.3.0-py2.py3-none-any.whl
+Collecting testrepository>=0.0.18 (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 11))
+Collecting testscenarios>=0.4 (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 12))
+  Using cached https://files.pythonhosted.org/packages/da/25/2f10da0d5427989fefa5ab51e697bc02625bbb7de2be3bc8452462efac78/testscenarios-0.5.0-py2.py3-none-any.whl
+Collecting testtools!=1.2.0,>=0.9.36 (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 13))
+  Using cached https://files.pythonhosted.org/packages/87/74/a4d55da28d7bba6d6f49430f22a62afd8472cb24a63fa61daef80d3e821b/testtools-2.3.0-py2.py3-none-any.whl
+Collecting mock>=1.0 (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 14))
+  Using cached https://files.pythonhosted.org/packages/e6/35/f187bdf23be87092bd0f1200d43d23076cee4d0dec109f195173fd3ebc79/mock-2.0.0-py2.py3-none-any.whl
+Collecting oslotest>=1.5.1 (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/f6/d7/eed60895ac574763c650f9fa8a704fd1e8f0b1bfa61700be637d1088f044/oslotest-3.6.0-py2.py3-none-any.whl
+Collecting bashate (from -r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 16))
+  Downloading https://files.pythonhosted.org/packages/d0/40/bc771a4295a20957e305627349c2497ad9ad25f3a15b2b2a92d8386a47bd/bashate-0.6.0-py2-none-any.whl
+Collecting six>=1.9.0 (from -r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 1))
+  Using cached https://files.pythonhosted.org/packages/67/4b/141a581104b1f6397bfa78ac9d43d8ad29a7ca43ea90a2d863fe3056e86a/six-1.11.0-py2.py3-none-any.whl
+Collecting python-novaclient (from -r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/a6/f3/d0aaae716fc5f058330da1e910c779fdae41d0cb8b22581acb209e109256/python_novaclient-11.0.0-py2.py3-none-any.whl (311kB)
+Collecting oslo.config (from -r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 3))
+  Downloading https://files.pythonhosted.org/packages/8a/0a/1bcdc4ca2949c8057f9ca86e894b01d6a94de3f33743cec56d04a14d1038/oslo.config-6.4.0-py2.py3-none-any.whl (121kB)
+Collecting Jinja2>=2.3 (from sphinx!=1.2.0,!=1.3b1,<1.3,>=1.1.2->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/7f/ff/ae64bacdfc95f27a016a7bed8e8686763ba4d277a78ca76f32659220a731/Jinja2-2.10-py2.py3-none-any.whl
+Collecting docutils>=0.7 (from sphinx!=1.2.0,!=1.3b1,<1.3,>=1.1.2->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/50/09/c53398e0005b11f7ffb27b7aa720c617aba53be4fb4f4f3f06b9b5c60f28/docutils-0.14-py2-none-any.whl
+Collecting Pygments>=1.2 (from sphinx!=1.2.0,!=1.3b1,<1.3,>=1.1.2->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/02/ee/b6e02dc6529e82b75bb06823ff7d005b141037cb1416b10c6f00fc419dca/Pygments-2.2.0-py2.py3-none-any.whl
+Collecting requests>=2.14.2 (from oslosphinx>=2.2.0->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 3))
+  Using cached https://files.pythonhosted.org/packages/65/47/7e02164a2a3db50ed6d8a6ab1d6d60b69c4c3fdf57a284257925dfc12bda/requests-2.19.1-py2.py3-none-any.whl
+Collecting pbr!=2.1.0,>=2.0.0 (from oslosphinx>=2.2.0->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 3))
+  Downloading https://files.pythonhosted.org/packages/69/1c/98cba002ed975a91a0294863d9c774cc0ebe38e05bbb65e83314550b1677/pbr-4.2.0-py2.py3-none-any.whl (100kB)
+Collecting flake8==2.2.4 (from hacking<0.11,>=0.10.0->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 6))
+Collecting pyflakes==0.8.1 (from hacking<0.11,>=0.10.0->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 6))
+  Using cached https://files.pythonhosted.org/packages/49/94/592dfa051cb674d022c8ae6306d114dc752b3b5d3e08b896acaa4b3277f8/pyflakes-0.8.1-py2.py3-none-any.whl
+Collecting pep8==1.5.7 (from hacking<0.11,>=0.10.0->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 6))
+  Using cached https://files.pythonhosted.org/packages/e2/3a/fb53887b208e7e444c13b59244fcac4ef923678e6ae33e7fc71391f37b62/pep8-1.5.7-py2.py3-none-any.whl
+Collecting mccabe==0.2.1 (from hacking<0.11,>=0.10.0->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 6))
+Collecting extras (from python-subunit>=0.0.18->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 10))
+  Using cached https://files.pythonhosted.org/packages/03/e9/e915af1f97914cd0bc021e125fd1bfd4106de614a275e4b6866dd9a209ac/extras-1.0.0-py2.py3-none-any.whl
+Collecting python-mimeparse (from testtools!=1.2.0,>=0.9.36->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 13))
+  Using cached https://files.pythonhosted.org/packages/26/2e/03bce213a9bf02a2750dcb04e761785e9c763fc11071edc4b447eacbb842/python_mimeparse-1.6.0-py2.py3-none-any.whl
+Collecting unittest2>=1.0.0 (from testtools!=1.2.0,>=0.9.36->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 13))
+  Using cached https://files.pythonhosted.org/packages/72/20/7f0f433060a962200b7272b8c12ba90ef5b903e218174301d0abfd523813/unittest2-1.1.0-py2.py3-none-any.whl
+Collecting traceback2 (from testtools!=1.2.0,>=0.9.36->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 13))
+  Using cached https://files.pythonhosted.org/packages/17/0a/6ac05a3723017a967193456a2efa0aa9ac4b51456891af1e2353bb9de21e/traceback2-1.4.0-py2.py3-none-any.whl
+Collecting funcsigs>=1; python_version < "3.3" (from mock>=1.0->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 14))
+  Using cached https://files.pythonhosted.org/packages/69/cb/f5be453359271714c01b9bd06126eaf2e368f1fddfff30818754b5ac2328/funcsigs-1.0.2-py2.py3-none-any.whl
+Collecting debtcollector (from oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/9b/01/fbbe8ad43ffebe5cd75476448b17825e31c4fc7b9b26519571ec91972c5c/debtcollector-1.20.0-py2.py3-none-any.whl
+Collecting os-client-config>=1.28.0 (from oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/e5/af/2f3bf859a25c98993f85ff1eb17762aa49b2f894630ebe99c389545b0502/os_client_config-1.31.2-py2.py3-none-any.whl
+Collecting stestr>=2.0.0 (from oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/d5/96/5bfe962427b4d373371c9d5a3575ac9a7c20d9813837a8014efc1955a2fd/stestr-2.1.0.tar.gz (103kB)
+Collecting mox3>=0.20.0 (from oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/da/af/ef048b1f2f4adfbbfcf5522d804bc8c31787d461ebdf71429294992df560/mox3-0.26.0-py2.py3-none-any.whl
+Collecting Babel!=2.4.0,>=2.3.4 (from bashate->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 16))
+  Using cached https://files.pythonhosted.org/packages/b8/ad/c6f60602d3ee3d92fbed87675b6fb6a6f9a38c223343ababdb44ba201f10/Babel-2.6.0-py2.py3-none-any.whl
+Collecting oslo.utils>=3.33.0 (from python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/3b/a4/235121908292cfd133737e49a6366f041c52aa64cbe8cd605979b329da10/oslo.utils-3.36.4-py2.py3-none-any.whl (91kB)
+Collecting iso8601>=0.1.11 (from python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/ef/57/7162609dab394d38bbc7077b7ba0a6f10fb09d8b7701ea56fa1edc0c4345/iso8601-0.1.12-py2.py3-none-any.whl
+Collecting oslo.serialization!=2.19.1,>=2.18.0 (from python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/b6/77/5d322fb625f0db2bcca035ff6ff1906c718b31cd371bcf25bc31f7c2075d/oslo.serialization-2.27.0-py2.py3-none-any.whl
+Collecting simplejson>=3.5.1 (from python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/d9/52/3dd4aed32371fc2aa0e14f68fd7563e671336f4df3982246e87dd87bffc2/simplejson-3.16.0-cp27-cp27m-macosx_10_12_x86_64.whl (69kB)
+Collecting PrettyTable<0.8,>=0.7.2 (from python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/ef/30/4b0746848746ed5941f052479e7c23d2b56d174b82f4fd34a25e389831f5/prettytable-0.7.2.tar.bz2
+Collecting keystoneauth1>=3.4.0 (from python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/24/23/2b7624d229567cc52cfe6623f9f54a2616ea3ebb0a1e9d42a4358be7266b/keystoneauth1-3.10.0-py2.py3-none-any.whl (289kB)
+Collecting oslo.i18n>=3.15.3 (from python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/37/44/fc8e4466c348e077d116368151a82cd468b8df48f9c0118cef2398bec6f7/oslo.i18n-3.21.0-py2.py3-none-any.whl (40kB)
+Collecting enum34>=1.0.4; python_version == "2.7" or python_version == "2.6" or python_version == "3.3" (from oslo.config->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 3))
+  Using cached https://files.pythonhosted.org/packages/c5/db/e56e6b4bbac7c4a06de1c50de6fe1ef3810018ae11732a50f15f62c7d050/enum34-1.1.6-py2-none-any.whl
+Collecting rfc3986>=0.3.1 (from oslo.config->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 3))
+  Using cached https://files.pythonhosted.org/packages/01/2f/dc440bae2b6a185654b5c298f5cc7b172267db692bc24923130262caedac/rfc3986-1.1.0-py2.py3-none-any.whl
+Collecting stevedore>=1.20.0 (from oslo.config->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 3))
+  Downloading https://files.pythonhosted.org/packages/a1/d9/93a975469c53a9ee85de9ec0deb12345aa777748b4c263860668592344fe/stevedore-1.29.0-py2.py3-none-any.whl
+Collecting PyYAML>=3.12 (from oslo.config->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 3))
+  Downloading https://files.pythonhosted.org/packages/9e/a3/1d13970c3f36777c583f136c136f804d70f500168edc1edea6daa7200769/PyYAML-3.13.tar.gz (270kB)
+Collecting netaddr>=0.7.18 (from oslo.config->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 3))
+  Using cached https://files.pythonhosted.org/packages/ba/97/ce14451a9fd7bdb5a397abf99b24a1a6bb7a1a440b019bebd2e9a0dbec74/netaddr-0.7.19-py2.py3-none-any.whl
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.3->sphinx!=1.2.0,!=1.3b1,<1.3,>=1.1.2->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 2))
+Collecting urllib3<1.24,>=1.21.1 (from requests>=2.14.2->oslosphinx>=2.2.0->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 3))
+  Using cached https://files.pythonhosted.org/packages/bd/c9/6fdd990019071a4a32a5e7cb78a1d92c53851ef4f56f62a3486e6a7d8ffb/urllib3-1.23-py2.py3-none-any.whl
+Collecting chardet<3.1.0,>=3.0.2 (from requests>=2.14.2->oslosphinx>=2.2.0->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 3))
+  Using cached https://files.pythonhosted.org/packages/bc/a9/01ffebfb562e4274b6487b4bb1ddec7ca55ec7510b22e4c51f14098443b8/chardet-3.0.4-py2.py3-none-any.whl
+Collecting certifi>=2017.4.17 (from requests>=2.14.2->oslosphinx>=2.2.0->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 3))
+  Using cached https://files.pythonhosted.org/packages/7c/e6/92ad559b7192d846975fc916b65f667c7b8c3a32bea7372340bfe9a15fa5/certifi-2018.4.16-py2.py3-none-any.whl
+Collecting idna<2.8,>=2.5 (from requests>=2.14.2->oslosphinx>=2.2.0->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 3))
+  Using cached https://files.pythonhosted.org/packages/4b/2a/0276479a4b3caeb8a8c1af2f8e4355746a97fab05a372e4a2c6a6b876165/idna-2.7-py2.py3-none-any.whl
+Collecting argparse (from unittest2>=1.0.0->testtools!=1.2.0,>=0.9.36->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 13))
+  Using cached https://files.pythonhosted.org/packages/f2/94/3af39d34be01a24a6e65433d19e107099374224905f1e0cc6bbe1fd22a2f/argparse-1.4.0-py2.py3-none-any.whl
+Collecting linecache2 (from traceback2->testtools!=1.2.0,>=0.9.36->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 13))
+  Using cached https://files.pythonhosted.org/packages/c7/a3/c5da2a44c85bfbb6eebcfc1dde24933f8704441b98fdde6528f4831757a6/linecache2-1.0.0-py2.py3-none-any.whl
+Collecting wrapt>=1.7.0 (from debtcollector->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+Collecting openstacksdk>=0.13.0 (from os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/8c/40/378ceb594486ea70251bb48c494c773875d3d79ea3969459dac358177cc2/openstacksdk-0.17.1-py2.py3-none-any.whl (1.0MB)
+Collecting future (from stestr>=2.0.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/00/2b/8d082ddfed935f3608cc61140df6dcbf0edea1bc3ab52fb6c29ae3e81e85/future-0.16.0.tar.gz (824kB)
+Collecting cliff>=2.8.0 (from stestr>=2.0.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/06/6d/672b0f1eb3c5f455dff6e9558990c3b0777c70452b8020b62c425035795c/cliff-2.13.0-py2.py3-none-any.whl (71kB)
+Collecting voluptuous>=0.8.9 (from stestr>=2.0.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/59/95/fa6218477c6999c9b7fdfab7c12c1bd4da2d5930f5eb2b232ec74eb344e7/voluptuous-0.11.5-py2.py3-none-any.whl
+Collecting pytz>=0a (from Babel!=2.4.0,>=2.3.4->bashate->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 16))
+  Downloading https://files.pythonhosted.org/packages/30/4e/27c34b62430286c6d59177a0842ed90dc789ce5d1ed740887653b898779a/pytz-2018.5-py2.py3-none-any.whl (510kB)
+Collecting monotonic>=0.6 (from oslo.utils>=3.33.0->python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/ac/aa/063eca6a416f397bd99552c534c6d11d57f58f2e94c14780f3bbf818c4cf/monotonic-1.5-py2.py3-none-any.whl
+Collecting pyparsing>=2.1.0 (from oslo.utils>=3.33.0->python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Using cached https://files.pythonhosted.org/packages/6a/8a/718fd7d3458f9fab8e67186b00abdd345b639976bc7fb3ae722e1b026a50/pyparsing-2.2.0-py2.py3-none-any.whl
+Collecting netifaces>=0.10.4 (from oslo.utils>=3.33.0->python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+Collecting msgpack>=0.5.2 (from oslo.serialization!=2.19.1,>=2.18.0->python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/f3/b6/9affbea179c3c03a0eb53515d9ce404809a122f76bee8fc8c6ec9497f51f/msgpack-0.5.6.tar.gz (138kB)
+Collecting os-service-types>=1.2.0 (from keystoneauth1>=3.4.0->python-novaclient->-r /Users/mhenkel/contrail-tripleo-docu/requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/c7/ec/7ef45820d4fa2964f0fea5b264bbb1594b68e330513a161ddcf0efd963e4/os_service_types-1.2.0-py2-none-any.whl
+Collecting appdirs>=1.3.0 (from openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/56/eb/810e700ed1349edde4cbdc1b2a21e28cdf115f9faf263f6bbf8447c1abf3/appdirs-1.4.3-py2.py3-none-any.whl
+Collecting requestsexceptions>=1.2.0 (from openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/01/8c/49ca60ea8c907260da4662582c434bec98716177674e88df3fd340acf06d/requestsexceptions-1.4.0-py2.py3-none-any.whl
+Collecting futures>=3.0.0; python_version == "2.7" or python_version == "2.6" (from openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Using cached https://files.pythonhosted.org/packages/2d/99/b2c4e9d5a30f6471e410a146232b4118e697fa3ffc06d6a65efde84debd0/futures-3.2.0-py2-none-any.whl
+Collecting decorator>=3.4.0 (from openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/bc/bb/a24838832ba35baf52f32ab1a49b906b5f82fb7c76b2f6a7e35e140bac30/decorator-4.3.0-py2.py3-none-any.whl
+Collecting ipaddress>=1.0.17; python_version < "3.3" (from openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/fc/d0/7fc3a811e011d4b388be48a0e381db8d990042df54aa4ef4599a31d39853/ipaddress-1.0.22-py2.py3-none-any.whl
+Collecting jmespath>=0.9.0 (from openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/b7/31/05c8d001f7f87f0f07289a5fc0fc3832e9a57f2dbd4d3b0fee70e0d51365/jmespath-0.9.3-py2.py3-none-any.whl
+Collecting deprecation>=1.0 (from openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/9e/87/2e497672bf5157740f36233a8d2d59266dd083887ccdc5f3b6979e8c3a46/deprecation-2.0.5-py2-none-any.whl
+Collecting munch>=2.1.0 (from openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/68/f4/260ec98ea840757a0da09e0ed8135333d59b8dfebe9752a365b04857660a/munch-2.3.2.tar.gz
+Collecting cryptography>=2.1 (from openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/79/a0/b91d31b743b1402295c6cabc8384dea7d0311e19acb21f549e70557394d7/cryptography-2.3-cp27-cp27m-macosx_10_6_intel.whl (1.5MB)
+Collecting dogpile.cache>=0.6.2 (from openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/ee/bd/440da735a11c6087eed7cc8747fc4b995cbac2464168682f8ee1c8e43844/dogpile.cache-0.6.7.tar.gz (323kB)
+Collecting jsonpatch!=1.20,>=1.16 (from openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/a0/e6/d50d526ae2218b765ddbdb2dda14d65e19f501ce07410b375bc43ad20b7a/jsonpatch-1.23-py2.py3-none-any.whl
+Collecting cmd2!=0.8.3,<0.9.0; python_version < "3.0" (from cliff>=2.8.0->stestr>=2.0.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/f9/6a/0fc7efe26074a214b3b4d26a5a48d54a3c3919b440d5606c99021ed00c44/cmd2-0.8.8-py2.py3-none-any.whl (51kB)
+Collecting unicodecsv>=0.8.0; python_version < "3.0" (from cliff>=2.8.0->stestr>=2.0.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/6f/a4/691ab63b17505a26096608cc309960b5a6bdf39e4ba1a793d5f9b1a53270/unicodecsv-0.14.1.tar.gz
+Collecting packaging (from deprecation>=1.0->openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Using cached https://files.pythonhosted.org/packages/ad/c2/b500ea05d5f9f361a562f089fc91f77ed3b4783e13a08a3daf82069b1224/packaging-17.1-py2.py3-none-any.whl
+Collecting cffi!=1.11.3,>=1.7 (from cryptography>=2.1->openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/7e/4a/b647e46faaa2dcfb16069b6aad2d8509982fd63710a325b8ad7db80f18be/cffi-1.11.5-cp27-cp27m-macosx_10_6_intel.whl (238kB)
+Collecting asn1crypto>=0.21.0 (from cryptography>=2.1->openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/ea/cd/35485615f45f30a510576f1a56d1e0a7ad7bd8ab5ed7cdc600ef7cd06222/asn1crypto-0.24.0-py2.py3-none-any.whl (101kB)
+Collecting jsonpointer>=1.9 (from jsonpatch!=1.20,>=1.16->openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/18/b0/a80d29577c08eea401659254dfaed87f1af45272899e1812d7e01b679bc5/jsonpointer-2.0-py2.py3-none-any.whl
+Collecting wcwidth; sys_platform != "win32" (from cmd2!=0.8.3,<0.9.0; python_version < "3.0"->cliff>=2.8.0->stestr>=2.0.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/7e/9f/526a6947247599b084ee5232e4f9190a38f398d7300d866af3ab571a5bfe/wcwidth-0.1.7-py2.py3-none-any.whl
+Collecting subprocess32; python_version < "3.0" (from cmd2!=0.8.3,<0.9.0; python_version < "3.0"->cliff>=2.8.0->stestr>=2.0.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/fa/60/b50459f291cae6bc1d0ff711b75e5130684fd3949370fdba78f6c57c1903/subprocess32-3.5.2-cp27-cp27m-macosx_10_6_intel.whl
+Collecting pyperclip (from cmd2!=0.8.3,<0.9.0; python_version < "3.0"->cliff>=2.8.0->stestr>=2.0.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/2d/9a/23059a00dfd52eb700bd03c4ee3a6954cae60827539c3488026c8742a555/pyperclip-1.6.4.tar.gz
+Collecting contextlib2; python_version < "3.5" (from cmd2!=0.8.3,<0.9.0; python_version < "3.0"->cliff>=2.8.0->stestr>=2.0.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/a2/71/8273a7eeed0aff6a854237ab5453bc9aa67deb49df4832801c21f0ff3782/contextlib2-0.5.5-py2.py3-none-any.whl
+Collecting pycparser (from cffi!=1.11.3,>=1.7->cryptography>=2.1->openstacksdk>=0.13.0->os-client-config>=1.28.0->oslotest>=1.5.1->-r /Users/mhenkel/contrail-tripleo-docu/test-requirements.txt (line 15))
+  Downloading https://files.pythonhosted.org/packages/8c/2d/aad7f16146f4197a11f8e91fb81df177adcc2073d36a17b1491fd09df6ed/pycparser-2.18.tar.gz (245kB)
+Building wheels for collected packages: discover, stestr, PrettyTable, PyYAML, future, msgpack, munch, dogpile.cache, unicodecsv, pyperclip, pycparser
+  Running setup.py bdist_wheel for discover: started
+  Running setup.py bdist_wheel for discover: finished with status 'done'
+  Stored in directory: /Users/mhenkel/Library/Caches/pip/wheels/70/39/2a/c52cf3e202997f901646ecdf6e290d0480b06ad497677c66b3
+  Running setup.py bdist_wheel for stestr: started
+  Running setup.py bdist_wheel for stestr: finished with status 'done'
+  Stored in directory: /Users/mhenkel/Library/Caches/pip/wheels/48/de/db/9556695a4e0d82c709b80a4bc88752c148b8b0087af4143187
+  Running setup.py bdist_wheel for PrettyTable: started
+  Running setup.py bdist_wheel for PrettyTable: finished with status 'done'
+  Stored in directory: /Users/mhenkel/Library/Caches/pip/wheels/80/34/1c/3967380d9676d162cb59513bd9dc862d0584e045a162095606
+  Running setup.py bdist_wheel for PyYAML: started
+  Running setup.py bdist_wheel for PyYAML: finished with status 'done'
+  Stored in directory: /Users/mhenkel/Library/Caches/pip/wheels/ad/da/0c/74eb680767247273e2cf2723482cb9c924fe70af57c334513f
+  Running setup.py bdist_wheel for future: started
+  Running setup.py bdist_wheel for future: finished with status 'done'
+  Stored in directory: /Users/mhenkel/Library/Caches/pip/wheels/bf/c9/a3/c538d90ef17cf7823fa51fc701a7a7a910a80f6a405bf15b1a
+  Running setup.py bdist_wheel for msgpack: started
+  Running setup.py bdist_wheel for msgpack: finished with status 'done'
+  Stored in directory: /Users/mhenkel/Library/Caches/pip/wheels/f0/02/4c/525b56fce78c415eb8066f6554f9de02792df26b8f882f6d65
+  Running setup.py bdist_wheel for munch: started
+  Running setup.py bdist_wheel for munch: finished with status 'done'
+  Stored in directory: /Users/mhenkel/Library/Caches/pip/wheels/db/bf/bc/06a3e1bfe0ab27d2e720ceb3cff3159398d92644c0cec2c125
+  Running setup.py bdist_wheel for dogpile.cache: started
+  Running setup.py bdist_wheel for dogpile.cache: finished with status 'done'
+  Stored in directory: /Users/mhenkel/Library/Caches/pip/wheels/db/67/7d/4e809c5161474aea07951b22d3cfbca90ca477237064d4cc2a
+  Running setup.py bdist_wheel for unicodecsv: started
+  Running setup.py bdist_wheel for unicodecsv: finished with status 'done'
+  Stored in directory: /Users/mhenkel/Library/Caches/pip/wheels/a6/09/e9/e800279c98a0a8c94543f3de6c8a562f60e51363ed26e71283
+  Running setup.py bdist_wheel for pyperclip: started
+  Running setup.py bdist_wheel for pyperclip: finished with status 'done'
+  Stored in directory: /Users/mhenkel/Library/Caches/pip/wheels/73/8c/77/a973e2fbf4808af077582b1740b4cbf9e100262da0166e90d8
+  Running setup.py bdist_wheel for pycparser: started
+  Running setup.py bdist_wheel for pycparser: finished with status 'done'
+  Stored in directory: /Users/mhenkel/Library/Caches/pip/wheels/c0/a1/27/5ba234bd77ea5a290cbf6d675259ec52293193467a12ef1f46
+Successfully built discover stestr PrettyTable PyYAML future msgpack munch dogpile.cache unicodecsv pyperclip pycparser
+Installing collected packages: MarkupSafe, Jinja2, docutils, Pygments, sphinx, urllib3, chardet, certifi, idna, requests, pbr, six, oslosphinx, sphinx-rtd-theme, pyflakes, mccabe, pep8, flake8, hacking, discover, python-mimeparse, argparse, linecache2, traceback2, unittest2, extras, testtools, fixtures, python-subunit, testrepository, testscenarios, funcsigs, mock, wrapt, debtcollector, iso8601, os-service-types, stevedore, keystoneauth1, appdirs, requestsexceptions, futures, decorator, ipaddress, jmespath, pyparsing, packaging, deprecation, PyYAML, munch, pycparser, cffi, asn1crypto, enum34, cryptography, dogpile.cache, netifaces, jsonpointer, jsonpatch, openstacksdk, os-client-config, future, wcwidth, subprocess32, pyperclip, contextlib2, cmd2, PrettyTable, unicodecsv, cliff, voluptuous, stestr, mox3, oslotest, pytz, Babel, bashate, monotonic, oslo.i18n, netaddr, oslo.utils, msgpack, oslo.serialization, simplejson, python-novaclient, rfc3986, oslo.config
+Successfully installed Babel-2.6.0 Jinja2-2.10 MarkupSafe-1.0 PrettyTable-0.7.2 PyYAML-3.13 Pygments-2.2.0 appdirs-1.4.3 argparse-1.4.0 asn1crypto-0.24.0 bashate-0.6.0 certifi-2018.4.16 cffi-1.11.5 chardet-3.0.4 cliff-2.13.0 cmd2-0.8.8 contextlib2-0.5.5 cryptography-2.3 debtcollector-1.20.0 decorator-4.3.0 deprecation-2.0.5 discover-0.4.0 docutils-0.14 dogpile.cache-0.6.7 enum34-1.1.6 extras-1.0.0 fixtures-3.0.0 flake8-2.2.4 funcsigs-1.0.2 future-0.16.0 futures-3.2.0 hacking-0.10.3 idna-2.7 ipaddress-1.0.22 iso8601-0.1.12 jmespath-0.9.3 jsonpatch-1.23 jsonpointer-2.0 keystoneauth1-3.10.0 linecache2-1.0.0 mccabe-0.2.1 mock-2.0.0 monotonic-1.5 mox3-0.26.0 msgpack-0.5.6 munch-2.3.2 netaddr-0.7.19 netifaces-0.10.7 openstacksdk-0.17.1 os-client-config-1.31.2 os-service-types-1.2.0 oslo.config-6.4.0 oslo.i18n-3.21.0 oslo.serialization-2.27.0 oslo.utils-3.36.4 oslosphinx-4.18.0 oslotest-3.6.0 packaging-17.1 pbr-4.2.0 pep8-1.5.7 pycparser-2.18 pyflakes-0.8.1 pyparsing-2.2.0 pyperclip-1.6.4 python-mimeparse-1.6.0 python-novaclient-11.0.0 python-subunit-1.3.0 pytz-2018.5 requests-2.19.1 requestsexceptions-1.4.0 rfc3986-1.1.0 simplejson-3.16.0 six-1.11.0 sphinx-1.2.3 sphinx-rtd-theme-0.1.7 stestr-2.1.0 stevedore-1.29.0 subprocess32-3.5.2 testrepository-0.0.20 testscenarios-0.5.0 testtools-2.3.0 traceback2-1.4.0 unicodecsv-0.14.1 unittest2-1.1.0 urllib3-1.23 voluptuous-0.11.5 wcwidth-0.1.7 wrapt-1.10.11

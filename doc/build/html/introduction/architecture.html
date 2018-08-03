@@ -1,0 +1,582 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>TripleO Architecture &mdash; tripleo-docs 0.0.1.dev17 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1.dev17',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/cookies.js"></script>
+    <script type="text/javascript" src="../_static/expandable.js"></script>
+    <script type="text/javascript" src="../_static/admonition_selector.js"></script>
+    <script type="text/javascript" src="../_static/jquery.scrollTo.js"></script>
+    <script type="text/javascript" src="../_static/jquery.nav.js"></script>
+    <script type="text/javascript" src="../_static/menu.js"></script>
+    <link rel="top" title="tripleo-docs 0.0.1.dev17 documentation" href="../index.html" />
+    <link rel="up" title="TripleO Introduction" href="introduction.html" />
+    <link rel="next" title="TripleO Components" href="components.html" />
+    <link rel="prev" title="TripleO Introduction" href="introduction.html" /> 
+  </head>
+  <body>
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="project-architecture">
+<h1>TripleO Architecture<a class="headerlink" href="#project-architecture" title="Permalink to this headline">¶</a></h1>
+<p>This document lists the main components of TripleO, and gives some
+description of how each component is used. There are links to additional sources
+of information throughout the document.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#project-architecture" id="id1">TripleO Architecture</a><ul>
+<li><a class="reference internal" href="#architecture-overview" id="id2">Architecture Overview</a><ul>
+<li><a class="reference internal" href="#tripleo" id="id3">TripleO</a></li>
+<li><a class="reference internal" href="#spinalstack-s-inspiration" id="id4">SpinalStack&#8217;s Inspiration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#benefits" id="id5">Benefits</a></li>
+<li><a class="reference internal" href="#deployment-workflow-overview" id="id6">Deployment Workflow Overview</a></li>
+<li><a class="reference internal" href="#deployment-workflow-detail" id="id7">Deployment Workflow Detail</a><ul>
+<li><a class="reference internal" href="#environment-preparation" id="id8">Environment Preparation</a></li>
+<li><a class="reference internal" href="#undercloud-data-preparation" id="id9">Undercloud Data Preparation</a></li>
+<li><a class="reference internal" href="#deployment-planning" id="id10">Deployment Planning</a></li>
+<li><a class="reference internal" href="#deployment" id="id11">Deployment</a></li>
+<li><a class="reference internal" href="#per-node-setup" id="id12">Per-node Setup</a></li>
+<li><a class="reference internal" href="#overcloud-initialization" id="id13">Overcloud Initialization</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#high-availability-ha" id="id14">High Availability (HA)</a></li>
+<li><a class="reference internal" href="#managing-the-deployment" id="id15">Managing the Deployment</a><ul>
+<li><a class="reference internal" href="#monitoring-the-overcloud" id="id16">Monitoring the Overcloud</a></li>
+<li><a class="reference internal" href="#scaling-out-the-overcloud" id="id17">Scaling-out the Overcloud</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="architecture-overview">
+<h2>Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permalink to this headline">¶</a></h2>
+<p>TripleO is a community developed approach and set of tools for deploying,
+and managing an OpenStack cloud.</p>
+<div class="section" id="tripleo">
+<h3>TripleO<a class="headerlink" href="#tripleo" title="Permalink to this headline">¶</a></h3>
+<p>TripleO is the friendly name for “OpenStack on OpenStack”. It is an official
+OpenStack project with the goal of allowing you to deploy and manage a
+production cloud onto bare metal hardware using a subset of existing OpenStack
+components.</p>
+<img alt="../_images/overview.png" src="../_images/overview.png" />
+<p>With TripleO, you start by creating an &#8220;undercloud&#8221; (a deployment cloud)
+that will contain the necessary OpenStack components to deploy and manage an
+&#8220;overcloud&#8221; (a workload cloud). The overcloud is the deployed solution
+and can represent a cloud for any purpose (e.g. production, staging, test, etc).</p>
+<img alt="../_images/logical_view.png" src="../_images/logical_view.png" />
+<p>TripleO leverages several existing core components of OpenStack including Nova,
+Ironic, Neutron, Heat, Glance and Ceilometer to deploy OpenStack on baremetal
+hardware. Nova and Ironic are used in the undercloud to manage baremetal
+instances that comprise the infrastructure for the overcloud. Neutron is
+utilized to provide a networking environment in which to deploy the overcloud,
+machine images are stored in Glance, and Ceilometer collects metrics about your
+overcloud.</p>
+<p>The following diagram illustrates a physical view of how the undercloud may be
+hosted on one physical server and the overcloud distributed across many physical
+servers.</p>
+<img alt="../_images/physical_view.png" src="../_images/physical_view.png" />
+</div>
+<div class="section" id="spinalstack-s-inspiration">
+<h3>SpinalStack&#8217;s Inspiration<a class="headerlink" href="#spinalstack-s-inspiration" title="Permalink to this headline">¶</a></h3>
+<p>Some key aspects of SpinalStack workflow have been incorporated into
+TripleO, providing options to perform introspection, benchmarking and role
+matching of your hardware prior to deploying OpenStack.</p>
+<p>Hardware introspection features enable you to collect data about the properties
+of your hardware prior to deployment, such that specific classes of hardware may
+be matched to specific roles (e.g a special hardware configuration for Compute
+or Storage roles). There is also the option to enable performance benchmarking
+during this phase, such that outliers which do not match the expected
+performance profile may be excluded from the deployment.</p>
+<p>TripleO also configures servers in a similar way to SpinalStack, using
+stable community puppet implementations, applied in a series of steps, such
+that granular control and validation of the deployment is possible</p>
+</div>
+</div>
+<div class="section" id="benefits">
+<h2>Benefits<a class="headerlink" href="#benefits" title="Permalink to this headline">¶</a></h2>
+<p>Using TripleO&#8216;s combination of OpenStack components, and their APIs, as the
+infrastructure to deploy and operate OpenStack itself delivers several benefits:</p>
+<ul class="simple">
+<li>TripleO&#8216;s APIs are the OpenStack APIs. They&#8217;re well maintained, well
+documented, and come with client libraries and command line tools. Users who
+invest time in learning about TripleO&#8216;s APIs are also learning about
+OpenStack itself, and users who are already familiar with OpenStack will find
+a great deal in TripleO that they already understand.</li>
+<li>Using the OpenStack components allows more rapid feature development of
+TripleO than might otherwise be the case; TripleO automatically
+inherits all the new features which are added to Glance, Heat etc., even when
+the developer of the new feature didn&#8217;t explicitly have TripleO in mind.</li>
+<li>The same applies to bug fixes and security updates. When OpenStack developers
+fix bugs in the common components, those fixes are inherited by TripleO.</li>
+<li>Users&#8217; can invest time in integrating their own scripts and utilities with
+TripleO&#8216;s APIs with some confidence. Those APIs are cooperatively
+maintained and developed by the OpenStack community. They&#8217;re not at risk of
+being suddenly changed or retired by a single controlling vendor.</li>
+<li>For developers, tight integration with the OpenStack APIs provides a solid
+architecture, which has gone through extensive community review.</li>
+</ul>
+<p>It should be noted that not everything in TripleO is a reused OpenStack
+element.</p>
+</div>
+<div class="section" id="deployment-workflow-overview">
+<h2>Deployment Workflow Overview<a class="headerlink" href="#deployment-workflow-overview" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Environment Preparation<ul>
+<li>Prepare your environment (baremetal or virtual)</li>
+<li>Install undercloud</li>
+</ul>
+</li>
+<li>Undercloud Data Preparation<ul>
+<li>Create images to establish the overcloud</li>
+<li>Register hardware nodes with undercloud</li>
+<li>Introspect hardware</li>
+<li>Create flavors (node profiles)</li>
+</ul>
+</li>
+<li>Deployment Planning<ul>
+<li>Configure overcloud roles<ul>
+<li>Assign flavor (node profile to match desired hardware specs)</li>
+<li>Assign image (provisioning image)</li>
+<li>Size the role (how many instances to deploy)</li>
+</ul>
+</li>
+<li>Configure service parameters</li>
+<li>Create a Heat template describing the overcloud (auto-generated from above)</li>
+</ul>
+</li>
+<li>Deployment<ul>
+<li>Use Heat to deploy your template</li>
+<li>Heat will use Nova to identify and reserve the appropriate nodes</li>
+<li>Nova will use Ironic to startup nodes and install the correct images</li>
+</ul>
+</li>
+<li>Per-node Setup<ul>
+<li>When each node of the overcloud starts it will gather its configuration
+metadata from Heat Template configuration files</li>
+<li>Hiera files are distributed across all nodes and Heat applies puppet
+manifests to configure the services on the nodes</li>
+<li>Puppet runs in multiple steps, so that after each step there can be test
+triggered to check progress of the deployment and allow easier debugging.</li>
+</ul>
+</li>
+<li>Overcloud Initialization<ul>
+<li>Services on nodes of the overcloud are registered with Keystone</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="deployment-workflow-detail">
+<h2>Deployment Workflow Detail<a class="headerlink" href="#deployment-workflow-detail" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="environment-preparation">
+<h3>Environment Preparation<a class="headerlink" href="#environment-preparation" title="Permalink to this headline">¶</a></h3>
+<p>In the first place, you need to check that your environment is ready.
+TripleO can deploy OpenStack into baremetal as well as virtual environments.
+You need to make sure that your environment satisfies minimum requirements for
+given environment type and that networking is correctly set up.</p>
+<p>Next step is to install the undercloud. We install undercloud using <a class="reference external" href="https://github.com/rdo-management/instack-undercloud">Instack</a>&#8216;s script and it calls
+puppet scripts in the background. Upstream TripleO developers also use the
+developer-based steps known as <a class="reference external" href="http://docs.openstack.org/developer/tripleo-incubator/devtest.html">devtest</a>.</p>
+</div>
+<div class="section" id="undercloud-data-preparation">
+<h3>Undercloud Data Preparation<a class="headerlink" href="#undercloud-data-preparation" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="images">
+<h4>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h4>
+<p>Before deploying the overcloud, you must first download or build images which
+will be installed on each of the nodes of the overcloud. TripleO uses
+<a class="reference external" href="https://github.com/openstack/diskimage-builder">diskimage-builder</a> for
+building these so called &#8220;Golden Images&#8221;. The diskimage-builder tool takes a
+base image e.g. <a class="reference external" href="http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2">CentOS 7</a> and then layers additional software via
+configuration scripts (called elements) on top of that. The final result is a
+qcow2 formatted image with software installed but not configured.</p>
+<p>While the diskimage-builder repository provides operating-system specific
+elements, ones specific to OpenStack, e.g. nova-api, are found in
+<a class="reference external" href="https://github.com/openstack/tripleo-image-elements">tripleo-image-elements</a>.
+You can add different elements to an image to provide specific applications and
+services. Once all the images required to deploy the overcloud are built, they
+are stored in Glance running on the undercloud.</p>
+</div>
+<div class="section" id="nodes">
+<h4>Nodes<a class="headerlink" href="#nodes" title="Permalink to this headline">¶</a></h4>
+<p>Deploying the overcloud requires suitable hardware. The first task is to
+register the available hardware with Ironic, OpenStack&#8217;s equivalent of a
+hypervisor for managing baremetal servers. User can define the hardware
+attributes (such as number of CPUs, RAM, disk) manually or he can leave the
+fields out and run introspection of the nodes afterwards.</p>
+<p>The sequence of events is pictured below:</p>
+<img alt="../_images/introspection_diagram.png" src="../_images/introspection_diagram.png" />
+<ul class="simple">
+<li>The user, via the command-line tools, or through direct API calls,
+registers the power management credentials for a node with Ironic.</li>
+<li>The user then instructs Ironic to reboot the node.</li>
+<li>Because the node is new, and not already fully registered, there are no
+specific PXE-boot instructions for it. In that case, the default action is to
+boot into an introspection ramdisk</li>
+<li>The introspection ramdisk probes the hardware on the node and gathers facts,
+including the number of CPU cores, the local disk size and the amount of RAM.</li>
+<li>The ramdisk posts the facts to the ironic-inspector API.</li>
+<li>All facts are passed and stored in the Ironic database.</li>
+<li>There can be performed advanced role matching via the &#8216;&#8217;ahc-match&#8217;&#8217; tool,
+which simply adds an additional role categorization to Ironic based on
+introspected node facts and specified conditions.</li>
+</ul>
+</div>
+<div class="section" id="flavors">
+<h4>Flavors<a class="headerlink" href="#flavors" title="Permalink to this headline">¶</a></h4>
+<p>When users are creating virtual machines (VMs) in an OpenStack cloud, the flavor
+that they choose specifies the capacity of the VM which should be created. The
+flavor defines the CPU count, the amount of RAM, the amount of disk space etc.
+As long as the cloud has enough capacity to grant the user&#8217;s wish, and the user
+hasn&#8217;t reached their quota limit, the flavor acts as a set of instructions on
+exactly what kind of VM to create on the user&#8217;s behalf.</p>
+<p>In the undercloud, where the machines are usually physical rather than virtual
+(or, at least, pre-existing, rather than created on demand), flavors have
+a slightly different effect. Essentially, they act as a constraint. Of all of
+the introspected hardware, only nodes which match a specified flavor are
+suitable for a particular role. This can be used to ensure that the large
+machines with a great deal of RAM and CPU capacity are used to run Nova in the
+overcloud, and the smaller machines run less demanding services, such as
+Keystone.</p>
+<p>The version of TripleO included in TripleO is capable of handling flavors in
+two different modes.</p>
+<p>The simpler PoC (Proof of Concept) mode is intended to enable new users to
+experiment, without worrying about matching hardware profiles. In this mode,
+there&#8217;s one single, global flavor, and any hardware can match it. That
+effectively removes flavor matching. Users can use whatever hardware they wish.</p>
+<p>For the second mode, named Scale because it is suited to larger scale overcloud
+deployments, flavor matching is in full effect. A node will only be considered
+suitable for a given role if the role is associated with a flavor which matches
+the capacity of the node. Nodes without a matching flavor are effectively
+unusable.</p>
+<p>This second mode allows users to ensure that their different hardware types end
+up running their intended role, though requires either manual node tagging or
+using introspection rules to tag nodes (see
+<a class="reference internal" href="../advanced_deployment/profile_matching.html"><em>Advanced Profile Matching</em></a>).</p>
+</div>
+</div>
+<div class="section" id="deployment-planning">
+<h3>Deployment Planning<a class="headerlink" href="#deployment-planning" title="Permalink to this headline">¶</a></h3>
+<p>Whole part of planning your deployment is based on concept of <strong>overcloud
+roles</strong>. A role brings together following things:</p>
+<ul class="simple">
+<li>An image; the software to be installed on a node</li>
+<li>A flavor; the size of node suited to the role</li>
+<li>A size; number of instances which should be deployed having given role</li>
+<li>A set of heat templates; instructions on how to configure the node for its
+task</li>
+</ul>
+<p>In the case of the &#8220;Compute&#8221; role:</p>
+<ul class="simple">
+<li>the image must contain all the required software to boot an OS and then run
+the KVM hypervisor and the Nova compute service</li>
+<li>the flavor (at least for a deployment which isn&#8217;t a simple proof of concept),
+should specify that the machine has enough CPU capacity and RAM to host
+several VMs concurrently</li>
+<li>the Heat templates will take care of ensuring that the Nova service is
+correctly configured on each node when it first boots.</li>
+</ul>
+<p>Currently, the roles in TripleO are very prescriptive, and in particular
+individual services cannot easily be scaled independently of the Controller role
+(other than storage nodes). More flexibility in this regard is planned in a
+future release.</p>
+<p>Customizable things during deployment planning are:</p>
+<ul class="simple">
+<li>Number of nodes for each role</li>
+<li>Service parameters configuration</li>
+<li>Network configuration (NIC configuration options, isolated vs. single overlay)</li>
+<li>Ceph rbd backend options and defaults</li>
+<li>Ways to pass in extra configuration, e.g site-specific customizations</li>
+</ul>
+</div>
+<div class="section" id="deployment">
+<h3>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h3>
+<p>Deployment to physical servers happens through a collaboration of
+Heat, Nova, Neutron, Glance and Ironic.</p>
+<p>The Heat templates and environments are served to Heat which will
+orchestrate the whole deployment and it will create a stack. Stack is
+Heat&#8217;s own term for the applications that it creates. The overcloud,
+in Heat terms, is a particularly complex instance of a stack.</p>
+<p>In order for the stack to be deployed, Heat makes successive calls to Nova,
+OpenStack&#8217;s compute service controller. Nova depends upon Ironic, which, as
+described above has acquired an inventory of introspected hardware by this
+stage in the process.</p>
+<p>At this point, Nova flavors may act as a constraint, influencing the
+range of machines which may be picked for deployment by the Nova
+scheduler. For each request to deploy a new node with a specific role,
+Nova filters the list of available nodes, ensuring that the selected
+nodes meet the hardware requirements.</p>
+<p>Once the target node has been selected, Ironic does the actual provisioning of
+the node, Ironic retrieves the OS image associated with the role from Glance,
+causes the node to boot a deployment ramdisk and then, in the typical case,
+exports the node&#8217;s local disk over iSCSI so that the disk can be partitioned and
+the have the OS image written onto it by the Ironic Conductor.</p>
+<p>See Ironic&#8217;s <a class="reference external" href="http://docs.openstack.org/developer/ironic/deploy/user-guide.html#understanding-bare-metal-deployment">Understanding Baremetal Deployment</a>
+for further details.</p>
+</div>
+<div class="section" id="per-node-setup">
+<h3>Per-node Setup<a class="headerlink" href="#per-node-setup" title="Permalink to this headline">¶</a></h3>
+<p>TBD - Puppet</p>
+</div>
+<div class="section" id="overcloud-initialization">
+<h3>Overcloud Initialization<a class="headerlink" href="#overcloud-initialization" title="Permalink to this headline">¶</a></h3>
+<p>After the overcloud has been deployed, the initialization of OpenStack services
+(e.g Keystone, Neutron, etc) needs to occur. That is accomplished today by
+scripts in the <a class="reference external" href="https://github.com/openstack/tripleo-incubator">tripleo-incubator</a> source repository and it uses bits from <a class="reference external" href="https://github.com/openstack/os-cloud-config">os-cloud-config</a> which contains common code,
+the seed initialization logic, and the post heat completion initial
+configuration of a cloud. There are three primary steps to completing the
+initialization:</p>
+<ul class="simple">
+<li>Initializing Identity Services (Keystone)</li>
+<li>Registering service endpoints (e.g. Glance, Nova)</li>
+<li>Specify a block of IP addresses for overcloud instances (Neutron)</li>
+</ul>
+<p>The first step initializes Keystone for use with normal authentication by
+creating the admin and service tenants, the admin and Member roles, the admin
+user, configure certificates and finally registers the initial identity
+endpoint. The next step registers image, orchestration, network and compute
+services running on the default ports on the control plane node. Finally,
+Neutron is given a starting IP address, ending IP address, and a CIDR notation
+to represent the subnet for the block of floating IP addresses that will be
+used within the overcloud.</p>
+</div>
+</div>
+<div class="section" id="high-availability-ha">
+<h2>High Availability (HA)<a class="headerlink" href="#high-availability-ha" title="Permalink to this headline">¶</a></h2>
+<p>TripleO will use Pacemaker to achieve high-availability.</p>
+<p>Reference architecture document: <a class="reference external" href="https://github.com/beekhof/osp-ha-deploy">https://github.com/beekhof/osp-ha-deploy</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>Current HA solution is being developed by our community.</strong></p>
+</div>
+</div>
+<div class="section" id="managing-the-deployment">
+<h2>Managing the Deployment<a class="headerlink" href="#managing-the-deployment" title="Permalink to this headline">¶</a></h2>
+<p>After the overcloud deployment is completed, it will be possible to monitor,
+scale it out or perform basic maintenance operations via the CLI.</p>
+<div class="section" id="monitoring-the-overcloud">
+<h3>Monitoring the Overcloud<a class="headerlink" href="#monitoring-the-overcloud" title="Permalink to this headline">¶</a></h3>
+<p>When the overcloud is deployed, Ceilometer can be configured to track a set of
+OS metrics for each node (system load, CPU utilization, swap usage etc.)</p>
+<p>Additionally, Ironic exports IPMI metrics for nodes, which can also be stored in
+Ceilometer. This enables checks on hardware state such as fan operation/failure
+and internal chassis temperatures.</p>
+<p>The metrics which Ceilometer gathers can be queried for Ceilometer&#8217;s REST API,
+or by using the command line client.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There are plans to add more operational tooling to the future release.</p>
+</div>
+</div>
+<div class="section" id="scaling-out-the-overcloud">
+<h3>Scaling-out the Overcloud<a class="headerlink" href="#scaling-out-the-overcloud" title="Permalink to this headline">¶</a></h3>
+<p>The process of scaling out the overcloud by adding new nodes involves these
+stages:</p>
+<ul class="simple">
+<li>Making sure you have enough nodes to deploy on (or register new nodes as
+described in the &#8220;Undercloud Data Preparation&#8221; section above).</li>
+<li>Calling Heat to update the stack which will apply the set of changes to the
+overcloud.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h3>Table Of Contents</h3>
+            <ul><li><a href="../index.html">Return to project home page</a></li></ul>
+            <ul>
+<li><a class="reference internal" href="#">TripleO Architecture</a><ul>
+<li><a class="reference internal" href="#architecture-overview">Architecture Overview</a><ul>
+<li><a class="reference internal" href="#tripleo">TripleO</a></li>
+<li><a class="reference internal" href="#spinalstack-s-inspiration">SpinalStack&#8217;s Inspiration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#benefits">Benefits</a></li>
+<li><a class="reference internal" href="#deployment-workflow-overview">Deployment Workflow Overview</a></li>
+<li><a class="reference internal" href="#deployment-workflow-detail">Deployment Workflow Detail</a><ul>
+<li><a class="reference internal" href="#environment-preparation">Environment Preparation</a></li>
+<li><a class="reference internal" href="#undercloud-data-preparation">Undercloud Data Preparation</a><ul>
+<li><a class="reference internal" href="#images">Images</a></li>
+<li><a class="reference internal" href="#nodes">Nodes</a></li>
+<li><a class="reference internal" href="#flavors">Flavors</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deployment-planning">Deployment Planning</a></li>
+<li><a class="reference internal" href="#deployment">Deployment</a></li>
+<li><a class="reference internal" href="#per-node-setup">Per-node Setup</a></li>
+<li><a class="reference internal" href="#overcloud-initialization">Overcloud Initialization</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#high-availability-ha">High Availability (HA)</a></li>
+<li><a class="reference internal" href="#managing-the-deployment">Managing the Deployment</a><ul>
+<li><a class="reference internal" href="#monitoring-the-overcloud">Monitoring the Overcloud</a></li>
+<li><a class="reference internal" href="#scaling-out-the-overcloud">Scaling-out the Overcloud</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="introduction.html"
+                                  title="previous chapter">TripleO Introduction</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="components.html"
+                                  title="next chapter">TripleO Components</a></p>
+            <h3>Project Source</h3>
+            <ul class="this-page-menu">
+              <li><a href="http://git.openstack.org/cgit/michaelhenkel/contrail-tripleo-docu
+"
+                     rel="nofollow">Project Source</a></li>
+            </ul>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/introduction/architecture.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+  <div id="admonition_selector">
+    <span class="trigger">Limit Environment Specific Content</span>
+
+    <div class="content">
+      <span class="title">Operating Systems</span>
+      <ul>
+        <li><input type="checkbox" id="centos" checked="checked"><label for="centos" title="Step that should only be run when using CentOS.">CentOS</label></li>
+        <li><input type="checkbox" id="rhel" checked="checked"><label for="rhel" title="Step that should only be run when using RHEL.">RHEL</label></li>
+      </ul>
+
+      <span class="title">RHEL Registration Types</span>
+      <ul>
+        <li><input type="checkbox" id="portal" checked="checked"><label for="portal" title="Step that should only be run when registering to the Red Hat Portal.">Portal</label></li>
+        <li><input type="checkbox" id="satellite" checked="checked"><label for="satellite" title="Step that should only be run when registering to Red Hat Satellite.">Satellite</label></li>
+      </ul>
+
+      <span class="title">Environments</span>
+      <ul>
+        <li><input type="checkbox" id="baremetal" checked="checked"><label for="baremetal" title="Step that should only be run when deploying to baremetal.">Baremetal</label></li>
+        <li><input type="checkbox" id="virtual" checked="checked"><label for="virtual" title="Step that should only be run when deploying to virtual machines.">Virtual</label></li>
+        <li><input type="checkbox" id="ssl" checked="checked"><label for="ssl" title="Step that should only be run when deploying with SSL OpenStack endpoints.">SSL</label></li>
+        <li><input type="checkbox" id="selfsigned" checked="checked"><label for="selfsigned" title="Step that should only be run when deploying with SSL and a self-signed certificate.">Self-Signed SSL</label></li>
+      </ul>
+
+      <span class="title">Additional Overcloud Roles</span>
+      <ul>
+        <li><input type="checkbox" id="ceph" checked="checked"><label for="ceph" title="Step that should only be run when deploying Ceph for use by the Overcloud.">Ceph</label></li>
+      </ul>
+
+      <span class="title">Development options</span>
+      <ul>
+         <li><input type="checkbox" id="source" checked=""><label for="source"
+            title="Step that should only be run when choosing to use some components directly from their git source code repositories instead of packages.">Install from source</label></li>
+        <li><input type="checkbox" id="stable" checked=""><label for="stable"
+            title="Step that should only be run when choosing to use components from their stable branches rather than using packages/source based on current master.">Install from stable branch</label></li>
+      </ul>
+
+
+    </div>
+  </div>
+
+  
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="components.html" title="TripleO Components"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="TripleO Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">tripleo-docs 0.0.1.dev17 documentation</a> &raquo;</li>
+          <li><a href="introduction.html" accesskey="U">TripleO Introduction</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, OpenStack Foundation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/tripleo-docs");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

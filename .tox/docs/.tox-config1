@@ -1,0 +1,4 @@
+00000000000000000000000000000000 /usr/local/opt/python@2/bin/python2.7
+3.0.0 0 1 0
+00000000000000000000000000000000 -r/Users/mhenkel/contrail-tripleo-docu/test-requirements.txt
+00000000000000000000000000000000 -r/Users/mhenkel/contrail-tripleo-docu/requirements.txt

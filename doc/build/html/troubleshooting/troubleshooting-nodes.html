@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Troubleshooting Node Management Failures &mdash; tripleo-docs 0.0.1.dev17 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1.dev17',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/cookies.js"></script>
+    <script type="text/javascript" src="../_static/expandable.js"></script>
+    <script type="text/javascript" src="../_static/admonition_selector.js"></script>
+    <script type="text/javascript" src="../_static/jquery.scrollTo.js"></script>
+    <script type="text/javascript" src="../_static/jquery.nav.js"></script>
+    <script type="text/javascript" src="../_static/menu.js"></script>
+    <link rel="top" title="tripleo-docs 0.0.1.dev17 documentation" href="../index.html" /> 
+  </head>
+  <body>
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="troubleshooting-node-management-failures">
+<h1>Troubleshooting Node Management Failures<a class="headerlink" href="#troubleshooting-node-management-failures" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="where-are-the-logs">
+<h2>Where Are the Logs?<a class="headerlink" href="#where-are-the-logs" title="Permalink to this headline">¶</a></h2>
+<p>Some logs are stored in <em>journald</em>, but most are stored as text files in
+<tt class="docutils literal"><span class="pre">/var/log</span></tt>.  Ironic and ironic-inspector logs are stored in journald. Note
+that Ironic has 2 units: <tt class="docutils literal"><span class="pre">openstack-ironic-api</span></tt> and
+<tt class="docutils literal"><span class="pre">openstack-ironic-conductor</span></tt>. Similarly, ironic-inspector has
+<tt class="docutils literal"><span class="pre">openstack-ironic-inspector</span></tt> and <tt class="docutils literal"><span class="pre">openstack-ironic-inspector-dnsmasq</span></tt>.  So
+for example to get all ironic-inspector logs use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo journalctl -u openstack-ironic-inspector -u openstack-ironic-inspector-dnsmasq
+</pre></div>
+</div>
+<p>If something fails during the introspection ramdisk run, ironic-inspector
+stores the ramdisk logs in <tt class="docutils literal"><span class="pre">/var/log/ironic-inspector/ramdisk/</span></tt> as
+gz-compressed tar files. File names contain date, time and IPMI address of the
+node if it was detected (only for bare metal).</p>
+</div>
+<div class="section" id="node-registration-problems">
+<span id="id1"></span><h2>Node Registration Problems<a class="headerlink" href="#node-registration-problems" title="Permalink to this headline">¶</a></h2>
+<p>Any problems with node data registered into Ironic can be fixed using the
+Ironic CLI.</p>
+<p>For example, a wrong MAC can be fixed in two steps:</p>
+<ul>
+<li><p class="first">Find out the assigned port UUID by running</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ironic node-port-list &lt;NODE UUID&gt;
+</pre></div>
+</div>
+</li>
+<li><p class="first">Update the MAC address by running</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ironic port-update &lt;PORT UUID&gt; replace address=&lt;NEW MAC&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+<p>A Wrong IPMI address can be fixed with the following command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ironic node-update &lt;NODE UUID&gt; replace driver_info/ipmi_address=&lt;NEW IPMI ADDRESS&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="hardware-introspection-problems">
+<span id="introspection-problems"></span><h2>Hardware Introspection Problems<a class="headerlink" href="#hardware-introspection-problems" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="introspection-hangs-and-times-out">
+<h2>Introspection hangs and times out<a class="headerlink" href="#introspection-hangs-and-times-out" title="Permalink to this headline">¶</a></h2>
+<p>ironic-inspector times out introspection process after some time (defaulting to
+1 hour) if it never gets response from the introspection ramdisk.  This can be
+a sign of a bug in the introspection ramdisk, but usually it happens due to
+environment misconfiguration, particularly BIOS boot settings. Please refer to
+<a class="reference external" href="http://docs.openstack.org/developer/ironic-inspector/troubleshooting.html">ironic-inspector troubleshooting documentation</a> for information on how to
+detect and fix such problems.</p>
+<div class="section" id="accessing-the-ramdisk">
+<h3>Accessing the ramdisk<a class="headerlink" href="#accessing-the-ramdisk" title="Permalink to this headline">¶</a></h3>
+<p>Note that the introspection ramdisk is by default built with <a class="reference external" href="https://github.com/openstack/diskimage-builder/tree/master/elements/dynamic-login">the
+dynamic-login element</a>, so you can set up an SSH key and log into it for
+debugging.</p>
+<p>First, think of a temporary root password. Generate a hash by feeding it
+into <tt class="docutils literal"><span class="pre">openssl</span> <span class="pre">passwd</span> <span class="pre">-1</span></tt> command. Edit <tt class="docutils literal"><span class="pre">/httpboot/inspector.ipxe</span></tt>
+manually. Find the line starting with &#8220;kernel&#8221; and append rootpwd=&#8221;HASH&#8221; to it.
+Do not append the real password. Alternatively, you can append
+sshkey=&#8221;PUBLIC_SSH_KEY&#8221; with your public SSH key.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In both cases quotation marks are required!</p>
+</div>
+<p>When ramdisk is running, figure out its IP address by checking <tt class="docutils literal"><span class="pre">arp</span></tt> utility
+or DHCP logs from</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sudo journalctl -u openstack-ironic-inspector-dnsmasq
+</pre></div>
+</div>
+<p>SSH as a root user with the temporary password or the SSH key.</p>
+</div>
+<div class="section" id="accessing-logs-from-the-ramdisk">
+<h3>Accessing logs from the ramdisk<a class="headerlink" href="#accessing-logs-from-the-ramdisk" title="Permalink to this headline">¶</a></h3>
+<p>Introspection logs are saved on ramdisk failures. Starting with the Newton
+release, they are actually stored on all introspection failures. The standard
+location is <tt class="docutils literal"><span class="pre">/var/log/ironic-inspector/ramdisk</span></tt>, and the files there are
+actually <tt class="docutils literal"><span class="pre">tar.gz</span></tt> without an extension.</p>
+<p>To collect introspection logs in other cases, set
+<tt class="docutils literal"><span class="pre">always_store_ramdisk_logs</span> <span class="pre">=</span> <span class="pre">true</span></tt> in
+<tt class="docutils literal"><span class="pre">/etc/ironic-inspector/inspector.conf</span></tt>, restart the
+<tt class="docutils literal"><span class="pre">openstack-ironic-inspector</span></tt> service and retry the introspection.</p>
+</div>
+</div>
+<div class="section" id="refusing-to-introspect-node-with-provision-state-available">
+<h2>Refusing to introspect node with provision state &#8220;available&#8221;<a class="headerlink" href="#refusing-to-introspect-node-with-provision-state-available" title="Permalink to this headline">¶</a></h2>
+<p>If you&#8217;re running introspection directly using ironic-inspector CLI (or in case
+of bugs in our scripts), a node can be in the &#8220;AVAILABLE&#8221; state, which is meant
+for deployment, not for introspection. You should advance node to the
+&#8220;MANAGEABLE&#8221; state before introspection and move it back before deployment.
+Please refer to <a class="reference external" href="http://docs.openstack.org/developer/ironic-inspector/usage.html#node-states">upstream node states documentation</a>
+for information on how to fix it.</p>
+</div>
+<div class="section" id="how-can-introspection-be-stopped">
+<h2>How can introspection be stopped?<a class="headerlink" href="#how-can-introspection-be-stopped" title="Permalink to this headline">¶</a></h2>
+<p>Starting with the Mitaka release, introspection for a node can be stopped with
+the following command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>openstack baremetal introspection abort &lt;NODE UUID&gt;
+</pre></div>
+</div>
+<p>For older versions the recommended path is to wait until it times out.
+Changing <tt class="docutils literal"><span class="pre">timeout</span></tt> setting in <tt class="docutils literal"><span class="pre">/etc/ironic-inspector/inspector.conf</span></tt>
+may be used to reduce this timeout from 1 hour (which usually too much,
+especially on virtual environment).</p>
+<p>If you do need to stop introspection <strong>for all nodes</strong> right now, do the
+following for each node:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>ironic node-set-power-state UUID off
+</pre></div>
+</div>
+<p>then remove ironic-inspector cache, rebuild it and restart ironic-inspector:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>rm /var/lib/ironic-inspector/inspector.sqlite
+sudo ironic-inspector-dbsync --config-file /etc/ironic-inspector/inspector.conf upgrade
+sudo systemctl restart openstack-ironic-inspector
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h3>Table Of Contents</h3>
+            <ul><li><a href="../index.html">Return to project home page</a></li></ul>
+            <ul>
+<li><a class="reference internal" href="#">Troubleshooting Node Management Failures</a><ul>
+<li><a class="reference internal" href="#where-are-the-logs">Where Are the Logs?</a></li>
+<li><a class="reference internal" href="#node-registration-problems">Node Registration Problems</a></li>
+<li><a class="reference internal" href="#hardware-introspection-problems">Hardware Introspection Problems</a></li>
+<li><a class="reference internal" href="#introspection-hangs-and-times-out">Introspection hangs and times out</a><ul>
+<li><a class="reference internal" href="#accessing-the-ramdisk">Accessing the ramdisk</a></li>
+<li><a class="reference internal" href="#accessing-logs-from-the-ramdisk">Accessing logs from the ramdisk</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#refusing-to-introspect-node-with-provision-state-available">Refusing to introspect node with provision state &#8220;available&#8221;</a></li>
+<li><a class="reference internal" href="#how-can-introspection-be-stopped">How can introspection be stopped?</a></li>
+</ul>
+</li>
+</ul>
+
+            <h3>Project Source</h3>
+            <ul class="this-page-menu">
+              <li><a href="http://git.openstack.org/cgit/michaelhenkel/contrail-tripleo-docu
+"
+                     rel="nofollow">Project Source</a></li>
+            </ul>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/troubleshooting/troubleshooting-nodes.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+  <div id="admonition_selector">
+    <span class="trigger">Limit Environment Specific Content</span>
+
+    <div class="content">
+      <span class="title">Operating Systems</span>
+      <ul>
+        <li><input type="checkbox" id="centos" checked="checked"><label for="centos" title="Step that should only be run when using CentOS.">CentOS</label></li>
+        <li><input type="checkbox" id="rhel" checked="checked"><label for="rhel" title="Step that should only be run when using RHEL.">RHEL</label></li>
+      </ul>
+
+      <span class="title">RHEL Registration Types</span>
+      <ul>
+        <li><input type="checkbox" id="portal" checked="checked"><label for="portal" title="Step that should only be run when registering to the Red Hat Portal.">Portal</label></li>
+        <li><input type="checkbox" id="satellite" checked="checked"><label for="satellite" title="Step that should only be run when registering to Red Hat Satellite.">Satellite</label></li>
+      </ul>
+
+      <span class="title">Environments</span>
+      <ul>
+        <li><input type="checkbox" id="baremetal" checked="checked"><label for="baremetal" title="Step that should only be run when deploying to baremetal.">Baremetal</label></li>
+        <li><input type="checkbox" id="virtual" checked="checked"><label for="virtual" title="Step that should only be run when deploying to virtual machines.">Virtual</label></li>
+        <li><input type="checkbox" id="ssl" checked="checked"><label for="ssl" title="Step that should only be run when deploying with SSL OpenStack endpoints.">SSL</label></li>
+        <li><input type="checkbox" id="selfsigned" checked="checked"><label for="selfsigned" title="Step that should only be run when deploying with SSL and a self-signed certificate.">Self-Signed SSL</label></li>
+      </ul>
+
+      <span class="title">Additional Overcloud Roles</span>
+      <ul>
+        <li><input type="checkbox" id="ceph" checked="checked"><label for="ceph" title="Step that should only be run when deploying Ceph for use by the Overcloud.">Ceph</label></li>
+      </ul>
+
+      <span class="title">Development options</span>
+      <ul>
+         <li><input type="checkbox" id="source" checked=""><label for="source"
+            title="Step that should only be run when choosing to use some components directly from their git source code repositories instead of packages.">Install from source</label></li>
+        <li><input type="checkbox" id="stable" checked=""><label for="stable"
+            title="Step that should only be run when choosing to use components from their stable branches rather than using packages/source based on current master.">Install from stable branch</label></li>
+      </ul>
+
+
+    </div>
+  </div>
+
+  
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">tripleo-docs 0.0.1.dev17 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, OpenStack Foundation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/tripleo-docs");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Deploying with SSL &mdash; tripleo-docs 0.0.1.dev17 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1.dev17',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/cookies.js"></script>
+    <script type="text/javascript" src="../_static/expandable.js"></script>
+    <script type="text/javascript" src="../_static/admonition_selector.js"></script>
+    <script type="text/javascript" src="../_static/jquery.scrollTo.js"></script>
+    <script type="text/javascript" src="../_static/jquery.nav.js"></script>
+    <script type="text/javascript" src="../_static/menu.js"></script>
+    <link rel="top" title="tripleo-docs 0.0.1.dev17 documentation" href="../index.html" />
+    <link rel="up" title="Advanced Deployment" href="advanced_deployment.html" />
+    <link rel="next" title="Controlling Node Placement" href="node_placement.html" />
+    <link rel="prev" title="Configuring MidoNet as a Neutron Backend" href="neutron_midonet.html" /> 
+  </head>
+  <body>
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="deploying-with-ssl">
+<h1>Deploying with SSL<a class="headerlink" href="#deploying-with-ssl" title="Permalink to this headline">¶</a></h1>
+<p>TripleO supports deploying with SSL on the public OpenStack endpoints.
+The following explains how to enable that.</p>
+<div class="section" id="overcloud-ssl">
+<h2>Overcloud SSL<a class="headerlink" href="#overcloud-ssl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="public-vip-details">
+<h3>Public VIP Details<a class="headerlink" href="#public-vip-details" title="Permalink to this headline">¶</a></h3>
+<p>To start, it is necessary to have a predictable public VIP.  As of this
+writing, that means using network isolation.  With network isolation, the
+first address in the external network allocation range will be assigned
+as the public VIP.  For details on deploying with network isolation, see
+<a class="reference internal" href="network_isolation.html"><em>Configuring Network Isolation</em></a>.</p>
+<p>It is important that the public VIP be predictable because the SSL
+certificate&#8217;s Common Name must match the address of the configured
+overcloud public endpoints.  There are two ways to accomplish this:</p>
+<ol class="arabic simple">
+<li>The certificate&#8217;s Common Name can be set to the IP of the public
+VIP.  In this case, the Common Name must match <em>exactly</em>.  If the public
+VIP is <tt class="docutils literal"><span class="pre">10.0.0.1</span></tt>, the certificate&#8217;s Common Name must also be <tt class="docutils literal"><span class="pre">10.0.0.1</span></tt>.
+Wild cards will not work.</li>
+<li>The overcloud endpoints can be configured to point at
+a DNS name.  In this case, the certificate&#8217;s Common Name must be valid
+for the FQDN of the overcloud endpoints.  Wild cards should work fine.
+Note that this option also requires pre-configuration of the specified
+DNS server with the appropriate FQDN and public VIP.</li>
+</ol>
+</div>
+<div class="section" id="certificate-details">
+<h3>Certificate Details<a class="headerlink" href="#certificate-details" title="Permalink to this headline">¶</a></h3>
+<div class="selfsigned admonition">
+<p class="first admonition-title">Self-Signed SSL</p>
+<p>For the self-signed case, just the predictable public VIP method will
+be documented, as DNS configuration is outside the scope of this document.</p>
+<p>Generate a private key:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>openssl genrsa -out overcloud-privkey.pem 2048
+</pre></div>
+</div>
+<p>Generate a self-signed CA certificate.  This command will prompt for some
+identifying information.  Most of the fields don&#8217;t matter, but this
+is where the Common Name must be set to the first IP in the external
+network allocation pool:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>openssl req -new -x509 -key overcloud-privkey.pem -out overcloud-cacert.pem -days 365
+</pre></div>
+</div>
+<p>Add the self-signed CA certificate to the undercloud&#8217;s trusted certificate
+store.  Adding this file to the overcloud nodes will be discussed later:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span>sudo cp overcloud-cacert.pem /etc/pki/ca-trust/source/anchors/
+sudo update-ca-trust extract
+</pre></div>
+</div>
+</div>
+<p>The contents of the private key and CA certificate files must be provided
+to Heat as part of the deployment command.  To do this, there is a sample
+environment file in tripleo-heat-templates with fields for the file contents.</p>
+<p>It is generally recommended that the original copy of tripleo-heat-templates
+in <tt class="docutils literal"><span class="pre">/usr/share/openstack-tripleo-heat-templates</span></tt> not be altered, since it
+could be overwritten by a package update at any time.  Instead, make a copy
+of the templates:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>cp -r /usr/share/openstack-tripleo-heat-templates ~/ssl-heat-templates
+</pre></div>
+</div>
+<p>Then edit the enable-tls.yaml environment file.  If using the location from the
+previous command, the correct file would be in
+<tt class="docutils literal"><span class="pre">~/ssl-heat-templates/environments/enable-tls.yaml</span></tt>.  Insert the contents of
+the private key and CA certificate files in their respective locations.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The certificate and key will be multi-line values, and all of the lines
+must be indented to the same level.</p>
+</div>
+<p>An abbreviated version of how the file should look:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>parameter_defaults:
+    SSLCertificate: |
+    -----BEGIN CERTIFICATE-----
+    MIIDgzCCAmugAwIBAgIJAKk46qw6ncJaMA0GCSqGSIb3DQEBCwUAMFgxCzAJBgNV
+    [snip]
+    sFW3S2roS4X0Af/kSSD8mlBBTFTCMBAj6rtLBKLaQbIxEpIzrgvp
+    -----END CERTIFICATE-----
+[rest of file snipped]
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">SSLKey</span></tt> should look similar, except with the value of the private key.</p>
+<p><tt class="docutils literal"><span class="pre">SSLIntermediateCertificate</span></tt> can be set in the same way if the certificate
+signer uses an intermediate certificate.  Note that the <tt class="docutils literal"><span class="pre">|</span></tt> character must
+be added as in the other values to indicate that this is a multi-line value.</p>
+<p>When the certificate&#8217;s common name is set to the public VIP, all instances
+of <tt class="docutils literal"><span class="pre">CLOUDNAME</span></tt> in enable-tls.yaml must be replaced with <tt class="docutils literal"><span class="pre">IP_ADDRESS</span></tt>.
+This is not necessary when using a DNS name for the overcloud endpoints</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This command should be run exactly as shown below.  Do not replace
+<tt class="docutils literal"><span class="pre">IP_ADDRESS</span></tt> with an actual address.  Heat will insert the
+appropriate value at deploy time.</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>sed -i &#39;s/CLOUDNAME/IP_ADDRESS/&#39; ~/ssl-heat-templates/environments/enable-tls.yaml
+</pre></div>
+</div>
+<p>When using a self-signed certificate or a signer whose certificate is
+not in the default trust store on the overcloud image it will be necessary
+to inject the certificate as part of the deploy process.  This can be done
+with the environment file <tt class="docutils literal"><span class="pre">~/ssl-heat-templates/environments/inject-trust-anchor.yaml</span></tt>.
+Insert the contents of the signer&#8217;s root CA certificate in the appropriate
+location, in a similar fashion to what was done for the certificate and key
+above.</p>
+<div class="selfsigned admonition">
+<p class="first admonition-title">Self-Signed SSL</p>
+<p class="last">Injecting the root CA certificate is required for self-signed SSL.  The
+correct value to use is the contents of the <tt class="docutils literal"><span class="pre">overcloud-cacert.pem</span></tt> file.</p>
+</div>
+</div>
+<div class="section" id="dns-endpoint-configuration">
+<h3>DNS Endpoint Configuration<a class="headerlink" href="#dns-endpoint-configuration" title="Permalink to this headline">¶</a></h3>
+<p>When deploying with DNS endpoint addresses, two additional parameters must be
+passed in a Heat environment file.  These are <tt class="docutils literal"><span class="pre">CloudName</span></tt> and <tt class="docutils literal"><span class="pre">DnsServers</span></tt>.
+To do so, create a new file named something like <tt class="docutils literal"><span class="pre">cloudname.yaml</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>parameter_defaults:
+    CloudName: my-overcloud.my-domain.com
+    DnsServers: 10.0.0.1
+</pre></div>
+</div>
+<p>Replace the values with ones appropriate for the target environment.  Note that
+the configured DNS server(s) must have an entry for the configured <tt class="docutils literal"><span class="pre">CloudName</span></tt>
+that matches the public VIP.</p>
+</div>
+<div class="section" id="deploying-an-ssl-environment">
+<h3>Deploying an SSL Environment<a class="headerlink" href="#deploying-an-ssl-environment" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">enable-tls.yaml</span></tt> file must be passed to the overcloud deploy command to
+enable SSL on the public endpoints.  Include the following additional parameter
+in the overcloud deploy command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>-e ~/ssl-heat-templates/environments/enable-tls.yaml
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">inject-trust-anchor.yaml</span></tt> file must also be passed if a root certificate
+needs to be injected.  The additional parameters in that case would instead
+look like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>-e ~/ssl-heat-templates/environments/enable-tls.yaml -e ~/ssl-heat-templates/environments/inject-trust-anchor.yaml
+</pre></div>
+</div>
+<p>When DNS endpoints are being used, the <tt class="docutils literal"><span class="pre">cloudname.yaml</span></tt> file must also be passed.
+The additional parameters would be (<tt class="docutils literal"><span class="pre">inject-trust-anchor.yaml</span></tt> may also be used
+if it is needed for the configured certificate):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>-e ~/ssl-heat-templates/environments/enable-tls.yaml -e ~/cloudname.yaml [-e ~/ssl-heat-templates/environments/inject-trust-anchor.yaml]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h3>Table Of Contents</h3>
+            <ul><li><a href="../index.html">Return to project home page</a></li></ul>
+            <ul>
+<li><a class="reference internal" href="#">Deploying with SSL</a><ul>
+<li><a class="reference internal" href="#overcloud-ssl">Overcloud SSL</a><ul>
+<li><a class="reference internal" href="#public-vip-details">Public VIP Details</a></li>
+<li><a class="reference internal" href="#certificate-details">Certificate Details</a></li>
+<li><a class="reference internal" href="#dns-endpoint-configuration">DNS Endpoint Configuration</a></li>
+<li><a class="reference internal" href="#deploying-an-ssl-environment">Deploying an SSL Environment</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="neutron_midonet.html"
+                                  title="previous chapter">Configuring MidoNet as a Neutron Backend</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="node_placement.html"
+                                  title="next chapter">Controlling Node Placement</a></p>
+            <h3>Project Source</h3>
+            <ul class="this-page-menu">
+              <li><a href="http://git.openstack.org/cgit/michaelhenkel/contrail-tripleo-docu
+"
+                     rel="nofollow">Project Source</a></li>
+            </ul>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/advanced_deployment/ssl.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+  <div id="admonition_selector">
+    <span class="trigger">Limit Environment Specific Content</span>
+
+    <div class="content">
+      <span class="title">Operating Systems</span>
+      <ul>
+        <li><input type="checkbox" id="centos" checked="checked"><label for="centos" title="Step that should only be run when using CentOS.">CentOS</label></li>
+        <li><input type="checkbox" id="rhel" checked="checked"><label for="rhel" title="Step that should only be run when using RHEL.">RHEL</label></li>
+      </ul>
+
+      <span class="title">RHEL Registration Types</span>
+      <ul>
+        <li><input type="checkbox" id="portal" checked="checked"><label for="portal" title="Step that should only be run when registering to the Red Hat Portal.">Portal</label></li>
+        <li><input type="checkbox" id="satellite" checked="checked"><label for="satellite" title="Step that should only be run when registering to Red Hat Satellite.">Satellite</label></li>
+      </ul>
+
+      <span class="title">Environments</span>
+      <ul>
+        <li><input type="checkbox" id="baremetal" checked="checked"><label for="baremetal" title="Step that should only be run when deploying to baremetal.">Baremetal</label></li>
+        <li><input type="checkbox" id="virtual" checked="checked"><label for="virtual" title="Step that should only be run when deploying to virtual machines.">Virtual</label></li>
+        <li><input type="checkbox" id="ssl" checked="checked"><label for="ssl" title="Step that should only be run when deploying with SSL OpenStack endpoints.">SSL</label></li>
+        <li><input type="checkbox" id="selfsigned" checked="checked"><label for="selfsigned" title="Step that should only be run when deploying with SSL and a self-signed certificate.">Self-Signed SSL</label></li>
+      </ul>
+
+      <span class="title">Additional Overcloud Roles</span>
+      <ul>
+        <li><input type="checkbox" id="ceph" checked="checked"><label for="ceph" title="Step that should only be run when deploying Ceph for use by the Overcloud.">Ceph</label></li>
+      </ul>
+
+      <span class="title">Development options</span>
+      <ul>
+         <li><input type="checkbox" id="source" checked=""><label for="source"
+            title="Step that should only be run when choosing to use some components directly from their git source code repositories instead of packages.">Install from source</label></li>
+        <li><input type="checkbox" id="stable" checked=""><label for="stable"
+            title="Step that should only be run when choosing to use components from their stable branches rather than using packages/source based on current master.">Install from stable branch</label></li>
+      </ul>
+
+
+    </div>
+  </div>
+
+  
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="node_placement.html" title="Controlling Node Placement"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="neutron_midonet.html" title="Configuring MidoNet as a Neutron Backend"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">tripleo-docs 0.0.1.dev17 documentation</a> &raquo;</li>
+          <li><a href="advanced_deployment.html" accesskey="U">Advanced Deployment</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, OpenStack Foundation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/tripleo-docs");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>
