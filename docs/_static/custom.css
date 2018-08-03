@@ -25,3 +25,11 @@
   background: #da858d;
   background-color: #ffe8e8;
 }
+
+.admonition.admonition-red {
+  padding: 12px;
+  line-height: 24px;
+  margin-bottom: 24px;
+  background: #da858d;
+  background-color: #ffe8e8;
+}
