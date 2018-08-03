@@ -27,6 +27,10 @@
   margin-bottom: 24px;
 }
 
+.admonition-green {
+  background-color: #ffe8e8;
+}
+
 .admonition p {
   font-size: 76%
 }
