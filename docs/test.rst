@@ -22,7 +22,7 @@ test
    Step that should only be run when using RHEL Portal Registration
 
 .. admonition:: RHEL Satellite Registration
-   :class: satellite
+   :class: rhel
 
    Step that should only be run when using RHEL Satellite Registration
 
