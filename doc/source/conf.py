@@ -28,8 +28,7 @@ import sphinx_rtd_theme
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.intersphinx',
-    'oslosphinx'
+    'sphinx.ext.intersphinx'
 ]
 
 
