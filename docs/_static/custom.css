@@ -25,11 +25,19 @@
   background-color: #ff9fb1;
 }
 
+.admonition p.first.admonition-title {
+  background: #e05353;
+}
+
 .admonition.green {
   padding: 12px;
   line-height: 24px;
   margin-bottom: 24px;
   background-color: #05de0d;
+}
+
+.admonition p.first.admonition-title {
+  background: #31840f;
 }
 
 .admonition.violet {
