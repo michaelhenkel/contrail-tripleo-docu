@@ -1,9 +1,0 @@
-README.rst
-setup.cfg
-tripleo_docs.egg-info/PKG-INFO
-tripleo_docs.egg-info/SOURCES.txt
-tripleo_docs.egg-info/dependency_links.txt
-tripleo_docs.egg-info/not-zip-safe
-tripleo_docs.egg-info/pbr.json
-tripleo_docs.egg-info/requires.txt
-tripleo_docs.egg-info/top_level.txt
