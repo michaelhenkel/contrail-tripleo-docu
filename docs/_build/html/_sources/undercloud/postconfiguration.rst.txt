@@ -4,8 +4,8 @@ Post Configuration
 
 .. contents:: Table of Contents
 
-Undercloud Post Comfigration
-=======================================
+Undercloud Post Configuration
+=============================
 
 Configure forwarding
 --------------------

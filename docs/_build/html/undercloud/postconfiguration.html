@@ -40,7 +40,7 @@
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#post-configuration" id="id1">Post Configuration</a><ul>
-<li><a class="reference internal" href="#undercloud-post-comfigration" id="id2">Undercloud Post Comfigration</a><ul>
+<li><a class="reference internal" href="#undercloud-post-configuration" id="id2">Undercloud Post Configuration</a><ul>
 <li><a class="reference internal" href="#configure-forwarding" id="id3">Configure forwarding</a></li>
 <li><a class="reference internal" href="#add-external-api-interface" id="id4">Add external api interface</a></li>
 <li><a class="reference internal" href="#add-stack-user-to-docker-group" id="id5">Add stack user to docker group</a></li>
@@ -50,8 +50,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="undercloud-post-comfigration">
-<h2><a class="toc-backref" href="#id2">Undercloud Post Comfigration</a><a class="headerlink" href="#undercloud-post-comfigration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="undercloud-post-configuration">
+<h2><a class="toc-backref" href="#id2">Undercloud Post Configuration</a><a class="headerlink" href="#undercloud-post-configuration" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="configure-forwarding">
 <h3><a class="toc-backref" href="#id3">Configure forwarding</a><a class="headerlink" href="#configure-forwarding" title="Permalink to this headline">¶</a></h3>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">A</span> <span class="n">FORWARD</span> <span class="o">-</span><span class="n">i</span> <span class="n">br</span><span class="o">-</span><span class="n">ctlplane</span> <span class="o">-</span><span class="n">o</span> <span class="n">eth0</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
@@ -90,7 +90,7 @@
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Post Configuration</a><ul>
-<li><a class="reference internal" href="#undercloud-post-comfigration">Undercloud Post Comfigration</a><ul>
+<li><a class="reference internal" href="#undercloud-post-configuration">Undercloud Post Configuration</a><ul>
 <li><a class="reference internal" href="#configure-forwarding">Configure forwarding</a></li>
 <li><a class="reference internal" href="#add-external-api-interface">Add external api interface</a></li>
 <li><a class="reference internal" href="#add-stack-user-to-docker-group">Add stack user to docker group</a></li>
