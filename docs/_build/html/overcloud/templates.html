@@ -226,8 +226,160 @@ way of customizing the network. In this example the following networks are used:
 <p>There are NIC configuration files per role.</p>
 <div class="section" id="openstack-controller">
 <h4><a class="toc-backref" href="#id5">OpenStack Controller</a><a class="headerlink" href="#openstack-controller" title="Permalink to this headline">¶</a></h4>
-<p></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/tripleo-heat-templates/network/config/contrail
+</pre></div>
+</div>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="ss">heat_template_version</span><span class="p">:</span> <span class="n">queens</span>
+
+<span class="ss">description</span><span class="p">:</span> <span class="o">&gt;</span>
+  <span class="no">Software</span> <span class="no">Config</span> <span class="n">to</span> <span class="n">drive</span> <span class="n">os</span><span class="o">-</span><span class="n">net</span><span class="o">-</span><span class="n">config</span> <span class="n">to</span> <span class="n">configure</span> <span class="n">multiple</span> <span class="n">interfaces</span>
+  <span class="k">for</span> <span class="n">the</span> <span class="n">compute</span> <span class="n">role</span><span class="o">.</span> <span class="no">This</span> <span class="n">is</span> <span class="n">an</span> <span class="n">example</span> <span class="k">for</span> <span class="n">a</span> <span class="no">Nova</span> <span class="n">compute</span> <span class="n">node</span> <span class="n">using</span>
+  <span class="no">Contrail</span> <span class="n">vrouter</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">vhost0</span> <span class="n">interface</span><span class="o">.</span>
+
+<span class="ss">parameters</span><span class="p">:</span>
+  <span class="ss">ControlPlaneIp</span><span class="p">:</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">IP</span> <span class="n">address</span><span class="o">/</span><span class="n">subnet</span> <span class="n">on</span> <span class="n">the</span> <span class="n">ctlplane</span> <span class="n">network</span>
+<span class="hll">    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+</span>  <span class="ss">ExternalIpSubnet</span><span class="p">:</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+<span class="hll">    <span class="ss">description</span><span class="p">:</span> <span class="no">IP</span> <span class="n">address</span><span class="o">/</span><span class="n">subnet</span> <span class="n">on</span> <span class="n">the</span> <span class="n">external</span> <span class="n">network</span>
+</span><span class="hll">    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+</span><span class="hll">  <span class="ss">InternalApiIpSubnet</span><span class="p">:</span>
+</span><span class="hll">    <span class="ss">default</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+</span>    <span class="ss">description</span><span class="p">:</span> <span class="no">IP</span> <span class="n">address</span><span class="o">/</span><span class="n">subnet</span> <span class="n">on</span> <span class="n">the</span> <span class="n">internal_api</span> <span class="n">network</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+  <span class="ss">InternalApiDefaultRoute</span><span class="p">:</span> <span class="c1"># Not used by default in this template</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="s1">&#39;10.0.0.1&#39;</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">The</span> <span class="n">default</span> <span class="n">route</span> <span class="n">of</span> <span class="n">the</span> <span class="n">internal</span> <span class="n">api</span> <span class="n">network</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+  <span class="ss">StorageIpSubnet</span><span class="p">:</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">IP</span> <span class="n">address</span><span class="o">/</span><span class="n">subnet</span> <span class="n">on</span> <span class="n">the</span> <span class="n">storage</span> <span class="n">network</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+  <span class="ss">StorageMgmtIpSubnet</span><span class="p">:</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">IP</span> <span class="n">address</span><span class="o">/</span><span class="n">subnet</span> <span class="n">on</span> <span class="n">the</span> <span class="n">storage_mgmt</span> <span class="n">network</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+  <span class="ss">TenantIpSubnet</span><span class="p">:</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">IP</span> <span class="n">address</span><span class="o">/</span><span class="n">subnet</span> <span class="n">on</span> <span class="n">the</span> <span class="n">tenant</span> <span class="n">network</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+  <span class="ss">ManagementIpSubnet</span><span class="p">:</span> <span class="c1"># Only populated when including environments/network-management.yaml</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">IP</span> <span class="n">address</span><span class="o">/</span><span class="n">subnet</span> <span class="n">on</span> <span class="n">the</span> <span class="n">management</span> <span class="n">network</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+  <span class="ss">ExternalNetworkVlanID</span><span class="p">:</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">Vlan</span> <span class="no">ID</span> <span class="k">for</span> <span class="n">the</span> <span class="n">external</span> <span class="n">network</span> <span class="n">traffic</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">number</span>
+  <span class="ss">InternalApiNetworkVlanID</span><span class="p">:</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="mi">20</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">Vlan</span> <span class="no">ID</span> <span class="k">for</span> <span class="n">the</span> <span class="n">internal_api</span> <span class="n">network</span> <span class="n">traffic</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">number</span>
+  <span class="ss">StorageNetworkVlanID</span><span class="p">:</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="mi">30</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">Vlan</span> <span class="no">ID</span> <span class="k">for</span> <span class="n">the</span> <span class="n">storage</span> <span class="n">network</span> <span class="n">traffic</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">number</span>
+  <span class="ss">StorageMgmtNetworkVlanID</span><span class="p">:</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="mi">40</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">Vlan</span> <span class="no">ID</span> <span class="k">for</span> <span class="n">the</span> <span class="n">storage</span> <span class="n">mgmt</span> <span class="n">network</span> <span class="n">traffic</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">number</span>
+  <span class="ss">TenantNetworkVlanID</span><span class="p">:</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="mi">50</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">Vlan</span> <span class="no">ID</span> <span class="k">for</span> <span class="n">the</span> <span class="n">tenant</span> <span class="n">network</span> <span class="n">traffic</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">number</span>
+  <span class="ss">ManagementNetworkVlanID</span><span class="p">:</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="mi">60</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">Vlan</span> <span class="no">ID</span> <span class="k">for</span> <span class="n">the</span> <span class="n">management</span> <span class="n">network</span> <span class="n">traffic</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">number</span>
+  <span class="ss">ControlPlaneSubnetCidr</span><span class="p">:</span> <span class="c1"># Override this via parameter_defaults</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="s1">&#39;24&#39;</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">The</span> <span class="n">subnet</span> <span class="no">CIDR</span> <span class="n">of</span> <span class="n">the</span> <span class="n">control</span> <span class="n">plane</span> <span class="n">network</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+  <span class="ss">ControlPlaneDefaultRoute</span><span class="p">:</span> <span class="c1"># Override this via parameter_defaults</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">The</span> <span class="n">default</span> <span class="n">route</span> <span class="n">of</span> <span class="n">the</span> <span class="n">control</span> <span class="n">plane</span> <span class="n">network</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+  <span class="ss">ExternalInterfaceDefaultRoute</span><span class="p">:</span> <span class="c1"># Not used by default in this template</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="s1">&#39;10.0.0.1&#39;</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">The</span> <span class="n">default</span> <span class="n">route</span> <span class="n">of</span> <span class="n">the</span> <span class="n">external</span> <span class="n">network</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+  <span class="ss">ManagementInterfaceDefaultRoute</span><span class="p">:</span> <span class="c1"># Commented out by default in this template</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="n">unset</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">The</span> <span class="n">default</span> <span class="n">route</span> <span class="n">of</span> <span class="n">the</span> <span class="n">management</span> <span class="n">network</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+  <span class="ss">DnsServers</span><span class="p">:</span> <span class="c1"># Override this via parameter_defaults</span>
+    <span class="ss">default</span><span class="p">:</span> <span class="o">[]</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="n">A</span> <span class="n">list</span> <span class="n">of</span> <span class="no">DNS</span> <span class="n">servers</span> <span class="p">(</span><span class="mi">2</span> <span class="n">max</span> <span class="k">for</span> <span class="n">some</span> <span class="n">implementations</span><span class="p">)</span> <span class="n">that</span> <span class="n">will</span> <span class="n">be</span> <span class="n">added</span> <span class="n">to</span> <span class="n">resolv</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">comma_delimited_list</span>
+  <span class="ss">EC2MetadataIp</span><span class="p">:</span> <span class="c1"># Override this via parameter_defaults</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">The</span> <span class="no">IP</span> <span class="n">address</span> <span class="n">of</span> <span class="n">the</span> <span class="no">EC2</span> <span class="n">metadata</span> <span class="n">server</span><span class="o">.</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="n">string</span>
+
+<span class="ss">resources</span><span class="p">:</span>
+  <span class="ss">OsNetConfigImpl</span><span class="p">:</span>
+    <span class="ss">type</span><span class="p">:</span> <span class="no">OS</span><span class="o">::</span><span class="no">Heat</span><span class="o">::</span><span class="no">SoftwareConfig</span>
+    <span class="ss">properties</span><span class="p">:</span>
+      <span class="ss">group</span><span class="p">:</span> <span class="n">script</span>
+      <span class="ss">config</span><span class="p">:</span>
+        <span class="ss">str_replace</span><span class="p">:</span>
+          <span class="ss">template</span><span class="p">:</span>
+            <span class="ss">get_file</span><span class="p">:</span> <span class="o">../../</span><span class="n">scripts</span><span class="o">/</span><span class="n">run</span><span class="o">-</span><span class="n">os</span><span class="o">-</span><span class="n">net</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">sh</span>
+          <span class="ss">params</span><span class="p">:</span>
+            <span class="vg">$network_config</span><span class="p">:</span>
+              <span class="ss">network_config</span><span class="p">:</span>
+              <span class="o">-</span> <span class="ss">type</span><span class="p">:</span> <span class="n">interface</span>
+                <span class="nb">name</span><span class="p">:</span> <span class="n">nic1</span>
+                <span class="ss">use_dhcp</span><span class="p">:</span> <span class="kp">false</span>
+                <span class="ss">dns_servers</span><span class="p">:</span>
+                  <span class="ss">get_param</span><span class="p">:</span> <span class="no">DnsServers</span>
+                <span class="ss">addresses</span><span class="p">:</span>
+                <span class="o">-</span> <span class="ss">ip_netmask</span><span class="p">:</span>
+                    <span class="ss">list_join</span><span class="p">:</span>
+                      <span class="o">-</span> <span class="s1">&#39;/&#39;</span>
+                      <span class="o">-</span> <span class="o">-</span> <span class="ss">get_param</span><span class="p">:</span> <span class="no">ControlPlaneIp</span>
+                        <span class="o">-</span> <span class="ss">get_param</span><span class="p">:</span> <span class="no">ControlPlaneSubnetCidr</span>
+                <span class="ss">routes</span><span class="p">:</span>
+                <span class="o">-</span> <span class="ss">ip_netmask</span><span class="p">:</span> <span class="mi">169</span><span class="o">.</span><span class="mi">254</span><span class="o">.</span><span class="mi">169</span><span class="o">.</span><span class="mi">254</span><span class="o">/</span><span class="mi">32</span>
+                  <span class="ss">next_hop</span><span class="p">:</span>
+                    <span class="ss">get_param</span><span class="p">:</span> <span class="no">EC2MetadataIp</span>
+                <span class="o">-</span> <span class="ss">default</span><span class="p">:</span> <span class="kp">true</span>
+                  <span class="ss">next_hop</span><span class="p">:</span>
+                    <span class="ss">get_param</span><span class="p">:</span> <span class="no">ControlPlaneDefaultRoute</span>
+              <span class="o">-</span> <span class="ss">type</span><span class="p">:</span> <span class="n">vlan</span>
+                <span class="ss">vlan_id</span><span class="p">:</span>
+                  <span class="ss">get_param</span><span class="p">:</span> <span class="no">InternalApiNetworkVlanID</span>
+                <span class="ss">device</span><span class="p">:</span> <span class="n">nic1</span>
+                <span class="ss">addresses</span><span class="p">:</span>
+                <span class="o">-</span> <span class="ss">ip_netmask</span><span class="p">:</span>
+                    <span class="ss">get_param</span><span class="p">:</span> <span class="no">InternalApiIpSubnet</span>
+              <span class="o">-</span> <span class="ss">type</span><span class="p">:</span> <span class="n">vlan</span>
+                <span class="ss">vlan_id</span><span class="p">:</span>
+                  <span class="ss">get_param</span><span class="p">:</span> <span class="no">ExternalNetworkVlanID</span>
+                <span class="ss">device</span><span class="p">:</span> <span class="n">nic1</span>
+                <span class="ss">addresses</span><span class="p">:</span>
+                <span class="o">-</span> <span class="ss">ip_netmask</span><span class="p">:</span>
+                    <span class="ss">get_param</span><span class="p">:</span> <span class="no">ExternalIpSubnet</span>
+              <span class="o">-</span> <span class="ss">type</span><span class="p">:</span> <span class="n">vlan</span>
+                <span class="ss">vlan_id</span><span class="p">:</span>
+                  <span class="ss">get_param</span><span class="p">:</span> <span class="no">StorageNetworkVlanID</span>
+                <span class="ss">device</span><span class="p">:</span> <span class="n">nic1</span>
+                <span class="ss">addresses</span><span class="p">:</span>
+                <span class="o">-</span> <span class="ss">ip_netmask</span><span class="p">:</span>
+                    <span class="ss">get_param</span><span class="p">:</span> <span class="no">StorageIpSubnet</span>
+              <span class="o">-</span> <span class="ss">type</span><span class="p">:</span> <span class="n">vlan</span>
+                <span class="ss">vlan_id</span><span class="p">:</span>
+                  <span class="ss">get_param</span><span class="p">:</span> <span class="no">StorageMgmtNetworkVlanID</span>
+                <span class="ss">device</span><span class="p">:</span> <span class="n">nic1</span>
+                <span class="ss">addresses</span><span class="p">:</span>
+                <span class="o">-</span> <span class="ss">ip_netmask</span><span class="p">:</span>
+                    <span class="ss">get_param</span><span class="p">:</span> <span class="no">StorageMgmtIpSubnet</span>
+
+<span class="ss">outputs</span><span class="p">:</span>
+  <span class="no">OS</span><span class="o">::</span><span class="ss">stack_id</span><span class="p">:</span>
+    <span class="ss">description</span><span class="p">:</span> <span class="no">The</span> <span class="no">OsNetConfigImpl</span> <span class="n">resource</span><span class="o">.</span>
+    <span class="ss">value</span><span class="p">:</span>
+      <span class="ss">get_resource</span><span class="p">:</span> <span class="no">OsNetConfigImpl</span>
 </pre></div>
 </div>
 <div class="admonition note">

@@ -156,11 +156,13 @@ There are NIC configuration files per role.
 OpenStack Controller
 ^^^^^^^^^^^^^^^^^^^^
 
-.. autoyaml:: docs/overcloud/nics/compute-nic-config.yaml
-
 .. code-block:: bash
 
    cd ~/tripleo-heat-templates/network/config/contrail
+
+.. literalinclude:: nics/controller-nic-config.yaml
+   :language: ruby
+   :emphasize-lines: 12,15-18
 
 .. note:: cd ~/tripleo-heat-templates/network/config/contrail
 
