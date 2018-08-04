@@ -41,7 +41,8 @@ release = u'queens'
 # ones.
 extensions = [
     'sphinx.ext.githubpages',
-    'sphinx.ext.intersphinx'
+    'sphinx.ext.intersphinx',
+    'sphinxcontrib.autoyaml'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

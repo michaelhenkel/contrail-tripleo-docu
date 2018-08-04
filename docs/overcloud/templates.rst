@@ -156,7 +156,7 @@ There are NIC configuration files per role.
 OpenStack Controller
 ^^^^^^^^^^^^^^^^^^^^
 
-.. autoyaml:: nics/compute-nic-config.yaml
+.. autoyaml:: docs/overcloud/nics/compute-nic-config.yaml
 
 .. code-block:: bash
 
