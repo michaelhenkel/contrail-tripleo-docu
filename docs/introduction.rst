@@ -10,6 +10,7 @@ The document is split into three main sections:
 1. Infrastructure:
 
 This section describes the setup of all infrastructure components
+
    - Physical switches
    - KVM hosts hosting the Under- and Overcloud virtual machines
 
