@@ -153,19 +153,42 @@ Network interface configuration
 
 There are NIC configuration files per role.
 
-OpenStack Controller
-^^^^^^^^^^^^^^^^^^^^
-
 .. code-block:: bash
 
    cd ~/tripleo-heat-templates/network/config/contrail
 
+OpenStack Controller
+^^^^^^^^^^^^^^^^^^^^
+
 .. literalinclude:: nics/controller-nic-config.yaml
-   :language: ruby
-   :emphasize-lines: 12,15-18
+   :language: yaml
 
-.. note:: cd ~/tripleo-heat-templates/network/config/contrail
+Contrail Controller
+^^^^^^^^^^^^^^^^^^^
 
-  .. admonition:: OpenStack Controller
+.. literalinclude:: nics/contrail-controller-nic-config.yaml
+   :language: yaml
 
-    :doc:`nics/controller-nic-config`
+Compute Node
+^^^^^^^^^^^^
+
+.. literalinclude:: nics/compute-nic-config.yaml
+   :language: yaml
+
+Compute DPDK
+^^^^^^^^^^^^
+
+.. literalinclude:: nics/contrail-dpdk-nic-config.yaml
+   :language: yaml
+
+Compute SRIOV
+^^^^^^^^^^^^^
+
+.. literalinclude:: nics/controller-nic-config.yaml
+   :language: yaml
+
+CSN
+^^^
+
+.. literalinclude:: nics/contrail-tsn-nic-config.yaml
+   :language: yaml
