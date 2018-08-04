@@ -16,7 +16,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="installation.html" />
+    <link rel="next" title="Installation" href="installation.html" />
     <link rel="prev" title="Configuration" href="../infrastructure/configuration.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -40,22 +40,20 @@
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#configuration" id="id1">Configuration</a><ul>
-<li><a class="reference internal" href="#undercloud-installation-configuration" id="id2">Undercloud installation &amp; configuration</a><ul>
+<li><a class="reference internal" href="#undercloud-configuration" id="id2">Undercloud configuration</a><ul>
 <li><a class="reference internal" href="#login-to-the-undercloud-vm-from-the-undercloud-kvm-host" id="id3">Login to the Undercloud VM (from the Undercloud KVM host)</a></li>
 <li><a class="reference internal" href="#hostname-configuration" id="id4">Hostname configuration</a></li>
 <li><a class="reference internal" href="#setup-repositories" id="id5">Setup repositories</a></li>
-<li><a class="reference internal" href="#install-the-undercloud" id="id6">Install the Undercloud</a></li>
-<li><a class="reference internal" href="#configure-forwarding" id="id7">Configure forwarding</a></li>
-<li><a class="reference internal" href="#add-external-api-interface" id="id8">Add external api interface</a></li>
-<li><a class="reference internal" href="#add-stack-user-to-docker-group" id="id9">Add stack user to docker group</a></li>
+<li><a class="reference internal" href="#install-tripleo-client" id="id6">Install Tripleo client</a></li>
+<li><a class="reference internal" href="#copy-undercloud-conf" id="id7">Copy undercloud.conf</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="undercloud-installation-configuration">
-<h2><a class="toc-backref" href="#id2">Undercloud installation &amp; configuration</a><a class="headerlink" href="#undercloud-installation-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="undercloud-configuration">
+<h2><a class="toc-backref" href="#id2">Undercloud configuration</a><a class="headerlink" href="#undercloud-configuration" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="login-to-the-undercloud-vm-from-the-undercloud-kvm-host">
 <h3><a class="toc-backref" href="#id3">Login to the Undercloud VM (from the Undercloud KVM host)</a><a class="headerlink" href="#login-to-the-undercloud-vm-from-the-undercloud-kvm-host" title="Permalink to this headline">¶</a></h3>
 <blockquote>
@@ -111,38 +109,16 @@ subscription-manager register --activationkey=${act_key} --org=${org}
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="install-the-undercloud">
-<h3><a class="toc-backref" href="#id6">Install the Undercloud</a><a class="headerlink" href="#install-the-undercloud" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="install-tripleo-client">
+<h3><a class="toc-backref" href="#id6">Install Tripleo client</a><a class="headerlink" href="#install-tripleo-client" title="Permalink to this headline">¶</a></h3>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">python</span><span class="o">-</span><span class="n">tripleoclient</span> <span class="n">tmux</span>
-<span class="n">su</span> <span class="o">-</span> <span class="n">stack</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="copy-undercloud-conf">
+<h3><a class="toc-backref" href="#id7">Copy undercloud.conf</a><a class="headerlink" href="#copy-undercloud-conf" title="Permalink to this headline">¶</a></h3>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">su</span> <span class="o">-</span> <span class="n">stack</span>
 <span class="n">cp</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">instack</span><span class="o">-</span><span class="n">undercloud</span><span class="o">/</span><span class="n">undercloud</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">sample</span> <span class="o">~/</span><span class="n">undercloud</span><span class="o">.</span><span class="n">conf</span>
-<span class="n">openstack</span> <span class="n">undercloud</span> <span class="n">install</span>
-<span class="n">source</span> <span class="n">stackrc</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="configure-forwarding">
-<h3><a class="toc-backref" href="#id7">Configure forwarding</a><a class="headerlink" href="#configure-forwarding" title="Permalink to this headline">¶</a></h3>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">A</span> <span class="n">FORWARD</span> <span class="o">-</span><span class="n">i</span> <span class="n">br</span><span class="o">-</span><span class="n">ctlplane</span> <span class="o">-</span><span class="n">o</span> <span class="n">eth0</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
-<span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">A</span> <span class="n">FORWARD</span> <span class="o">-</span><span class="n">i</span> <span class="n">eth0</span> <span class="o">-</span><span class="n">o</span> <span class="n">br</span><span class="o">-</span><span class="n">ctlplane</span> <span class="o">-</span><span class="n">m</span> <span class="n">state</span> <span class="o">--</span><span class="n">state</span> <span class="n">RELATED</span><span class="p">,</span><span class="n">ESTABLISHED</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
-<span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">t</span> <span class="n">nat</span> <span class="o">-</span><span class="n">A</span> <span class="n">POSTROUTING</span> <span class="o">-</span><span class="n">o</span> <span class="n">eth0</span> <span class="o">-</span><span class="n">j</span> <span class="n">MASQUERADE</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="add-external-api-interface">
-<h3><a class="toc-backref" href="#id8">Add external api interface</a><a class="headerlink" href="#add-external-api-interface" title="Permalink to this headline">¶</a></h3>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">ip</span> <span class="n">link</span> <span class="n">add</span> <span class="n">name</span> <span class="n">vlan720</span> <span class="n">link</span> <span class="n">br</span><span class="o">-</span><span class="n">ctlplane</span> <span class="nb">type</span> <span class="n">vlan</span> <span class="nb">id</span> <span class="mi">720</span>
-<span class="n">sudo</span> <span class="n">ip</span> <span class="n">addr</span> <span class="n">add</span> <span class="mf">10.2</span><span class="o">.</span><span class="mf">0.254</span><span class="o">/</span><span class="mi">24</span> <span class="n">dev</span> <span class="n">vlan720</span>
-<span class="n">sudo</span> <span class="n">ip</span> <span class="n">link</span> <span class="nb">set</span> <span class="n">dev</span> <span class="n">vlan720</span> <span class="n">up</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="add-stack-user-to-docker-group">
-<h3><a class="toc-backref" href="#id9">Add stack user to docker group</a><a class="headerlink" href="#add-stack-user-to-docker-group" title="Permalink to this headline">¶</a></h3>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">newgrp</span> <span class="n">docker</span>
-<span class="n">exit</span>
-<span class="n">su</span> <span class="o">-</span> <span class="n">stack</span>
-<span class="n">source</span> <span class="n">stackrc</span>
 </pre></div>
 </div>
 </div>
@@ -159,14 +135,12 @@ subscription-manager register --activationkey=${act_key} --org=${org}
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Configuration</a><ul>
-<li><a class="reference internal" href="#undercloud-installation-configuration">Undercloud installation &amp; configuration</a><ul>
+<li><a class="reference internal" href="#undercloud-configuration">Undercloud configuration</a><ul>
 <li><a class="reference internal" href="#login-to-the-undercloud-vm-from-the-undercloud-kvm-host">Login to the Undercloud VM (from the Undercloud KVM host)</a></li>
 <li><a class="reference internal" href="#hostname-configuration">Hostname configuration</a></li>
 <li><a class="reference internal" href="#setup-repositories">Setup repositories</a></li>
-<li><a class="reference internal" href="#install-the-undercloud">Install the Undercloud</a></li>
-<li><a class="reference internal" href="#configure-forwarding">Configure forwarding</a></li>
-<li><a class="reference internal" href="#add-external-api-interface">Add external api interface</a></li>
-<li><a class="reference internal" href="#add-stack-user-to-docker-group">Add stack user to docker group</a></li>
+<li><a class="reference internal" href="#install-tripleo-client">Install Tripleo client</a></li>
+<li><a class="reference internal" href="#copy-undercloud-conf">Copy undercloud.conf</a></li>
 </ul>
 </li>
 </ul>
@@ -177,7 +151,7 @@ subscription-manager register --activationkey=${act_key} --org=${org}
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="../infrastructure/configuration.html" title="previous chapter">Configuration</a></li>
-      <li>Next: <a href="installation.html" title="next chapter">&lt;no title&gt;</a></li>
+      <li>Next: <a href="installation.html" title="next chapter">Installation</a></li>
   </ul></li>
 </ul>
 </div>

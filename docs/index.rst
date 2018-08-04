@@ -25,6 +25,7 @@ Welcome to Contrail Tripleo's documentation!
 
    undercloud/configuration
    undercloud/installation
+   undercloud/postconfiguration
 
 .. toctree::
    :maxdepth: 2
