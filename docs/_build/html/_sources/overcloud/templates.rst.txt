@@ -35,6 +35,7 @@ Network activation in roles_data
 The networks must be activated per role in the roles_data file:
 
 .. code-block:: bash
+
    vi ~/tripleo-heat-templates/roles_data_contrail_aio.yaml
 
 OpenStack Controller
