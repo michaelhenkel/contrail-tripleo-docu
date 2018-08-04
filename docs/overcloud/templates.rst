@@ -210,6 +210,3 @@ CSN
 
 .. literalinclude:: nics/contrail-tsn-nic-config.yaml
    :language: yaml
-
-Advanced NIC configurations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
