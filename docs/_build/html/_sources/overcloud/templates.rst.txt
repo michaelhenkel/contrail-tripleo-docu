@@ -148,6 +148,16 @@ The networks must be activated per role in the roles_data file:
           - Tenant
           - Storage
 
+Network parameter configuration
+-------------------------------
+
+.. code-block:: bash
+
+   cat ~/tripleo-heat-templates/environments/contrail/contrail-net.yaml
+
+.. literalinclude:: contrail-net.yaml
+   :language: yaml
+
 Network interface configuration
 -------------------------------
 

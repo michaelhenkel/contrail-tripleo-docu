@@ -42,13 +42,14 @@
 <li><a class="reference internal" href="#templates" id="id1">Templates</a><ul>
 <li><a class="reference internal" href="#network-customization" id="id2">Network customization</a><ul>
 <li><a class="reference internal" href="#network-activation-in-roles-data" id="id3">Network activation in roles_data</a></li>
-<li><a class="reference internal" href="#network-interface-configuration" id="id4">Network interface configuration</a><ul>
-<li><a class="reference internal" href="#openstack-controller" id="id5">OpenStack Controller</a></li>
-<li><a class="reference internal" href="#contrail-controller" id="id6">Contrail Controller</a></li>
-<li><a class="reference internal" href="#compute-node" id="id7">Compute Node</a></li>
-<li><a class="reference internal" href="#compute-dpdk" id="id8">Compute DPDK</a></li>
-<li><a class="reference internal" href="#compute-sriov" id="id9">Compute SRIOV</a></li>
-<li><a class="reference internal" href="#csn" id="id10">CSN</a></li>
+<li><a class="reference internal" href="#network-parameter-configuration" id="id4">Network parameter configuration</a></li>
+<li><a class="reference internal" href="#network-interface-configuration" id="id5">Network interface configuration</a><ul>
+<li><a class="reference internal" href="#openstack-controller" id="id6">OpenStack Controller</a></li>
+<li><a class="reference internal" href="#contrail-controller" id="id7">Contrail Controller</a></li>
+<li><a class="reference internal" href="#compute-node" id="id8">Compute Node</a></li>
+<li><a class="reference internal" href="#compute-dpdk" id="id9">Compute DPDK</a></li>
+<li><a class="reference internal" href="#compute-sriov" id="id10">Compute SRIOV</a></li>
+<li><a class="reference internal" href="#csn" id="id11">CSN</a></li>
 </ul>
 </li>
 </ul>
@@ -226,14 +227,60 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 </div>
+<div class="section" id="network-parameter-configuration">
+<h3><a class="toc-backref" href="#id4">Network parameter configuration</a><a class="headerlink" href="#network-parameter-configuration" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat ~/tripleo-heat-templates/environments/contrail/contrail-net.yaml
+</pre></div>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">resource_registry</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">OS::TripleO::Controller::Net::SoftwareConfig</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../../network/config/contrail/controller-nic-config.yaml</span>
+  <span class="l l-Scalar l-Scalar-Plain">OS::TripleO::ContrailController::Net::SoftwareConfig</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../../network/config/contrail/contrail-controller-nic-config.yaml</span>
+  <span class="l l-Scalar l-Scalar-Plain">OS::TripleO::ContrailControlOnly::Net::SoftwareConfig</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../../network/config/contrail/contrail-controller-nic-config.yaml</span>
+  <span class="l l-Scalar l-Scalar-Plain">OS::TripleO::Compute::Net::SoftwareConfig</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../../network/config/contrail/compute-nic-config.yaml</span>
+  <span class="l l-Scalar l-Scalar-Plain">OS::TripleO::ContrailDpdk::Net::SoftwareConfig</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../../network/config/contrail/contrail-dpdk-nic-config.yaml</span>
+  <span class="l l-Scalar l-Scalar-Plain">OS::TripleO::ContrailSriov::Net::SoftwareConfig</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../../network/config/contrail/contrail-sriov-nic-config.yaml</span>
+  <span class="l l-Scalar l-Scalar-Plain">OS::TripleO::ContrailTsn::Net::SoftwareConfig</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../../network/config/contrail/contrail-tsn-nic-config.yaml</span>
+
+<span class="l l-Scalar l-Scalar-Plain">parameter_defaults</span><span class="p p-Indicator">:</span>
+  <span class="c1"># Customize all these values to match the local environment</span>
+  <span class="l l-Scalar l-Scalar-Plain">TenantNetCidr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10.0.0.0/24</span>
+  <span class="l l-Scalar l-Scalar-Plain">InternalApiNetCidr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10.1.0.0/24</span>
+  <span class="l l-Scalar l-Scalar-Plain">ExternalNetCidr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10.2.0.0/24</span>
+  <span class="l l-Scalar l-Scalar-Plain">StorageNetCidr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10.3.0.0/24</span>
+  <span class="l l-Scalar l-Scalar-Plain">StorageMgmtNetCidr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10.4.0.0/24</span>
+  <span class="c1"># CIDR subnet mask length for provisioning network</span>
+  <span class="l l-Scalar l-Scalar-Plain">ControlPlaneSubnetCidr</span><span class="p p-Indicator">:</span> <span class="s">&#39;24&#39;</span>
+  <span class="c1"># Allocation pools</span>
+  <span class="l l-Scalar l-Scalar-Plain">TenantAllocationPools</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[{</span><span class="s">&#39;start&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.0.0.10&#39;</span><span class="p p-Indicator">,</span> <span class="s">&#39;end&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.0.0.200&#39;</span><span class="p p-Indicator">}]</span>
+  <span class="l l-Scalar l-Scalar-Plain">InternalApiAllocationPools</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[{</span><span class="s">&#39;start&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.1.0.10&#39;</span><span class="p p-Indicator">,</span> <span class="s">&#39;end&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.1.0.200&#39;</span><span class="p p-Indicator">}]</span>
+  <span class="l l-Scalar l-Scalar-Plain">ExternalAllocationPools</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[{</span><span class="s">&#39;start&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.2.0.10&#39;</span><span class="p p-Indicator">,</span> <span class="s">&#39;end&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.2.0.200&#39;</span><span class="p p-Indicator">}]</span>
+  <span class="l l-Scalar l-Scalar-Plain">StorageAllocationPools</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[{</span><span class="s">&#39;start&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.3.0.10&#39;</span><span class="p p-Indicator">,</span> <span class="s">&#39;end&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.3.0.200&#39;</span><span class="p p-Indicator">}]</span>
+  <span class="l l-Scalar l-Scalar-Plain">StorageMgmtAllocationPools</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[{</span><span class="s">&#39;start&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.4.0.10&#39;</span><span class="p p-Indicator">,</span> <span class="s">&#39;end&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.4.0.200&#39;</span><span class="p p-Indicator">}]</span>
+  <span class="c1"># Routes</span>
+  <span class="l l-Scalar l-Scalar-Plain">ControlPlaneDefaultRoute</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">192.168.24.1</span>
+  <span class="l l-Scalar l-Scalar-Plain">InternalApiDefaultRoute</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10.1.0.1</span>
+  <span class="l l-Scalar l-Scalar-Plain">ExternalInterfaceDefaultRoute</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10.2.0.1</span>
+  <span class="c1"># Vlans</span>
+  <span class="l l-Scalar l-Scalar-Plain">InternalApiNetworkVlanID</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">710</span>
+  <span class="l l-Scalar l-Scalar-Plain">ExternalNetworkVlanID</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">720</span>
+  <span class="l l-Scalar l-Scalar-Plain">StorageNetworkVlanID</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">730</span>
+  <span class="l l-Scalar l-Scalar-Plain">StorageMgmtNetworkVlanID</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">740</span>
+  <span class="l l-Scalar l-Scalar-Plain">TenantNetworkVlanID</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">3211</span>
+  <span class="c1"># Services</span>
+  <span class="l l-Scalar l-Scalar-Plain">EC2MetadataIp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">192.168.24.1</span>  <span class="c1"># Generally the IP of the Undercloud</span>
+  <span class="l l-Scalar l-Scalar-Plain">DnsServers</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;172.21.200.60&quot;</span><span class="p p-Indicator">]</span>
+  <span class="l l-Scalar l-Scalar-Plain">NtpServer</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="network-interface-configuration">
-<h3><a class="toc-backref" href="#id4">Network interface configuration</a><a class="headerlink" href="#network-interface-configuration" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id5">Network interface configuration</a><a class="headerlink" href="#network-interface-configuration" title="Permalink to this headline">¶</a></h3>
 <p>There are NIC configuration files per role.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/tripleo-heat-templates/network/config/contrail
 </pre></div>
 </div>
 <div class="section" id="openstack-controller">
-<h4><a class="toc-backref" href="#id5">OpenStack Controller</a><a class="headerlink" href="#openstack-controller" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id6">OpenStack Controller</a><a class="headerlink" href="#openstack-controller" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -389,7 +436,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="contrail-controller">
-<h4><a class="toc-backref" href="#id6">Contrail Controller</a><a class="headerlink" href="#contrail-controller" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id7">Contrail Controller</a><a class="headerlink" href="#contrail-controller" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -530,7 +577,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="compute-node">
-<h4><a class="toc-backref" href="#id7">Compute Node</a><a class="headerlink" href="#compute-node" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id8">Compute Node</a><a class="headerlink" href="#compute-node" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -683,7 +730,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="compute-dpdk">
-<h4><a class="toc-backref" href="#id8">Compute DPDK</a><a class="headerlink" href="#compute-dpdk" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id9">Compute DPDK</a><a class="headerlink" href="#compute-dpdk" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -846,7 +893,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="compute-sriov">
-<h4><a class="toc-backref" href="#id9">Compute SRIOV</a><a class="headerlink" href="#compute-sriov" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id10">Compute SRIOV</a><a class="headerlink" href="#compute-sriov" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -1002,7 +1049,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="csn">
-<h4><a class="toc-backref" href="#id10">CSN</a><a class="headerlink" href="#csn" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id11">CSN</a><a class="headerlink" href="#csn" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -1170,6 +1217,7 @@ way of customizing the network. In this example the following networks are used:
 <li><a class="reference internal" href="#">Templates</a><ul>
 <li><a class="reference internal" href="#network-customization">Network customization</a><ul>
 <li><a class="reference internal" href="#network-activation-in-roles-data">Network activation in roles_data</a></li>
+<li><a class="reference internal" href="#network-parameter-configuration">Network parameter configuration</a></li>
 <li><a class="reference internal" href="#network-interface-configuration">Network interface configuration</a><ul>
 <li><a class="reference internal" href="#openstack-controller">OpenStack Controller</a></li>
 <li><a class="reference internal" href="#contrail-controller">Contrail Controller</a></li>
