@@ -156,7 +156,7 @@ There are NIC configuration files per role.
 OpenStack Controller
 ^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: ruby
+.. code-block:: bash
 
    cd ~/tripleo-heat-templates/network/config/contrail
 
