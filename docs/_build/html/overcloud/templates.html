@@ -35,21 +35,29 @@
           <div class="body" role="main">
             
   <div class="section" id="templates">
-<h1><a class="toc-backref" href="#id1">Templates</a><a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id6">Templates</a><a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#templates" id="id1">Templates</a><ul>
-<li><a class="reference internal" href="#network-customization" id="id2">Network customization</a><ul>
-<li><a class="reference internal" href="#network-activation-in-roles-data" id="id3">Network activation in roles_data</a></li>
-<li><a class="reference internal" href="#network-parameter-configuration" id="id4">Network parameter configuration</a></li>
-<li><a class="reference internal" href="#network-interface-configuration" id="id5">Network interface configuration</a><ul>
-<li><a class="reference internal" href="#openstack-controller" id="id6">OpenStack Controller</a></li>
-<li><a class="reference internal" href="#contrail-controller" id="id7">Contrail Controller</a></li>
-<li><a class="reference internal" href="#compute-node" id="id8">Compute Node</a></li>
-<li><a class="reference internal" href="#compute-dpdk" id="id9">Compute DPDK</a></li>
-<li><a class="reference internal" href="#compute-sriov" id="id10">Compute SRIOV</a></li>
-<li><a class="reference internal" href="#csn" id="id11">CSN</a></li>
+<li><a class="reference internal" href="#templates" id="id6">Templates</a><ul>
+<li><a class="reference internal" href="#network-customization" id="id7">Network customization</a><ul>
+<li><a class="reference internal" href="#network-activation-in-roles-data" id="id8">Network activation in roles_data</a><ul>
+<li><a class="reference internal" href="#openstack-controller" id="id9">OpenStack Controller</a></li>
+<li><a class="reference internal" href="#compute-node" id="id10">Compute Node</a></li>
+<li><a class="reference internal" href="#contrail-controller" id="id11">Contrail Controller</a></li>
+<li><a class="reference internal" href="#compute-dpdk" id="id12">Compute DPDK</a></li>
+<li><a class="reference internal" href="#compute-sriov" id="id13">Compute SRIOV</a></li>
+<li><a class="reference internal" href="#compute-csn" id="id14">Compute CSN</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#network-parameter-configuration" id="id15">Network parameter configuration</a></li>
+<li><a class="reference internal" href="#network-interface-configuration" id="id16">Network interface configuration</a><ul>
+<li><a class="reference internal" href="#id1" id="id17">OpenStack Controller</a></li>
+<li><a class="reference internal" href="#id2" id="id18">Contrail Controller</a></li>
+<li><a class="reference internal" href="#id3" id="id19">Compute Node</a></li>
+<li><a class="reference internal" href="#id4" id="id20">Compute DPDK</a></li>
+<li><a class="reference internal" href="#id5" id="id21">Compute SRIOV</a></li>
+<li><a class="reference internal" href="#csn" id="id22">CSN</a></li>
 </ul>
 </li>
 </ul>
@@ -60,7 +68,7 @@
 </div>
 <p>The customization of the Overcloud is done in a set of different yaml templates</p>
 <div class="section" id="network-customization">
-<h2><a class="toc-backref" href="#id2">Network customization</a><a class="headerlink" href="#network-customization" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">Network customization</a><a class="headerlink" href="#network-customization" title="Permalink to this headline">¶</a></h2>
 <p>In order to customize the network, different networks have to be defined and the
 Overcloud nodes NIC layout has to be configured. Tripleo supports a flexible
 way of customizing the network. In this example the following networks are used:</p>
@@ -110,125 +118,121 @@ way of customizing the network. In this example the following networks are used:
 </tbody>
 </table>
 <div class="section" id="network-activation-in-roles-data">
-<h3><a class="toc-backref" href="#id3">Network activation in roles_data</a><a class="headerlink" href="#network-activation-in-roles-data" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">Network activation in roles_data</a><a class="headerlink" href="#network-activation-in-roles-data" title="Permalink to this headline">¶</a></h3>
 <p>The networks must be activated per role in the roles_data file:</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>vi ~/tripleo-heat-templates/roles_data_contrail_aio.yaml</p>
-<div class="admonition-openstack-controller admonition">
-<p class="first admonition-title">OpenStack Controller</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
+<div class="section" id="openstack-controller">
+<h4><a class="toc-backref" href="#id9">OpenStack Controller</a><a class="headerlink" href="#openstack-controller" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: Controller                                                            #</span>
 <span class="c1">###############################################################################</span>
-<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">Controller</span>
-  <span class="n">description</span><span class="p">:</span> <span class="o">|</span>
-    <span class="n">Controller</span> <span class="n">role</span> <span class="n">that</span> <span class="n">has</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">controler</span> <span class="n">services</span> <span class="n">loaded</span> <span class="ow">and</span> <span class="n">handles</span>
-    <span class="n">Database</span><span class="p">,</span> <span class="n">Messaging</span> <span class="ow">and</span> <span class="n">Network</span> <span class="n">functions</span><span class="o">.</span>
-  <span class="n">CountDefault</span><span class="p">:</span> <span class="mi">1</span>
-  <span class="n">tags</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">primary</span>
-    <span class="o">-</span> <span class="n">controller</span>
-  <span class="n">networks</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">External</span>
-    <span class="o">-</span> <span class="n">InternalApi</span>
-    <span class="o">-</span> <span class="n">Storage</span>
-    <span class="o">-</span> <span class="n">StorageMgmt</span>
+- name: Controller
+  description: <span class="p">|</span>
+    Controller role that has all the controler services loaded and handles
+    Database, Messaging and Network functions.
+  CountDefault: <span class="m">1</span>
+  tags:
+    - primary
+    - controller
+  networks:
+    - External
+    - InternalApi
+    - Storage
+    - StorageMgmt
 </pre></div>
 </div>
 </div>
-<div class="admonition-compute admonition">
-<p class="first admonition-title">Compute</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
+<div class="section" id="compute-node">
+<h4><a class="toc-backref" href="#id10">Compute Node</a><a class="headerlink" href="#compute-node" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: Compute                                                               #</span>
 <span class="c1">###############################################################################</span>
-<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">Compute</span>
-  <span class="n">description</span><span class="p">:</span> <span class="o">|</span>
-    <span class="n">Basic</span> <span class="n">Compute</span> <span class="n">Node</span> <span class="n">role</span>
-  <span class="n">CountDefault</span><span class="p">:</span> <span class="mi">1</span>
-  <span class="n">networks</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">InternalApi</span>
-    <span class="o">-</span> <span class="n">Tenant</span>
-    <span class="o">-</span> <span class="n">Storage</span>
+- name: Compute
+  description: <span class="p">|</span>
+    Basic Compute Node role
+  CountDefault: <span class="m">1</span>
+  networks:
+    - InternalApi
+    - Tenant
+    - Storage
 </pre></div>
 </div>
 </div>
-<div class="admonition-contrail-controller admonition">
-<p class="first admonition-title">Contrail Controller</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
+<div class="section" id="contrail-controller">
+<h4><a class="toc-backref" href="#id11">Contrail Controller</a><a class="headerlink" href="#contrail-controller" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: ContrailController                                                    #</span>
 <span class="c1">###############################################################################</span>
-<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">ContrailController</span>
-  <span class="n">description</span><span class="p">:</span> <span class="o">|</span>
-    <span class="n">ContrailController</span> <span class="n">role</span> <span class="n">that</span> <span class="n">has</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">Contrail</span> <span class="n">controler</span> <span class="n">services</span> <span class="n">loaded</span>
-    <span class="ow">and</span> <span class="n">handles</span> <span class="n">config</span><span class="p">,</span> <span class="n">control</span> <span class="ow">and</span> <span class="n">webui</span> <span class="n">functions</span>
-  <span class="n">CountDefault</span><span class="p">:</span> <span class="mi">1</span>
-  <span class="n">tags</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">primary</span>
-    <span class="o">-</span> <span class="n">contrailcontroller</span>
-  <span class="n">networks</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">InternalApi</span>
-    <span class="o">-</span> <span class="n">Tenant</span>
+- name: ContrailController
+  description: <span class="p">|</span>
+    ContrailController role that has all the Contrail controler services loaded
+    and handles config, control and webui functions
+  CountDefault: <span class="m">1</span>
+  tags:
+    - primary
+    - contrailcontroller
+  networks:
+    - InternalApi
+    - Tenant
 </pre></div>
 </div>
 </div>
-<div class="admonition-contrail-dpdk admonition">
-<p class="first admonition-title">Contrail DPDK</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
+<div class="section" id="compute-dpdk">
+<h4><a class="toc-backref" href="#id12">Compute DPDK</a><a class="headerlink" href="#compute-dpdk" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: ContrailDpdk                                                          #</span>
 <span class="c1">###############################################################################</span>
-<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">ContrailDpdk</span>
-  <span class="n">description</span><span class="p">:</span> <span class="o">|</span>
-    <span class="n">Contrail</span> <span class="n">Dpdk</span> <span class="n">Node</span> <span class="n">role</span>
-  <span class="n">CountDefault</span><span class="p">:</span> <span class="mi">0</span>
-  <span class="n">tags</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">contraildpdk</span>
-  <span class="n">networks</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">InternalApi</span>
-    <span class="o">-</span> <span class="n">Tenant</span>
-    <span class="o">-</span> <span class="n">Storage</span>
+- name: ContrailDpdk
+  description: <span class="p">|</span>
+    Contrail Dpdk Node role
+  CountDefault: <span class="m">0</span>
+  tags:
+    - contraildpdk
+  networks:
+    - InternalApi
+    - Tenant
+    - Storage
 </pre></div>
 </div>
 </div>
-<div class="admonition-contrail-sriov admonition">
-<p class="first admonition-title">Contrail SRIOV</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
+<div class="section" id="compute-sriov">
+<h4><a class="toc-backref" href="#id13">Compute SRIOV</a><a class="headerlink" href="#compute-sriov" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: ContrailSriov</span>
 <span class="c1">###############################################################################</span>
-<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">ContrailSriov</span>
-  <span class="n">description</span><span class="p">:</span> <span class="o">|</span>
-    <span class="n">Contrail</span> <span class="n">Sriov</span> <span class="n">Node</span> <span class="n">role</span>
-  <span class="n">CountDefault</span><span class="p">:</span> <span class="mi">0</span>
-  <span class="n">tags</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">contrailsriov</span>
-  <span class="n">networks</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">InternalApi</span>
-    <span class="o">-</span> <span class="n">Tenant</span>
-    <span class="o">-</span> <span class="n">Storage</span>
+- name: ContrailSriov
+  description: <span class="p">|</span>
+    Contrail Sriov Node role
+  CountDefault: <span class="m">0</span>
+  tags:
+    - contrailsriov
+  networks:
+    - InternalApi
+    - Tenant
+    - Storage
 </pre></div>
 </div>
 </div>
-<div class="admonition-contrail-tsn last admonition">
-<p class="first admonition-title">Contrail TSN</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
+<div class="section" id="compute-csn">
+<h4><a class="toc-backref" href="#id14">Compute CSN</a><a class="headerlink" href="#compute-csn" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: ContrailTsn</span>
 <span class="c1">###############################################################################</span>
-<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">ContrailTsn</span>
-  <span class="n">description</span><span class="p">:</span> <span class="o">|</span>
-    <span class="n">Contrail</span> <span class="n">Tsn</span> <span class="n">Node</span> <span class="n">role</span>
-  <span class="n">CountDefault</span><span class="p">:</span> <span class="mi">0</span>
-  <span class="n">tags</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">contrailtsn</span>
-  <span class="n">networks</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">InternalApi</span>
-    <span class="o">-</span> <span class="n">Tenant</span>
-    <span class="o">-</span> <span class="n">Storage</span>
+- name: ContrailTsn
+  description: <span class="p">|</span>
+    Contrail Tsn Node role
+  CountDefault: <span class="m">0</span>
+  tags:
+    - contrailtsn
+  networks:
+    - InternalApi
+    - Tenant
+    - Storage
 </pre></div>
-</div>
 </div>
 </div>
 </div>
 <div class="section" id="network-parameter-configuration">
-<h3><a class="toc-backref" href="#id4">Network parameter configuration</a><a class="headerlink" href="#network-parameter-configuration" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">Network parameter configuration</a><a class="headerlink" href="#network-parameter-configuration" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat ~/tripleo-heat-templates/environments/contrail/contrail-net.yaml
 </pre></div>
 </div>
@@ -274,13 +278,13 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="network-interface-configuration">
-<h3><a class="toc-backref" href="#id5">Network interface configuration</a><a class="headerlink" href="#network-interface-configuration" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id16">Network interface configuration</a><a class="headerlink" href="#network-interface-configuration" title="Permalink to this headline">¶</a></h3>
 <p>There are NIC configuration files per role.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/tripleo-heat-templates/network/config/contrail
 </pre></div>
 </div>
-<div class="section" id="openstack-controller">
-<h4><a class="toc-backref" href="#id6">OpenStack Controller</a><a class="headerlink" href="#openstack-controller" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id1">
+<h4><a class="toc-backref" href="#id17">OpenStack Controller</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -435,8 +439,8 @@ way of customizing the network. In this example the following networks are used:
 </pre></div>
 </div>
 </div>
-<div class="section" id="contrail-controller">
-<h4><a class="toc-backref" href="#id7">Contrail Controller</a><a class="headerlink" href="#contrail-controller" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id2">
+<h4><a class="toc-backref" href="#id18">Contrail Controller</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -576,8 +580,8 @@ way of customizing the network. In this example the following networks are used:
 </pre></div>
 </div>
 </div>
-<div class="section" id="compute-node">
-<h4><a class="toc-backref" href="#id8">Compute Node</a><a class="headerlink" href="#compute-node" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id3">
+<h4><a class="toc-backref" href="#id19">Compute Node</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -729,8 +733,8 @@ way of customizing the network. In this example the following networks are used:
 </pre></div>
 </div>
 </div>
-<div class="section" id="compute-dpdk">
-<h4><a class="toc-backref" href="#id9">Compute DPDK</a><a class="headerlink" href="#compute-dpdk" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id4">
+<h4><a class="toc-backref" href="#id20">Compute DPDK</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -892,8 +896,8 @@ way of customizing the network. In this example the following networks are used:
 </pre></div>
 </div>
 </div>
-<div class="section" id="compute-sriov">
-<h4><a class="toc-backref" href="#id10">Compute SRIOV</a><a class="headerlink" href="#compute-sriov" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id5">
+<h4><a class="toc-backref" href="#id21">Compute SRIOV</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -1049,7 +1053,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="csn">
-<h4><a class="toc-backref" href="#id11">CSN</a><a class="headerlink" href="#csn" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id22">CSN</a><a class="headerlink" href="#csn" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -1216,14 +1220,22 @@ way of customizing the network. In this example the following networks are used:
   <ul>
 <li><a class="reference internal" href="#">Templates</a><ul>
 <li><a class="reference internal" href="#network-customization">Network customization</a><ul>
-<li><a class="reference internal" href="#network-activation-in-roles-data">Network activation in roles_data</a></li>
-<li><a class="reference internal" href="#network-parameter-configuration">Network parameter configuration</a></li>
-<li><a class="reference internal" href="#network-interface-configuration">Network interface configuration</a><ul>
+<li><a class="reference internal" href="#network-activation-in-roles-data">Network activation in roles_data</a><ul>
 <li><a class="reference internal" href="#openstack-controller">OpenStack Controller</a></li>
-<li><a class="reference internal" href="#contrail-controller">Contrail Controller</a></li>
 <li><a class="reference internal" href="#compute-node">Compute Node</a></li>
+<li><a class="reference internal" href="#contrail-controller">Contrail Controller</a></li>
 <li><a class="reference internal" href="#compute-dpdk">Compute DPDK</a></li>
 <li><a class="reference internal" href="#compute-sriov">Compute SRIOV</a></li>
+<li><a class="reference internal" href="#compute-csn">Compute CSN</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#network-parameter-configuration">Network parameter configuration</a></li>
+<li><a class="reference internal" href="#network-interface-configuration">Network interface configuration</a><ul>
+<li><a class="reference internal" href="#id1">OpenStack Controller</a></li>
+<li><a class="reference internal" href="#id2">Contrail Controller</a></li>
+<li><a class="reference internal" href="#id3">Compute Node</a></li>
+<li><a class="reference internal" href="#id4">Compute DPDK</a></li>
+<li><a class="reference internal" href="#id5">Compute SRIOV</a></li>
 <li><a class="reference internal" href="#csn">CSN</a></li>
 </ul>
 </li>

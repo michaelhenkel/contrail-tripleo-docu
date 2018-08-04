@@ -34,11 +34,13 @@ Network activation in roles_data
 
 The networks must be activated per role in the roles_data file:
 
-.. note:: vi ~/tripleo-heat-templates/roles_data_contrail_aio.yaml
+.. code-block:: bash
+   vi ~/tripleo-heat-templates/roles_data_contrail_aio.yaml
 
-  .. admonition:: OpenStack Controller
+OpenStack Controller
+^^^^^^^^^^^^^^^^^^^^
 
-    ::
+.. code-block:: bash
 
       ###############################################################################
       # Role: Controller                                                            #
@@ -58,9 +60,10 @@ The networks must be activated per role in the roles_data file:
           - StorageMgmt
 
 
-  .. admonition:: Compute
+Compute Node
+^^^^^^^^^^^^
 
-    ::
+.. code-block:: bash
 
       ###############################################################################
       # Role: Compute                                                               #
@@ -75,9 +78,10 @@ The networks must be activated per role in the roles_data file:
           - Storage
 
 
-  .. admonition:: Contrail Controller
+Contrail Controller
+^^^^^^^^^^^^^^^^^^^
 
-    ::
+.. code-block:: bash
 
       ###############################################################################
       # Role: ContrailController                                                    #
@@ -94,9 +98,10 @@ The networks must be activated per role in the roles_data file:
           - InternalApi
           - Tenant
 
-  .. admonition:: Contrail DPDK
+Compute DPDK
+^^^^^^^^^^^^
 
-    ::
+.. code-block:: bash
 
       ###############################################################################
       # Role: ContrailDpdk                                                          #
@@ -112,9 +117,10 @@ The networks must be activated per role in the roles_data file:
           - Tenant
           - Storage
 
-  .. admonition:: Contrail SRIOV
+Compute SRIOV
+^^^^^^^^^^^^^
 
-    ::
+.. code-block:: bash
 
       ###############################################################################
       # Role: ContrailSriov
@@ -130,9 +136,10 @@ The networks must be activated per role in the roles_data file:
           - Tenant
           - Storage
 
-  .. admonition:: Contrail TSN
+Compute CSN
+^^^^^^^^^^^
 
-    ::
+.. code-block:: bash
 
       ###############################################################################
       # Role: ContrailTsn
