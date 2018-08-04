@@ -54,60 +54,60 @@ parameters:
     default: 40
     description: Vlan ID for the storage mgmt network traffic.
     type: number
-  TenantNetworkVlanID:
-    default: 50
-    description: Vlan ID for the tenant network traffic.
-    type: number
-  ManagementNetworkVlanID:
-    default: 60
-    description: Vlan ID for the management network traffic.
-    type: number
-  ControlPlaneSubnetCidr: # Override this via parameter_defaults
-    default: '24'
-    description: The subnet CIDR of the control plane network.
-    type: string
-  ControlPlaneDefaultRoute: # Override this via parameter_defaults
-    description: The default route of the control plane network.
-    type: string
-  ExternalInterfaceDefaultRoute: # Not used by default in this template
-    default: '10.0.0.1'
-    description: The default route of the external network.
-    type: string
-  ManagementInterfaceDefaultRoute: # Commented out by default in this template
-    default: unset
-    description: The default route of the management network.
-    type: string
-  DnsServers: # Override this via parameter_defaults
-    default: []
-    description: A list of DNS servers (2 max for some implementations) that will be added to resolv.conf.
-    type: comma_delimited_list
-  EC2MetadataIp: # Override this via parameter_defaults
-    description: The IP address of the EC2 metadata server.
-    type: string
+    TenantNetworkVlanID:
+      default: 50
+      description: Vlan ID for the tenant network traffic.
+      type: number
+    ManagementNetworkVlanID:
+      default: 60
+      description: Vlan ID for the management network traffic.
+      type: number
+    ControlPlaneSubnetCidr: # Override this via parameter_defaults
+      default: '24'
+      description: The subnet CIDR of the control plane network.
+      type: string
+    ControlPlaneDefaultRoute: # Override this via parameter_defaults
+      description: The default route of the control plane network.
+      type: string
+    ExternalInterfaceDefaultRoute: # Not used by default in this template
+      default: '10.0.0.1'
+      description: The default route of the external network.
+      type: string
+    ManagementInterfaceDefaultRoute: # Commented out by default in this template
+      default: unset
+      description: The default route of the management network.
+      type: string
+    DnsServers: # Override this via parameter_defaults
+      default: []
+      description: A list of DNS servers (2 max for some implementations) that will be added to resolv.conf.
+      type: comma_delimited_list
+    EC2MetadataIp: # Override this via parameter_defaults
+      description: The IP address of the EC2 metadata server.
+      type: string
 
-resources:
-  OsNetConfigImpl:
-    type: OS::Heat::SoftwareConfig
-    properties:
-      group: script
-      config:
-        str_replace:
-          template:
-            get_file: ../../scripts/run-os-net-config.sh
-          params:
-            $network_config:
-              network_config:
-              - type: interface
-                name: nic1
-                use_dhcp: false
-                dns_servers:
-                  get_param: DnsServers
-                addresses:
-                - ip_netmask:
-                    list_join:
-                      - '/'
-                      - - get_param: ControlPlaneIp
-                        - get_param: ControlPlaneSubnetCidr
+  resources:
+    OsNetConfigImpl:
+      type: OS::Heat::SoftwareConfig
+      properties:
+        group: script
+        config:
+          str_replace:
+            template:
+              get_file: ../../scripts/run-os-net-config.sh
+            params:
+              $network_config:
+                network_config:
+                - type: interface
+                  name: nic1
+                  use_dhcp: false
+                  dns_servers:
+                    get_param: DnsServers
+                  addresses:
+                  - ip_netmask:
+                      list_join:
+                        - '/'
+                        - - get_param: ControlPlaneIp
+                          - get_param: ControlPlaneSubnetCidr
                 routes:
                 - ip_netmask: 169.254.169.254/32
                   next_hop:
@@ -129,15 +129,21 @@ resources:
                 addresses:
                 - ip_netmask:
                     get_param: StorageIpSubnet
-              - type: contrail_vrouter_dpdk
+              - type: vlan
+                vlan_id:
+                  get_param: TenantNetworkVlanID
+                device: nic2
+              - type: contrail_vrouter
                 name: vhost0
                 use_dhcp: false
-                driver: uio_pci_generic
-                cpu_list: 0x01
                 members:
                   -
                     type: interface
-                    name: nic2
+                    name:
+                      str_replace:
+                        template: vlanVLANID
+                        params:
+                          VLANID: {get_param: TenantNetworkVlanID}
                     use_dhcp: false
                 addresses:
                 - ip_netmask:
