@@ -199,7 +199,6 @@ Advanced Network Configuration
 
 .. toctree::
    :maxdepth: 2
-   :caption: ''
 
    advanced/vrouter
    advanced/dpdk
