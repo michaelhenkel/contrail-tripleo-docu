@@ -16,7 +16,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="installation.html" />
+    <link rel="next" title="Advanced Network Configuration" href="advanced.html" />
     <link rel="prev" title="Configuration" href="configuration.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -35,29 +35,26 @@
           <div class="body" role="main">
             
   <div class="section" id="templates">
-<h1><a class="toc-backref" href="#id6">Templates</a><a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id4">Templates</a><a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#templates" id="id6">Templates</a><ul>
-<li><a class="reference internal" href="#network-customization" id="id7">Network customization</a><ul>
-<li><a class="reference internal" href="#network-activation-in-roles-data" id="id8">Network activation in roles_data</a><ul>
-<li><a class="reference internal" href="#openstack-controller" id="id9">OpenStack Controller</a></li>
-<li><a class="reference internal" href="#compute-node" id="id10">Compute Node</a></li>
-<li><a class="reference internal" href="#contrail-controller" id="id11">Contrail Controller</a></li>
-<li><a class="reference internal" href="#compute-dpdk" id="id12">Compute DPDK</a></li>
-<li><a class="reference internal" href="#compute-sriov" id="id13">Compute SRIOV</a></li>
-<li><a class="reference internal" href="#compute-csn" id="id14">Compute CSN</a></li>
+<li><a class="reference internal" href="#templates" id="id4">Templates</a><ul>
+<li><a class="reference internal" href="#network-customization" id="id5">Network customization</a><ul>
+<li><a class="reference internal" href="#network-activation-in-roles-data" id="id6">Network activation in roles_data</a><ul>
+<li><a class="reference internal" href="#openstack-controller" id="id7">OpenStack Controller</a></li>
+<li><a class="reference internal" href="#compute-node" id="id8">Compute Node</a></li>
+<li><a class="reference internal" href="#contrail-controller" id="id9">Contrail Controller</a></li>
+<li><a class="reference internal" href="#compute-dpdk" id="id10">Compute DPDK</a></li>
+<li><a class="reference internal" href="#compute-sriov" id="id11">Compute SRIOV</a></li>
+<li><a class="reference internal" href="#compute-csn" id="id12">Compute CSN</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#network-parameter-configuration" id="id15">Network parameter configuration</a></li>
-<li><a class="reference internal" href="#network-interface-configuration" id="id16">Network interface configuration</a><ul>
-<li><a class="reference internal" href="#id1" id="id17">OpenStack Controller</a></li>
-<li><a class="reference internal" href="#id2" id="id18">Contrail Controller</a></li>
-<li><a class="reference internal" href="#id3" id="id19">Compute Node</a></li>
-<li><a class="reference internal" href="#id4" id="id20">Compute DPDK</a></li>
-<li><a class="reference internal" href="#id5" id="id21">Compute SRIOV</a></li>
-<li><a class="reference internal" href="#csn" id="id22">CSN</a></li>
+<li><a class="reference internal" href="#network-parameter-configuration" id="id13">Network parameter configuration</a></li>
+<li><a class="reference internal" href="#network-interface-configuration" id="id14">Network interface configuration</a><ul>
+<li><a class="reference internal" href="#id1" id="id15">OpenStack Controller</a></li>
+<li><a class="reference internal" href="#id2" id="id16">Contrail Controller</a></li>
+<li><a class="reference internal" href="#id3" id="id17">Compute Node</a></li>
 </ul>
 </li>
 </ul>
@@ -68,7 +65,7 @@
 </div>
 <p>The customization of the Overcloud is done in a set of different yaml templates</p>
 <div class="section" id="network-customization">
-<h2><a class="toc-backref" href="#id7">Network customization</a><a class="headerlink" href="#network-customization" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">Network customization</a><a class="headerlink" href="#network-customization" title="Permalink to this headline">¶</a></h2>
 <p>In order to customize the network, different networks have to be defined and the
 Overcloud nodes NIC layout has to be configured. Tripleo supports a flexible
 way of customizing the network. In this example the following networks are used:</p>
@@ -118,13 +115,13 @@ way of customizing the network. In this example the following networks are used:
 </tbody>
 </table>
 <div class="section" id="network-activation-in-roles-data">
-<h3><a class="toc-backref" href="#id8">Network activation in roles_data</a><a class="headerlink" href="#network-activation-in-roles-data" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id6">Network activation in roles_data</a><a class="headerlink" href="#network-activation-in-roles-data" title="Permalink to this headline">¶</a></h3>
 <p>The networks must be activated per role in the roles_data file:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vi ~/tripleo-heat-templates/roles_data_contrail_aio.yaml
 </pre></div>
 </div>
 <div class="section" id="openstack-controller">
-<h4><a class="toc-backref" href="#id9">OpenStack Controller</a><a class="headerlink" href="#openstack-controller" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id7">OpenStack Controller</a><a class="headerlink" href="#openstack-controller" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: Controller                                                            #</span>
 <span class="c1">###############################################################################</span>
@@ -145,7 +142,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="compute-node">
-<h4><a class="toc-backref" href="#id10">Compute Node</a><a class="headerlink" href="#compute-node" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id8">Compute Node</a><a class="headerlink" href="#compute-node" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: Compute                                                               #</span>
 <span class="c1">###############################################################################</span>
@@ -161,7 +158,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="contrail-controller">
-<h4><a class="toc-backref" href="#id11">Contrail Controller</a><a class="headerlink" href="#contrail-controller" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id9">Contrail Controller</a><a class="headerlink" href="#contrail-controller" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: ContrailController                                                    #</span>
 <span class="c1">###############################################################################</span>
@@ -180,7 +177,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="compute-dpdk">
-<h4><a class="toc-backref" href="#id12">Compute DPDK</a><a class="headerlink" href="#compute-dpdk" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id10">Compute DPDK</a><a class="headerlink" href="#compute-dpdk" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: ContrailDpdk                                                          #</span>
 <span class="c1">###############################################################################</span>
@@ -198,7 +195,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="compute-sriov">
-<h4><a class="toc-backref" href="#id13">Compute SRIOV</a><a class="headerlink" href="#compute-sriov" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id11">Compute SRIOV</a><a class="headerlink" href="#compute-sriov" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: ContrailSriov</span>
 <span class="c1">###############################################################################</span>
@@ -216,7 +213,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="compute-csn">
-<h4><a class="toc-backref" href="#id14">Compute CSN</a><a class="headerlink" href="#compute-csn" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id12">Compute CSN</a><a class="headerlink" href="#compute-csn" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
 <span class="c1"># Role: ContrailTsn</span>
 <span class="c1">###############################################################################</span>
@@ -235,7 +232,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="network-parameter-configuration">
-<h3><a class="toc-backref" href="#id15">Network parameter configuration</a><a class="headerlink" href="#network-parameter-configuration" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id13">Network parameter configuration</a><a class="headerlink" href="#network-parameter-configuration" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat ~/tripleo-heat-templates/environments/contrail/contrail-net.yaml
 </pre></div>
 </div>
@@ -281,13 +278,13 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="network-interface-configuration">
-<h3><a class="toc-backref" href="#id16">Network interface configuration</a><a class="headerlink" href="#network-interface-configuration" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id14">Network interface configuration</a><a class="headerlink" href="#network-interface-configuration" title="Permalink to this headline">¶</a></h3>
 <p>There are NIC configuration files per role.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/tripleo-heat-templates/network/config/contrail
 </pre></div>
 </div>
 <div class="section" id="id1">
-<h4><a class="toc-backref" href="#id17">OpenStack Controller</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id15">OpenStack Controller</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -443,7 +440,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="id2">
-<h4><a class="toc-backref" href="#id18">Contrail Controller</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id16">Contrail Controller</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -584,7 +581,7 @@ way of customizing the network. In this example the following networks are used:
 </div>
 </div>
 <div class="section" id="id3">
-<h4><a class="toc-backref" href="#id19">Compute Node</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id17">Compute Node</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
 
 <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
@@ -735,469 +732,11 @@ way of customizing the network. In this example the following networks are used:
       <span class="l l-Scalar l-Scalar-Plain">get_resource</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">OsNetConfigImpl</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="id4">
-<h4><a class="toc-backref" href="#id20">Compute DPDK</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
-
-<span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
-  <span class="no">Software Config to drive os-net-config to configure multiple interfaces</span>
-  <span class="no">for the compute role. This is an example for a Nova compute node using</span>
-  <span class="no">Contrail vrouter and the vhost0 interface.</span>
-
-<span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">ControlPlaneIp</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the ctlplane network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ExternalIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the external network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">InternalApiIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the internal_api network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">InternalApiDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Not used by default in this template</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.0.0.1&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the internal api network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the storage network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageMgmtIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the storage_mgmt network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">TenantIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the tenant network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ManagementIpSubnet</span><span class="p p-Indicator">:</span> <span class="c1"># Only populated when including environments/network-management.yaml</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the management network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ExternalNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the external network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">InternalApiNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">20</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the internal_api network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the storage network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageMgmtNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">40</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the storage mgmt network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">TenantNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">50</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the tenant network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">ManagementNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">60</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the management network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">ControlPlaneSubnetCidr</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;24&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The subnet CIDR of the control plane network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ControlPlaneDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the control plane network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ExternalInterfaceDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Not used by default in this template</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.0.0.1&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the external network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ManagementInterfaceDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Commented out by default in this template</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">unset</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the management network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">DnsServers</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[]</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">A list of DNS servers (2 max for some implementations) that will be added to resolv.conf.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">comma_delimited_list</span>
-  <span class="l l-Scalar l-Scalar-Plain">EC2MetadataIp</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The IP address of the EC2 metadata server.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-
-<span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">OsNetConfigImpl</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">OS::Heat::SoftwareConfig</span>
-    <span class="l l-Scalar l-Scalar-Plain">properties</span><span class="p p-Indicator">:</span>
-      <span class="l l-Scalar l-Scalar-Plain">group</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">script</span>
-      <span class="l l-Scalar l-Scalar-Plain">config</span><span class="p p-Indicator">:</span>
-        <span class="l l-Scalar l-Scalar-Plain">str_replace</span><span class="p p-Indicator">:</span>
-          <span class="l l-Scalar l-Scalar-Plain">template</span><span class="p p-Indicator">:</span>
-            <span class="l l-Scalar l-Scalar-Plain">get_file</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../../scripts/run-os-net-config.sh</span>
-          <span class="l l-Scalar l-Scalar-Plain">params</span><span class="p p-Indicator">:</span>
-            <span class="l l-Scalar l-Scalar-Plain">$network_config</span><span class="p p-Indicator">:</span>
-              <span class="l l-Scalar l-Scalar-Plain">network_config</span><span class="p p-Indicator">:</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">interface</span>
-                <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic1</span>
-                <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-                <span class="l l-Scalar l-Scalar-Plain">dns_servers</span><span class="p p-Indicator">:</span>
-                  <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">DnsServers</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">list_join</span><span class="p p-Indicator">:</span>
-                      <span class="p p-Indicator">-</span> <span class="s">&#39;/&#39;</span>
-                      <span class="p p-Indicator">-</span> <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ControlPlaneIp</span>
-                        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ControlPlaneSubnetCidr</span>
-                <span class="l l-Scalar l-Scalar-Plain">routes</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">169.254.169.254/32</span>
-                  <span class="l l-Scalar l-Scalar-Plain">next_hop</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">EC2MetadataIp</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-                  <span class="l l-Scalar l-Scalar-Plain">next_hop</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ControlPlaneDefaultRoute</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vlan</span>
-                <span class="l l-Scalar l-Scalar-Plain">vlan_id</span><span class="p p-Indicator">:</span>
-                  <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">InternalApiNetworkVlanID</span>
-                <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic1</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">InternalApiIpSubnet</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vlan</span>
-                <span class="l l-Scalar l-Scalar-Plain">vlan_id</span><span class="p p-Indicator">:</span>
-                  <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">StorageNetworkVlanID</span>
-                <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic1</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">StorageIpSubnet</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">contrail_vrouter_dpdk</span>
-                <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vhost0</span>
-                <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-                <span class="l l-Scalar l-Scalar-Plain">driver</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">uio_pci_generic</span>
-                <span class="l l-Scalar l-Scalar-Plain">cpu_list</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0x01</span>
-                <span class="l l-Scalar l-Scalar-Plain">members</span><span class="p p-Indicator">:</span>
-                  <span class="p p-Indicator">-</span>
-                    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">interface</span>
-                    <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic2</span>
-                    <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">TenantIpSubnet</span>
-
-<span class="l l-Scalar l-Scalar-Plain">outputs</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">OS::stack_id</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The OsNetConfigImpl resource.</span>
-    <span class="l l-Scalar l-Scalar-Plain">value</span><span class="p p-Indicator">:</span>
-      <span class="l l-Scalar l-Scalar-Plain">get_resource</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">OsNetConfigImpl</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="id5">
-<h4><a class="toc-backref" href="#id21">Compute SRIOV</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
-
-<span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
-  <span class="no">Software Config to drive os-net-config to configure multiple interfaces</span>
-  <span class="no">for the compute role. This is an example for a Nova compute node using</span>
-  <span class="no">Contrail vrouter and the vhost0 interface.</span>
-
-<span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">ControlPlaneIp</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the ctlplane network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ExternalIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the external network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">InternalApiIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the internal_api network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">InternalApiDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Not used by default in this template</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.0.0.1&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the internal api network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the storage network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageMgmtIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the storage_mgmt network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">TenantIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the tenant network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ManagementIpSubnet</span><span class="p p-Indicator">:</span> <span class="c1"># Only populated when including environments/network-management.yaml</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the management network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ExternalNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the external network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">InternalApiNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">20</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the internal_api network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the storage network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageMgmtNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">40</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the storage mgmt network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">TenantNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">50</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the tenant network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">ManagementNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">60</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the management network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">ControlPlaneSubnetCidr</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;24&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The subnet CIDR of the control plane network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ControlPlaneDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the control plane network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ExternalInterfaceDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Not used by default in this template</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.0.0.1&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the external network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ManagementInterfaceDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Commented out by default in this template</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">unset</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the management network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">DnsServers</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[]</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">A list of DNS servers (2 max for some implementations) that will be added to resolv.conf.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">comma_delimited_list</span>
-  <span class="l l-Scalar l-Scalar-Plain">EC2MetadataIp</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The IP address of the EC2 metadata server.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-
-<span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">OsNetConfigImpl</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">OS::Heat::SoftwareConfig</span>
-    <span class="l l-Scalar l-Scalar-Plain">properties</span><span class="p p-Indicator">:</span>
-      <span class="l l-Scalar l-Scalar-Plain">group</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">script</span>
-      <span class="l l-Scalar l-Scalar-Plain">config</span><span class="p p-Indicator">:</span>
-        <span class="l l-Scalar l-Scalar-Plain">str_replace</span><span class="p p-Indicator">:</span>
-          <span class="l l-Scalar l-Scalar-Plain">template</span><span class="p p-Indicator">:</span>
-            <span class="l l-Scalar l-Scalar-Plain">get_file</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../../scripts/run-os-net-config.sh</span>
-          <span class="l l-Scalar l-Scalar-Plain">params</span><span class="p p-Indicator">:</span>
-            <span class="l l-Scalar l-Scalar-Plain">$network_config</span><span class="p p-Indicator">:</span>
-              <span class="l l-Scalar l-Scalar-Plain">network_config</span><span class="p p-Indicator">:</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">interface</span>
-                <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic1</span>
-                <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-                <span class="l l-Scalar l-Scalar-Plain">dns_servers</span><span class="p p-Indicator">:</span>
-                  <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">DnsServers</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">list_join</span><span class="p p-Indicator">:</span>
-                      <span class="p p-Indicator">-</span> <span class="s">&#39;/&#39;</span>
-                      <span class="p p-Indicator">-</span> <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ControlPlaneIp</span>
-                        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ControlPlaneSubnetCidr</span>
-                <span class="l l-Scalar l-Scalar-Plain">routes</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">169.254.169.254/32</span>
-                  <span class="l l-Scalar l-Scalar-Plain">next_hop</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">EC2MetadataIp</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-                  <span class="l l-Scalar l-Scalar-Plain">next_hop</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ControlPlaneDefaultRoute</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vlan</span>
-                <span class="l l-Scalar l-Scalar-Plain">vlan_id</span><span class="p p-Indicator">:</span>
-                  <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">InternalApiNetworkVlanID</span>
-                <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic1</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">InternalApiIpSubnet</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vlan</span>
-                <span class="l l-Scalar l-Scalar-Plain">vlan_id</span><span class="p p-Indicator">:</span>
-                  <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ExternalNetworkVlanID</span>
-                <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic1</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ExternalIpSubnet</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vlan</span>
-                <span class="l l-Scalar l-Scalar-Plain">vlan_id</span><span class="p p-Indicator">:</span>
-                  <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">StorageNetworkVlanID</span>
-                <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic1</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">StorageIpSubnet</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vlan</span>
-                <span class="l l-Scalar l-Scalar-Plain">vlan_id</span><span class="p p-Indicator">:</span>
-                  <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">StorageMgmtNetworkVlanID</span>
-                <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic1</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">StorageMgmtIpSubnet</span>
-
-<span class="l l-Scalar l-Scalar-Plain">outputs</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">OS::stack_id</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The OsNetConfigImpl resource.</span>
-    <span class="l l-Scalar l-Scalar-Plain">value</span><span class="p p-Indicator">:</span>
-      <span class="l l-Scalar l-Scalar-Plain">get_resource</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">OsNetConfigImpl</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="csn">
-<h4><a class="toc-backref" href="#id22">CSN</a><a class="headerlink" href="#csn" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">heat_template_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">queens</span>
-
-<span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">&gt;</span>
-  <span class="no">Software Config to drive os-net-config to configure multiple interfaces</span>
-  <span class="no">for the compute role. This is an example for a Nova compute node using</span>
-  <span class="no">Contrail vrouter and the vhost0 interface.</span>
-
-<span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">ControlPlaneIp</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the ctlplane network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ExternalIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the external network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">InternalApiIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the internal_api network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">InternalApiDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Not used by default in this template</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.0.0.1&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the internal api network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the storage network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageMgmtIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the storage_mgmt network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">TenantIpSubnet</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the tenant network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ManagementIpSubnet</span><span class="p p-Indicator">:</span> <span class="c1"># Only populated when including environments/network-management.yaml</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">IP address/subnet on the management network</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ExternalNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the external network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">InternalApiNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">20</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the internal_api network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the storage network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">StorageMgmtNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">40</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the storage mgmt network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">TenantNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">50</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the tenant network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">ManagementNetworkVlanID</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">60</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Vlan ID for the management network traffic.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
-  <span class="l l-Scalar l-Scalar-Plain">ControlPlaneSubnetCidr</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;24&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The subnet CIDR of the control plane network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ControlPlaneDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the control plane network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ExternalInterfaceDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Not used by default in this template</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;10.0.0.1&#39;</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the external network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">ManagementInterfaceDefaultRoute</span><span class="p p-Indicator">:</span> <span class="c1"># Commented out by default in this template</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">unset</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The default route of the management network.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="l l-Scalar l-Scalar-Plain">DnsServers</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[]</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">A list of DNS servers (2 max for some implementations) that will be added to resolv.conf.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">comma_delimited_list</span>
-  <span class="l l-Scalar l-Scalar-Plain">EC2MetadataIp</span><span class="p p-Indicator">:</span> <span class="c1"># Override this via parameter_defaults</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The IP address of the EC2 metadata server.</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-
-<span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">OsNetConfigImpl</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">OS::Heat::SoftwareConfig</span>
-    <span class="l l-Scalar l-Scalar-Plain">properties</span><span class="p p-Indicator">:</span>
-      <span class="l l-Scalar l-Scalar-Plain">group</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">script</span>
-      <span class="l l-Scalar l-Scalar-Plain">config</span><span class="p p-Indicator">:</span>
-        <span class="l l-Scalar l-Scalar-Plain">str_replace</span><span class="p p-Indicator">:</span>
-          <span class="l l-Scalar l-Scalar-Plain">template</span><span class="p p-Indicator">:</span>
-            <span class="l l-Scalar l-Scalar-Plain">get_file</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../../scripts/run-os-net-config.sh</span>
-          <span class="l l-Scalar l-Scalar-Plain">params</span><span class="p p-Indicator">:</span>
-            <span class="l l-Scalar l-Scalar-Plain">$network_config</span><span class="p p-Indicator">:</span>
-              <span class="l l-Scalar l-Scalar-Plain">network_config</span><span class="p p-Indicator">:</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">interface</span>
-                <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic1</span>
-                <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-                <span class="l l-Scalar l-Scalar-Plain">dns_servers</span><span class="p p-Indicator">:</span>
-                  <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">DnsServers</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">list_join</span><span class="p p-Indicator">:</span>
-                      <span class="p p-Indicator">-</span> <span class="s">&#39;/&#39;</span>
-                      <span class="p p-Indicator">-</span> <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ControlPlaneIp</span>
-                        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ControlPlaneSubnetCidr</span>
-                <span class="l l-Scalar l-Scalar-Plain">routes</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">169.254.169.254/32</span>
-                  <span class="l l-Scalar l-Scalar-Plain">next_hop</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">EC2MetadataIp</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-                  <span class="l l-Scalar l-Scalar-Plain">next_hop</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ControlPlaneDefaultRoute</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vlan</span>
-                <span class="l l-Scalar l-Scalar-Plain">vlan_id</span><span class="p p-Indicator">:</span>
-                  <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">InternalApiNetworkVlanID</span>
-                <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic1</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">InternalApiIpSubnet</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vlan</span>
-                <span class="l l-Scalar l-Scalar-Plain">vlan_id</span><span class="p p-Indicator">:</span>
-                  <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">StorageNetworkVlanID</span>
-                <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic1</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">StorageIpSubnet</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">contrail_vrouter</span>
-                <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vhost0</span>
-                <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-                <span class="l l-Scalar l-Scalar-Plain">members</span><span class="p p-Indicator">:</span>
-                  <span class="p p-Indicator">-</span>
-                    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">interface</span>
-                    <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic2</span>
-                    <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-                <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
-                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
-                    <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">TenantIpSubnet</span>
-
-<span class="l l-Scalar l-Scalar-Plain">outputs</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">OS::stack_id</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">The OsNetConfigImpl resource.</span>
-    <span class="l l-Scalar l-Scalar-Plain">value</span><span class="p p-Indicator">:</span>
-      <span class="l l-Scalar l-Scalar-Plain">get_resource</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">OsNetConfigImpl</span>
-</pre></div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Network Configuration</a></li>
+</ul>
 </div>
 </div>
 </div>
@@ -1229,9 +768,6 @@ way of customizing the network. In this example the following networks are used:
 <li><a class="reference internal" href="#id1">OpenStack Controller</a></li>
 <li><a class="reference internal" href="#id2">Contrail Controller</a></li>
 <li><a class="reference internal" href="#id3">Compute Node</a></li>
-<li><a class="reference internal" href="#id4">Compute DPDK</a></li>
-<li><a class="reference internal" href="#id5">Compute SRIOV</a></li>
-<li><a class="reference internal" href="#csn">CSN</a></li>
 </ul>
 </li>
 </ul>
@@ -1244,7 +780,7 @@ way of customizing the network. In this example the following networks are used:
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="configuration.html" title="previous chapter">Configuration</a></li>
-      <li>Next: <a href="installation.html" title="next chapter">&lt;no title&gt;</a></li>
+      <li>Next: <a href="advanced.html" title="next chapter">Advanced Network Configuration</a></li>
   </ul></li>
 </ul>
 </div>

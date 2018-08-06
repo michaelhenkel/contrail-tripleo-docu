@@ -193,20 +193,9 @@ Compute Node
 .. literalinclude:: nics/compute-nic-config.yaml
    :language: yaml
 
-Compute DPDK
-^^^^^^^^^^^^
 
-.. literalinclude:: nics/contrail-dpdk-nic-config.yaml
-   :language: yaml
+.. toctree::
+   :maxdepth: 2
+   :caption: Advanced
 
-Compute SRIOV
-^^^^^^^^^^^^^
-
-.. literalinclude:: nics/controller-nic-config.yaml
-   :language: yaml
-
-CSN
-^^^
-
-.. literalinclude:: nics/contrail-tsn-nic-config.yaml
-   :language: yaml
+   advanced
