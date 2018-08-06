@@ -50,19 +50,20 @@
 <li><a class="reference internal" href="#ironic-perparation" id="id7">Ironic perparation</a><ul>
 <li><a class="reference internal" href="#add-the-overcloud-vms-to-ironic" id="id8">Add the Overcloud VMs to Ironic</a></li>
 <li><a class="reference internal" href="#overcloud-node-introspection" id="id9">Overcloud node introspection</a></li>
+<li><a class="reference internal" href="#add-bms-to-ironic" id="id10">Add BMS to Ironic</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#flavor-creation" id="id10">Flavor creation</a></li>
-<li><a class="reference internal" href="#create-tripleo-heat-template-copy" id="id11">Create Tripleo-Heat-Template copy</a></li>
-<li><a class="reference internal" href="#get-and-upload-containers" id="id12">Get and upload containers</a><ul>
-<li><a class="reference internal" href="#openstack-containers" id="id13">OpenStack containers</a><ul>
-<li><a class="reference internal" href="#create-openstack-container-file" id="id14">Create OpenStack container file</a></li>
-<li><a class="reference internal" href="#upload-openstack-containers" id="id15">Upload OpenStack containers</a></li>
+<li><a class="reference internal" href="#flavor-creation" id="id11">Flavor creation</a></li>
+<li><a class="reference internal" href="#create-tripleo-heat-template-copy" id="id12">Create Tripleo-Heat-Template copy</a></li>
+<li><a class="reference internal" href="#get-and-upload-containers" id="id13">Get and upload containers</a><ul>
+<li><a class="reference internal" href="#openstack-containers" id="id14">OpenStack containers</a><ul>
+<li><a class="reference internal" href="#create-openstack-container-file" id="id15">Create OpenStack container file</a></li>
+<li><a class="reference internal" href="#upload-openstack-containers" id="id16">Upload OpenStack containers</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#contrail-containers" id="id16">Contrail containers</a><ul>
-<li><a class="reference internal" href="#create-contrail-container-file" id="id17">Create Contrail container file</a></li>
-<li><a class="reference internal" href="#upload-contrail-containers-to-undercloud-registry" id="id18">Upload Contrail containers to Undercloud registry</a></li>
+<li><a class="reference internal" href="#contrail-containers" id="id17">Contrail containers</a><ul>
+<li><a class="reference internal" href="#create-contrail-container-file" id="id18">Create Contrail container file</a></li>
+<li><a class="reference internal" href="#upload-contrail-containers-to-undercloud-registry" id="id19">Upload Contrail containers to Undercloud registry</a></li>
 </ul>
 </li>
 </ul>
@@ -171,9 +172,20 @@ openstack overcloud node introspect --all-manageable --provide
 </pre></div>
 </div>
 </div>
+<div class="section" id="add-bms-to-ironic">
+<h3><a class="toc-backref" href="#id10">Add BMS to Ironic</a><a class="headerlink" href="#add-bms-to-ironic" title="Permalink to this headline">¶</a></h3>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>ipmi_range=10.87.122.25/32
+ipmi_password=ADMIN
+ipmi_user=ADMIN
+openstack overcloud node discover --range ${ipmi_range} \
+  --credentials ${ipmi_user}:${ipmi_password} \
+  --introspect --provide
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="flavor-creation">
-<h2><a class="toc-backref" href="#id10">Flavor creation</a><a class="headerlink" href="#flavor-creation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">Flavor creation</a><a class="headerlink" href="#flavor-creation" title="Permalink to this headline">¶</a></h2>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>for i in compute-dpdk \
 compute-sriov \
 contrail-controller \
@@ -188,7 +200,7 @@ done
 </div>
 </div>
 <div class="section" id="create-tripleo-heat-template-copy">
-<h2><a class="toc-backref" href="#id11">Create Tripleo-Heat-Template copy</a><a class="headerlink" href="#create-tripleo-heat-template-copy" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">Create Tripleo-Heat-Template copy</a><a class="headerlink" href="#create-tripleo-heat-template-copy" title="Permalink to this headline">¶</a></h2>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">openstack</span><span class="o">-</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span> <span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span>
 <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">juniper</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span> <span class="o">-</span><span class="n">b</span> <span class="n">stable</span><span class="o">/</span><span class="n">queens</span>
 <span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="n">contrail</span><span class="o">-</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/*</span> <span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span>
@@ -196,11 +208,11 @@ done
 </div>
 </div>
 <div class="section" id="get-and-upload-containers">
-<h2><a class="toc-backref" href="#id12">Get and upload containers</a><a class="headerlink" href="#get-and-upload-containers" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">Get and upload containers</a><a class="headerlink" href="#get-and-upload-containers" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="openstack-containers">
-<h3><a class="toc-backref" href="#id13">OpenStack containers</a><a class="headerlink" href="#openstack-containers" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id14">OpenStack containers</a><a class="headerlink" href="#openstack-containers" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="create-openstack-container-file">
-<h4><a class="toc-backref" href="#id14">Create OpenStack container file</a><a class="headerlink" href="#create-openstack-container-file" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id15">Create OpenStack container file</a><a class="headerlink" href="#create-openstack-container-file" title="Permalink to this headline">¶</a></h4>
 <div class="violet admonition">
 <p class="first admonition-title">tripleo</p>
 <blockquote class="last">
@@ -239,20 +251,20 @@ openstack overcloud container image prepare \
 </div>
 </div>
 <div class="section" id="upload-openstack-containers">
-<h4><a class="toc-backref" href="#id15">Upload OpenStack containers</a><a class="headerlink" href="#upload-openstack-containers" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id16">Upload OpenStack containers</a><a class="headerlink" href="#upload-openstack-containers" title="Permalink to this headline">¶</a></h4>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openstack</span> <span class="n">overcloud</span> <span class="n">container</span> <span class="n">image</span> <span class="n">upload</span> <span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">file</span> <span class="o">~/</span><span class="n">local_registry_images</span><span class="o">.</span><span class="n">yaml</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="contrail-containers">
-<h3><a class="toc-backref" href="#id16">Contrail containers</a><a class="headerlink" href="#contrail-containers" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">Contrail containers</a><a class="headerlink" href="#contrail-containers" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">this step is optional. If not done, Contrail containers can be downloaded from external registries.</p>
 </div>
 <div class="section" id="create-contrail-container-file">
-<h4><a class="toc-backref" href="#id17">Create Contrail container file</a><a class="headerlink" href="#create-contrail-container-file" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id18">Create Contrail container file</a><a class="headerlink" href="#create-contrail-container-file" title="Permalink to this headline">¶</a></h4>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">contrail</span>
 <span class="o">./</span><span class="n">import_contrail_container</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">f</span> <span class="n">container_outputfile</span> <span class="o">-</span><span class="n">r</span> <span class="n">registry</span> <span class="o">-</span><span class="n">t</span> <span class="n">tag</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">insecure</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="n">username</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">password</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">certificate</span> <span class="n">pat</span>
 </pre></div>
@@ -284,7 +296,7 @@ openstack overcloud container image prepare \
 </div>
 </div>
 <div class="section" id="upload-contrail-containers-to-undercloud-registry">
-<h4><a class="toc-backref" href="#id18">Upload Contrail containers to Undercloud registry</a><a class="headerlink" href="#upload-contrail-containers-to-undercloud-registry" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id19">Upload Contrail containers to Undercloud registry</a><a class="headerlink" href="#upload-contrail-containers-to-undercloud-registry" title="Permalink to this headline">¶</a></h4>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openstack</span> <span class="n">overcloud</span> <span class="n">container</span> <span class="n">image</span> <span class="n">upload</span> <span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">file</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">contrail_container</span>
 </pre></div>
 </div>
@@ -313,6 +325,7 @@ openstack overcloud container image prepare \
 <li><a class="reference internal" href="#ironic-perparation">Ironic perparation</a><ul>
 <li><a class="reference internal" href="#add-the-overcloud-vms-to-ironic">Add the Overcloud VMs to Ironic</a></li>
 <li><a class="reference internal" href="#overcloud-node-introspection">Overcloud node introspection</a></li>
+<li><a class="reference internal" href="#add-bms-to-ironic">Add BMS to Ironic</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#flavor-creation">Flavor creation</a></li>

@@ -108,6 +108,18 @@ Overcloud node introspection
   done
   openstack overcloud node introspect --all-manageable --provide
 
+Add BMS to Ironic
+-----------------
+
+.. code:: bash
+
+  ipmi_range=10.87.122.25/32
+  ipmi_password=ADMIN
+  ipmi_user=ADMIN
+  openstack overcloud node discover --range ${ipmi_range} \
+    --credentials ${ipmi_user}:${ipmi_password} \
+    --introspect --provide
+
 Flavor creation
 ===============
 
