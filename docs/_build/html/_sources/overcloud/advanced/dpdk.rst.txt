@@ -27,7 +27,7 @@ NIC template configurations
 Standard
 --------
 
-.. code:: yaml
+.. code-block:: yaml
 
               - type: contrail_vrouter_dpdk
                 name: vhost0
@@ -46,7 +46,7 @@ Standard
 VLAN
 ----
 
-.. code:: yaml
+.. code-block:: yaml
    :emphasize-lines: 6-7
 
               - type: contrail_vrouter_dpdk
@@ -68,7 +68,7 @@ VLAN
 Bond
 ----
 
-.. code:: yaml
+.. code-block:: yaml
    :emphasize-lines: 6-7,13-16
 
               - type: contrail_vrouter_dpdk
@@ -94,7 +94,7 @@ Bond
 Bond + VLAN
 -----------
 
-.. code:: yaml
+.. code-block:: yaml
    :emphasize-lines: 6-9,15-18
 
               - type: contrail_vrouter_dpdk

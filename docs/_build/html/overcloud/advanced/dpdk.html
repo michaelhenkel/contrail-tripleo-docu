@@ -58,30 +58,91 @@
 <h2>NIC template configurations<a class="headerlink" href="#nic-template-configurations" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="standard">
 <h3>Standard<a class="headerlink" href="#standard" title="Permalink to this headline">¶</a></h3>
-<div class="code yaml highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">contrail_vrouter_dpdk</span>
-  <span class="n">name</span><span class="p">:</span> <span class="n">vhost0</span>
-  <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">driver</span><span class="p">:</span> <span class="n">uio_pci_generic</span>
-  <span class="n">cpu_list</span><span class="p">:</span> <span class="mh">0x01</span>
-  <span class="n">members</span><span class="p">:</span>
-    <span class="o">-</span>
-      <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
-      <span class="n">name</span><span class="p">:</span> <span class="n">nic2</span>
-      <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">addresses</span><span class="p">:</span>
-  <span class="o">-</span> <span class="n">ip_netmask</span><span class="p">:</span>
-      <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantIpSubnet</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">contrail_vrouter_dpdk</span>
+  <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vhost0</span>
+  <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="l l-Scalar l-Scalar-Plain">driver</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">uio_pci_generic</span>
+  <span class="l l-Scalar l-Scalar-Plain">cpu_list</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0x01</span>
+  <span class="l l-Scalar l-Scalar-Plain">members</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span>
+      <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">interface</span>
+      <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic2</span>
+      <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">TenantIpSubnet</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="vlan">
 <h3>VLAN<a class="headerlink" href="#vlan" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>           <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">contrail_vrouter_dpdk</span>
+             <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vhost0</span>
+             <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+             <span class="l l-Scalar l-Scalar-Plain">driver</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">uio_pci_generic</span>
+             <span class="l l-Scalar l-Scalar-Plain">cpu_list</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0x01</span>
+<span class="hll">             <span class="l l-Scalar l-Scalar-Plain">vlan_id</span><span class="p p-Indicator">:</span>
+</span><span class="hll">               <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">TenantNetworkVlanID</span>
+</span>             <span class="l l-Scalar l-Scalar-Plain">members</span><span class="p p-Indicator">:</span>
+               <span class="p p-Indicator">-</span>
+                 <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">interface</span>
+                 <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic2</span>
+                 <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+             <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
+             <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
+                 <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">TenantIpSubnet</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="bond">
 <h3>Bond<a class="headerlink" href="#bond" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>           <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">contrail_vrouter_dpdk</span>
+             <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vhost0</span>
+             <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+             <span class="l l-Scalar l-Scalar-Plain">driver</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">uio_pci_generic</span>
+             <span class="l l-Scalar l-Scalar-Plain">cpu_list</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0x01</span>
+<span class="hll">             <span class="l l-Scalar l-Scalar-Plain">bond_mode</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+</span><span class="hll">             <span class="l l-Scalar l-Scalar-Plain">bond_policy</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">layer2+3</span>
+</span>             <span class="l l-Scalar l-Scalar-Plain">members</span><span class="p p-Indicator">:</span>
+               <span class="p p-Indicator">-</span>
+                 <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">interface</span>
+                 <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic2</span>
+                 <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="hll">               <span class="p p-Indicator">-</span>
+</span><span class="hll">                 <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">interface</span>
+</span><span class="hll">                 <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic3</span>
+</span><span class="hll">                 <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+</span>             <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
+             <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
+                 <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">TenantIpSubnet</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="bond-vlan">
 <h3>Bond + VLAN<a class="headerlink" href="#bond-vlan" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>           <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">contrail_vrouter_dpdk</span>
+             <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vhost0</span>
+             <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+             <span class="l l-Scalar l-Scalar-Plain">driver</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">uio_pci_generic</span>
+             <span class="l l-Scalar l-Scalar-Plain">cpu_list</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0x01</span>
+<span class="hll">             <span class="l l-Scalar l-Scalar-Plain">vlan_id</span><span class="p p-Indicator">:</span>
+</span><span class="hll">               <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">TenantNetworkVlanID</span>
+</span><span class="hll">             <span class="l l-Scalar l-Scalar-Plain">bond_mode</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+</span><span class="hll">             <span class="l l-Scalar l-Scalar-Plain">bond_policy</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">layer2+3</span>
+</span>             <span class="l l-Scalar l-Scalar-Plain">members</span><span class="p p-Indicator">:</span>
+               <span class="p p-Indicator">-</span>
+                 <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">interface</span>
+                 <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic2</span>
+                 <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="hll">               <span class="p p-Indicator">-</span>
+</span><span class="hll">                 <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">interface</span>
+</span><span class="hll">                 <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nic3</span>
+</span><span class="hll">                 <span class="l l-Scalar l-Scalar-Plain">use_dhcp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+</span>             <span class="l l-Scalar l-Scalar-Plain">addresses</span><span class="p p-Indicator">:</span>
+             <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ip_netmask</span><span class="p p-Indicator">:</span>
+                 <span class="l l-Scalar l-Scalar-Plain">get_param</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">TenantIpSubnet</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
