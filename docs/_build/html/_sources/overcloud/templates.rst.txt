@@ -194,6 +194,9 @@ Compute Node
    :language: yaml
 
 
+Advanced Network Configuration
+------------------------------
+
 .. toctree::
    :maxdepth: 2
    :caption: Advanced
