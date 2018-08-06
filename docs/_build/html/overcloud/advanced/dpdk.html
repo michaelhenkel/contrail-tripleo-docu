@@ -16,7 +16,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Advanced vRouter SRIOV Configurations" href="sriov.html" />
+    <link rel="next" title="Advanced vRouter SRIOV Mode Configurations" href="sriov.html" />
     <link rel="prev" title="Advanced vRouter Kernel Mode Configurations" href="vrouter.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
@@ -39,6 +39,7 @@
 <p>In addition to the standard NIC configuration, the vRouter dpdk mode supports the following modes:</p>
 <blockquote>
 <div><ul class="simple">
+<li>standard</li>
 <li>vlan</li>
 <li>bond</li>
 <li>bond + vlan</li>
@@ -55,15 +56,13 @@
 </div>
 <div class="section" id="nic-template-configurations">
 <h2>NIC template configurations<a class="headerlink" href="#nic-template-configurations" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="vlan">
-<h3>VLAN<a class="headerlink" href="#vlan" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="standard">
+<h3>Standard<a class="headerlink" href="#standard" title="Permalink to this headline">¶</a></h3>
 <div class="code yaml highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">contrail_vrouter_dpdk</span>
   <span class="n">name</span><span class="p">:</span> <span class="n">vhost0</span>
   <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
   <span class="n">driver</span><span class="p">:</span> <span class="n">uio_pci_generic</span>
   <span class="n">cpu_list</span><span class="p">:</span> <span class="mh">0x01</span>
-  <span class="n">vlan_id</span><span class="p">:</span>
-    <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantNetworkVlanID</span>
   <span class="n">members</span><span class="p">:</span>
     <span class="o">-</span>
       <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
@@ -74,56 +73,15 @@
       <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantIpSubnet</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="vlan">
+<h3>VLAN<a class="headerlink" href="#vlan" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="bond">
 <h3>Bond<a class="headerlink" href="#bond" title="Permalink to this headline">¶</a></h3>
-<div class="code yaml highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">contrail_vrouter_dpdk</span>
-  <span class="n">name</span><span class="p">:</span> <span class="n">vhost0</span>
-  <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">driver</span><span class="p">:</span> <span class="n">uio_pci_generic</span>
-  <span class="n">cpu_list</span><span class="p">:</span> <span class="mh">0x01</span>
-  <span class="n">bond_mode</span><span class="p">:</span> <span class="mi">4</span>
-  <span class="n">bond_policy</span><span class="p">:</span> <span class="n">layer2</span><span class="o">+</span><span class="mi">3</span>
-  <span class="n">members</span><span class="p">:</span>
-    <span class="o">-</span>
-      <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
-      <span class="n">name</span><span class="p">:</span> <span class="n">nic2</span>
-      <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-    <span class="o">-</span>
-      <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
-      <span class="n">name</span><span class="p">:</span> <span class="n">nic3</span>
-      <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">addresses</span><span class="p">:</span>
-  <span class="o">-</span> <span class="n">ip_netmask</span><span class="p">:</span>
-      <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantIpSubnet</span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="bond-vlan">
 <h3>Bond + VLAN<a class="headerlink" href="#bond-vlan" title="Permalink to this headline">¶</a></h3>
-<div class="code yaml highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">contrail_vrouter_dpdk</span>
-  <span class="n">name</span><span class="p">:</span> <span class="n">vhost0</span>
-  <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">driver</span><span class="p">:</span> <span class="n">uio_pci_generic</span>
-  <span class="n">cpu_list</span><span class="p">:</span> <span class="mh">0x01</span>
-  <span class="n">vlan_id</span><span class="p">:</span>
-    <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantNetworkVlanID</span>
-  <span class="n">bond_mode</span><span class="p">:</span> <span class="mi">4</span>
-  <span class="n">bond_policy</span><span class="p">:</span> <span class="n">layer2</span><span class="o">+</span><span class="mi">3</span>
-  <span class="n">members</span><span class="p">:</span>
-    <span class="o">-</span>
-      <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
-      <span class="n">name</span><span class="p">:</span> <span class="n">nic2</span>
-      <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-    <span class="o">-</span>
-      <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
-      <span class="n">name</span><span class="p">:</span> <span class="n">nic3</span>
-      <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">addresses</span><span class="p">:</span>
-  <span class="o">-</span> <span class="n">ip_netmask</span><span class="p">:</span>
-      <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantIpSubnet</span>
-</pre></div>
-</div>
 </div>
 </div>
 </div>
@@ -140,6 +98,7 @@
 <li><a class="reference internal" href="#">Advanced vRouter DPDK Mode Configurations</a><ul>
 <li><a class="reference internal" href="#network-envrionment-configuration">Network envrionment configuration</a></li>
 <li><a class="reference internal" href="#nic-template-configurations">NIC template configurations</a><ul>
+<li><a class="reference internal" href="#standard">Standard</a></li>
 <li><a class="reference internal" href="#vlan">VLAN</a></li>
 <li><a class="reference internal" href="#bond">Bond</a></li>
 <li><a class="reference internal" href="#bond-vlan">Bond + VLAN</a></li>
@@ -154,7 +113,7 @@
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../templates.html">Templates</a><ul>
       <li>Previous: <a href="vrouter.html" title="previous chapter">Advanced vRouter Kernel Mode Configurations</a></li>
-      <li>Next: <a href="sriov.html" title="next chapter">Advanced vRouter SRIOV Configurations</a></li>
+      <li>Next: <a href="sriov.html" title="next chapter">Advanced vRouter SRIOV Mode Configurations</a></li>
   </ul></li>
   </ul></li>
 </ul>

@@ -19,88 +19,53 @@ vRouter SRIOV can be used in the following combinations:
 
 The snippets below only shows the relevant section of the NIC configuation.
 
-Network envrionment configuration
+Network environment configuration
 =================================
 
-Enable the number of hugepages.
+Enable the number of hugepages
+------------------------------
+
+
+.. admonition:: SRIOV + kernel mode
+   :class: red 
+
+   .. code:: yaml
+
+     parameter_defaults:
+       ContrailSriovHugepages1GB: 10
+
+.. admonition:: SRIOV + dpdk mode
+   :class: green
+
+   .. code:: yaml
+
+     parameter_defaults:
+       ContrailSriovMode: dpdk
+       ContrailDpdkHugepages1GB: 10
+       ContrailSriovHugepages1GB: 10
+
+
+SRIOV PF/VF settings
+--------------------
 
 .. code:: yaml
 
-   parameter_defaults:
-     ContrailDpdkHugepages1GB: 10
+    NovaPCIPassthrough:
+    - devname: "ens2f1"
+      physical_network: "sriov1"
+    ContrailSriovNumVFs: ["ens2f1:7"]
 
 NIC template configurations
 ===========================
 
-VLAN
-----
+The SRIOV NICs are not configured in the NIC templates. However, vRouter NICs must still be configured.
 
-.. code:: yaml
+vRouter kernel mode
+-------------------
 
-              - type: contrail_vrouter_dpdk
-                name: vhost0
-                use_dhcp: false
-                driver: uio_pci_generic
-                cpu_list: 0x01
-                vlan_id:
-                  get_param: TenantNetworkVlanID
-                members:
-                  -
-                    type: interface
-                    name: nic2
-                    use_dhcp: false
-                addresses:
-                - ip_netmask:
-                    get_param: TenantIpSubnet
+`Advanced vRouter Kernel Mode Configurations`_
 
-Bond
-----
+vRouter DPDK mode
+-----------------
 
-.. code:: yaml
-
-              - type: contrail_vrouter_dpdk
-                name: vhost0
-                use_dhcp: false
-                driver: uio_pci_generic
-                cpu_list: 0x01
-                bond_mode: 4
-                bond_policy: layer2+3
-                members:
-                  -
-                    type: interface
-                    name: nic2
-                    use_dhcp: false
-                  -
-                    type: interface
-                    name: nic3
-                    use_dhcp: false
-                addresses:
-                - ip_netmask:
-                    get_param: TenantIpSubnet
-
-Bond + VLAN
------------
-
-.. code:: yaml
-
-              - type: contrail_vrouter_dpdk
-                name: vhost0
-                use_dhcp: false
-                driver: uio_pci_generic
-                cpu_list: 0x01
-                vlan_id:
-                  get_param: TenantNetworkVlanID
-                bond_mode: 4
-                bond_policy: layer2+3
-                members:
-                  -
-                    type: interface
-                    name: nic2
-                    use_dhcp: false
-                  -
-                    type: interface
-                    name: nic3
-                    use_dhcp: false
-                addresses:
-                - ip_netmask:
-                    get_param: TenantIpSubnet
+`Advanced vRouter DPDK Mode Configurations`_

@@ -52,85 +52,47 @@
 </ul>
 </div></blockquote>
 <p>The snippets below only shows the relevant section of the NIC configuation.</p>
-<div class="section" id="network-envrionment-configuration">
-<h2>Network envrionment configuration<a class="headerlink" href="#network-envrionment-configuration" title="Permalink to this headline">¶</a></h2>
-<p>Enable the number of hugepages.</p>
-<div class="code yaml highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">parameter_defaults</span><span class="p">:</span>
-  <span class="n">ContrailDpdkHugepages1GB</span><span class="p">:</span> <span class="mi">10</span>
+<div class="section" id="network-environment-configuration">
+<h2>Network environment configuration<a class="headerlink" href="#network-environment-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="enable-the-number-of-hugepages">
+<h3>Enable the number of hugepages<a class="headerlink" href="#enable-the-number-of-hugepages" title="Permalink to this headline">¶</a></h3>
+<div class="red admonition">
+<p class="first admonition-title">SRIOV + kernel mode</p>
+<div class="code yaml last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">parameter_defaults</span><span class="p">:</span>
+  <span class="n">ContrailSriovHugepages1GB</span><span class="p">:</span> <span class="mi">10</span>
 </pre></div>
+</div>
+</div>
+<div class="green admonition">
+<p class="first admonition-title">SRIOV + dpdk mode</p>
+<div class="code yaml last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">parameter_defaults</span><span class="p">:</span>
+  <span class="n">ContrailSriovMode</span><span class="p">:</span> <span class="n">dpdk</span>
+  <span class="n">ContrailDpdkHugepages1GB</span><span class="p">:</span> <span class="mi">10</span>
+  <span class="n">ContrailSriovHugepages1GB</span><span class="p">:</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="sriov-pf-vf-settings">
+<h3>SRIOV PF/VF settings<a class="headerlink" href="#sriov-pf-vf-settings" title="Permalink to this headline">¶</a></h3>
+<div class="code yaml highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NovaPCIPassthrough</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">devname</span><span class="p">:</span> <span class="s2">&quot;ens2f1&quot;</span>
+  <span class="n">physical_network</span><span class="p">:</span> <span class="s2">&quot;sriov1&quot;</span>
+<span class="n">ContrailSriovNumVFs</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ens2f1:7&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="nic-template-configurations">
 <h2>NIC template configurations<a class="headerlink" href="#nic-template-configurations" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="vlan">
-<h3>VLAN<a class="headerlink" href="#vlan" title="Permalink to this headline">¶</a></h3>
-<div class="code yaml highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">contrail_vrouter_dpdk</span>
-  <span class="n">name</span><span class="p">:</span> <span class="n">vhost0</span>
-  <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">driver</span><span class="p">:</span> <span class="n">uio_pci_generic</span>
-  <span class="n">cpu_list</span><span class="p">:</span> <span class="mh">0x01</span>
-  <span class="n">vlan_id</span><span class="p">:</span>
-    <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantNetworkVlanID</span>
-  <span class="n">members</span><span class="p">:</span>
-    <span class="o">-</span>
-      <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
-      <span class="n">name</span><span class="p">:</span> <span class="n">nic2</span>
-      <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">addresses</span><span class="p">:</span>
-  <span class="o">-</span> <span class="n">ip_netmask</span><span class="p">:</span>
-      <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantIpSubnet</span>
-</pre></div>
+<p>The SRIOV NICs are not configured in the NIC templates. However, vRouter NICs must still be configured.</p>
+<div class="section" id="vrouter-kernel-mode">
+<h3>vRouter kernel mode<a class="headerlink" href="#vrouter-kernel-mode" title="Permalink to this headline">¶</a></h3>
+<p><a href="#id1"><span class="problematic" id="id2">`Advanced vRouter Kernel Mode Configurations`_</span></a></p>
 </div>
-</div>
-<div class="section" id="bond">
-<h3>Bond<a class="headerlink" href="#bond" title="Permalink to this headline">¶</a></h3>
-<div class="code yaml highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">contrail_vrouter_dpdk</span>
-  <span class="n">name</span><span class="p">:</span> <span class="n">vhost0</span>
-  <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">driver</span><span class="p">:</span> <span class="n">uio_pci_generic</span>
-  <span class="n">cpu_list</span><span class="p">:</span> <span class="mh">0x01</span>
-  <span class="n">bond_mode</span><span class="p">:</span> <span class="mi">4</span>
-  <span class="n">bond_policy</span><span class="p">:</span> <span class="n">layer2</span><span class="o">+</span><span class="mi">3</span>
-  <span class="n">members</span><span class="p">:</span>
-    <span class="o">-</span>
-      <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
-      <span class="n">name</span><span class="p">:</span> <span class="n">nic2</span>
-      <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-    <span class="o">-</span>
-      <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
-      <span class="n">name</span><span class="p">:</span> <span class="n">nic3</span>
-      <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">addresses</span><span class="p">:</span>
-  <span class="o">-</span> <span class="n">ip_netmask</span><span class="p">:</span>
-      <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantIpSubnet</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="bond-vlan">
-<h3>Bond + VLAN<a class="headerlink" href="#bond-vlan" title="Permalink to this headline">¶</a></h3>
-<div class="code yaml highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">contrail_vrouter_dpdk</span>
-  <span class="n">name</span><span class="p">:</span> <span class="n">vhost0</span>
-  <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">driver</span><span class="p">:</span> <span class="n">uio_pci_generic</span>
-  <span class="n">cpu_list</span><span class="p">:</span> <span class="mh">0x01</span>
-  <span class="n">vlan_id</span><span class="p">:</span>
-    <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantNetworkVlanID</span>
-  <span class="n">bond_mode</span><span class="p">:</span> <span class="mi">4</span>
-  <span class="n">bond_policy</span><span class="p">:</span> <span class="n">layer2</span><span class="o">+</span><span class="mi">3</span>
-  <span class="n">members</span><span class="p">:</span>
-    <span class="o">-</span>
-      <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
-      <span class="n">name</span><span class="p">:</span> <span class="n">nic2</span>
-      <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-    <span class="o">-</span>
-      <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
-      <span class="n">name</span><span class="p">:</span> <span class="n">nic3</span>
-      <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
-  <span class="n">addresses</span><span class="p">:</span>
-  <span class="o">-</span> <span class="n">ip_netmask</span><span class="p">:</span>
-      <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantIpSubnet</span>
-</pre></div>
-</div>
+<div class="section" id="vrouter-dpdk-mode">
+<h3>vRouter DPDK mode<a class="headerlink" href="#vrouter-dpdk-mode" title="Permalink to this headline">¶</a></h3>
+<p><a href="#id3"><span class="problematic" id="id4">`Advanced vRouter DPDK Mode Configurations`_</span></a></p>
 </div>
 </div>
 </div>
@@ -145,11 +107,14 @@
   <h3><a href="../../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Advanced vRouter SRIOV Mode Configurations</a><ul>
-<li><a class="reference internal" href="#network-envrionment-configuration">Network envrionment configuration</a></li>
+<li><a class="reference internal" href="#network-environment-configuration">Network environment configuration</a><ul>
+<li><a class="reference internal" href="#enable-the-number-of-hugepages">Enable the number of hugepages</a></li>
+<li><a class="reference internal" href="#sriov-pf-vf-settings">SRIOV PF/VF settings</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#nic-template-configurations">NIC template configurations</a><ul>
-<li><a class="reference internal" href="#vlan">VLAN</a></li>
-<li><a class="reference internal" href="#bond">Bond</a></li>
-<li><a class="reference internal" href="#bond-vlan">Bond + VLAN</a></li>
+<li><a class="reference internal" href="#vrouter-kernel-mode">vRouter kernel mode</a></li>
+<li><a class="reference internal" href="#vrouter-dpdk-mode">vRouter DPDK mode</a></li>
 </ul>
 </li>
 </ul>

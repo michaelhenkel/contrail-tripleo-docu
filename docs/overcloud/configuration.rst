@@ -27,25 +27,24 @@ Create image directory
 Get Overcloud images
 --------------------
 
-   .. admonition:: Overcloud images
 
-            .. admonition:: tripleo
-                     :class: violet
+.. admonition:: tripleo
+         :class: violet
 
-                           ::
+               ::
 
-                             curl -O https://images.rdoproject.org/queens/rdo_trunk/current-tripleo-rdo/ironic-python-agent.tar
-                             curl -O https://images.rdoproject.org/queens/rdo_trunk/current-tripleo-rdo/overcloud-full.tar
-                             tar xvf ironic-python-agent.tar
-                             tar xvf overcloud-full.tar
+                 curl -O https://images.rdoproject.org/queens/rdo_trunk/current-tripleo-rdo/ironic-python-agent.tar
+                 curl -O https://images.rdoproject.org/queens/rdo_trunk/current-tripleo-rdo/overcloud-full.tar
+                 tar xvf ironic-python-agent.tar
+                 tar xvf overcloud-full.tar
 
-            .. admonition:: OSP13
-                     :class: yellow
+.. admonition:: OSP13
+         :class: yellow
 
-                           ::
+               ::
                           
-                             sudo yum install -y rhosp-director-images rhosp-director-images-ipa
-                             for i in /usr/share/rhosp-director-images/overcloud-full-latest-13.0.tar /usr/share/rhosp-director-images/ironic-python-agent-latest-13.0.tar ; do tar -xvf $i; done
+                 sudo yum install -y rhosp-director-images rhosp-director-images-ipa
+                 for i in /usr/share/rhosp-director-images/overcloud-full-latest-13.0.tar /usr/share/rhosp-director-images/ironic-python-agent-latest-13.0.tar ; do tar -xvf $i; done
 
 Upload Overcloud images
 -----------------------
@@ -143,41 +142,39 @@ OpenStack containers
 Create OpenStack container file
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   .. note::
+.. admonition:: tripleo
+         :class: violet
 
-            .. admonition:: tripleo
-                     :class: violet
+               ::
 
-                           ::
+                 openstack overcloud container image prepare \
+                   --namespace docker.io/tripleoqueens \
+                   --tag current-tripleo \
+                   --tag-from-label rdo_version \
+                   --output-env-file=~/overcloud_images.yaml
 
-                             openstack overcloud container image prepare \
-                               --namespace docker.io/tripleoqueens \
-                               --tag current-tripleo \
-                               --tag-from-label rdo_version \
-                               --output-env-file=~/overcloud_images.yaml
+                 tag=`grep "docker.io/tripleoqueens" docker_registry.yaml |tail -1 |awk -F":" '{print $3}'`
 
-                             tag=`grep "docker.io/tripleoqueens" docker_registry.yaml |tail -1 |awk -F":" '{print $3}'`
+                 openstack overcloud container image prepare \
+                   --namespace docker.io/tripleoqueens \
+                   --tag ${tag} \
+                   --push-destination 192.168.24.1:8787 \
+                   --output-env-file=~/overcloud_images.yaml \
+                   --output-images-file=~/local_registry_images.yaml
 
-                             openstack overcloud container image prepare \
-                               --namespace docker.io/tripleoqueens \
-                               --tag ${tag} \
-                               --push-destination 192.168.24.1:8787 \
-                               --output-env-file=~/overcloud_images.yaml \
-                               --output-images-file=~/local_registry_images.yaml
+.. admonition:: OSP13
+         :class: yellow
 
-            .. admonition:: OSP13
-                     :class: yellow
+               ::
 
-                           ::
-
-                             openstack overcloud container image prepare \
-                              --push-destination=192.168.24.1:8787  \
-                              --tag-from-label {version}-{release} \
-                              --output-images-file ~/local_registry_images.yaml  \
-                              --namespace=registry.access.redhat.com/rhosp13  \
-                              --prefix=openstack-  \
-                              --tag-from-label {version}-{release}  \
-                              --output-env-file ~/overcloud_images.yaml
+                 openstack overcloud container image prepare \
+                  --push-destination=192.168.24.1:8787  \
+                  --tag-from-label {version}-{release} \
+                  --output-images-file ~/local_registry_images.yaml  \
+                  --namespace=registry.access.redhat.com/rhosp13  \
+                  --prefix=openstack-  \
+                  --tag-from-label {version}-{release}  \
+                  --output-env-file ~/overcloud_images.yaml
 
 Upload OpenStack containers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -199,31 +196,31 @@ Create Contrail container file
   cd ~/tripleo-heat-templates/tools/contrail
   ./import_contrail_container.sh -f container_outputfile -r registry -t tag [-i insecure] [-u username] [-p password] [-c certificate pat
 
-.. note:: Examples:
+Examples:
 
-  .. admonition:: Pull from password protectet public registry:
+.. admonition:: Pull from password protectet public registry:
 
-    ::
-                          
-       ./import_contrail_container.sh -f /tmp/contrail_container -r hub.juniper.net/contrail -u USERNAME -p PASSWORD -t 1234
+  ::
+                        
+     ./import_contrail_container.sh -f /tmp/contrail_container -r hub.juniper.net/contrail -u USERNAME -p PASSWORD -t 1234
 
-  .. admonition:: Pull from dockerhub:
+.. admonition:: Pull from dockerhub:
 
-    ::
-                          
-       ./import_contrail_container.sh -f /tmp/contrail_container -r docker.io/opencontrailnightly -t 1234
+  ::
+                        
+     ./import_contrail_container.sh -f /tmp/contrail_container -r docker.io/opencontrailnightly -t 1234
 
-  .. admonition:: Pull from private secure registry:
+.. admonition:: Pull from private secure registry:
 
-    ::
-                          
-       ./import_contrail_container.sh -f /tmp/contrail_container -r satellite.englab.juniper.net:5443 -c http://satellite.englab.juniper.net/pub/satellite.englab.juniper.net.crt -t 1234
+  ::
+                        
+     ./import_contrail_container.sh -f /tmp/contrail_container -r satellite.englab.juniper.net:5443 -c http://satellite.englab.juniper.net/pub/satellite.englab.juniper.net.crt -t 1234
 
-  .. admonition:: Pull from private insecure registry:
+.. admonition:: Pull from private insecure registry:
 
-    ::
-                          
-       ./import_contrail_container.sh -f /tmp/contrail_container -r 10.0.0.1:5443 -i 1 -t 1234
+  ::
+                        
+     ./import_contrail_container.sh -f /tmp/contrail_container -r 10.0.0.1:5443 -i 1 -t 1234
 
 
 

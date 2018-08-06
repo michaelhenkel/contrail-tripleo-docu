@@ -4,6 +4,7 @@ Advanced vRouter DPDK Mode Configurations
 
 In addition to the standard NIC configuration, the vRouter dpdk mode supports the following modes:
 
+  - standard
   - vlan
   - bond
   - bond + vlan
@@ -23,10 +24,30 @@ Enable the number of hugepages.
 NIC template configurations
 ===========================
 
+Standard
+--------
+
+.. code:: yaml
+
+              - type: contrail_vrouter_dpdk
+                name: vhost0
+                use_dhcp: false
+                driver: uio_pci_generic
+                cpu_list: 0x01
+                members:
+                  -
+                    type: interface
+                    name: nic2
+                    use_dhcp: false
+                addresses:
+                - ip_netmask:
+                    get_param: TenantIpSubnet
+
 VLAN
 ----
 
 .. code:: yaml
+   :emphasize-lines: 6-7
 
               - type: contrail_vrouter_dpdk
                 name: vhost0
@@ -48,6 +69,7 @@ Bond
 ----
 
 .. code:: yaml
+   :emphasize-lines: 6-7,13-16
 
               - type: contrail_vrouter_dpdk
                 name: vhost0
@@ -73,6 +95,7 @@ Bond + VLAN
 -----------
 
 .. code:: yaml
+   :emphasize-lines: 6-9,15-18
 
               - type: contrail_vrouter_dpdk
                 name: vhost0
