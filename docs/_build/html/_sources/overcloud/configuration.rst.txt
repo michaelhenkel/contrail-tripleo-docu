@@ -111,6 +111,48 @@ Overcloud node introspection
 Add BMS to Ironic
 -----------------
 
+Automated profiling
+^^^^^^^^^^^^^^^^^^^
+
+The attributes of the physical server can be evalutated and based on rules the server can be automatically profiled.
+In the example below the rule matches for system manufacturer "Supermicro" and for greater or equal to 128GByte memory.
+
+Create the rule
+
+.. code:: bash
+   cat << EOF > ~/rule_compute.json
+   [
+    {
+        "description": "set physical compute",
+        "conditions": [
+            {"op": "eq", "field": "data://auto_discovered", "value": true},
+            {"op": "eq", "field": "data://inventory.system_vendor.manufacturer",
+             "value": "Supermicro"},
+            {"op": "ge", "field": "memory_mb", "value": 128000}
+        ],
+        "actions": [
+            {"action": "set-attribute", "path": "driver_info/ipmi_username",
+             "value": "ADMIN"},
+            {"action": "set-attribute", "path": "driver_info/ipmi_password",
+             "value": "ADMIN"},
+            {"action": "set-capability", "name": "profile", "value": "compute"},
+            {"action": "set-attribute", "path": "driver_info/ipmi_address","value": "{data[inventory][bmc_address]}"}
+        ]
+    }
+   ]
+   EOF
+
+Import the rule
+
+.. code:: bash
+    
+   openstack baremetal introspection rule import ~/rule_compute.json
+
+Scanning of BMC ranges
+^^^^^^^^^^^^^^^^^^^^^^
+
+This allows to scan BMC IP ranges and automatically add new servers using the rules from above.
+
 .. code:: bash
 
   ipmi_range=10.87.122.25/32
