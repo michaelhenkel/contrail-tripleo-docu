@@ -36,6 +36,39 @@
             
   <div class="section" id="advanced-vrouter-configurations">
 <h1>Advanced vRouter Configurations<a class="headerlink" href="#advanced-vrouter-configurations" title="Permalink to this headline">¶</a></h1>
+<p>In addition to the standard NIC configuration, the vRouter supports the following modes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>vlan</li>
+<li>bond</li>
+<li>bond + vlan</li>
+</ul>
+</div></blockquote>
+<p>The snippets below only shows the relevant section of the NIC configuation.</p>
+<div class="section" id="vlan">
+<h2>VLAN<a class="headerlink" href="#vlan" title="Permalink to this headline">¶</a></h2>
+<div class="code yaml highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">vlan</span>
+  <span class="n">vlan_id</span><span class="p">:</span>
+    <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantNetworkVlanID</span>
+  <span class="n">device</span><span class="p">:</span> <span class="n">nic2</span>
+<span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">contrail_vrouter</span>
+  <span class="n">name</span><span class="p">:</span> <span class="n">vhost0</span>
+  <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
+  <span class="n">members</span><span class="p">:</span>
+    <span class="o">-</span>
+      <span class="nb">type</span><span class="p">:</span> <span class="n">interface</span>
+      <span class="n">name</span><span class="p">:</span>
+        <span class="n">str_replace</span><span class="p">:</span>
+          <span class="n">template</span><span class="p">:</span> <span class="n">vlanVLANID</span>
+          <span class="n">params</span><span class="p">:</span>
+            <span class="n">VLANID</span><span class="p">:</span> <span class="p">{</span><span class="n">get_param</span><span class="p">:</span> <span class="n">TenantNetworkVlanID</span><span class="p">}</span>
+      <span class="n">use_dhcp</span><span class="p">:</span> <span class="n">false</span>
+  <span class="n">addresses</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">ip_netmask</span><span class="p">:</span>
+      <span class="n">get_param</span><span class="p">:</span> <span class="n">TenantIpSubnet</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -44,7 +77,15 @@
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Advanced vRouter Configurations</a><ul>
+<li><a class="reference internal" href="#vlan">VLAN</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
