@@ -21,6 +21,8 @@ Enable the number of hugepages.
    parameter_defaults:
      ContrailDpdkHugepages1GB: 10
 
+.. _advanced_dpdk_label:
+
 NIC template configurations
 ===========================
 

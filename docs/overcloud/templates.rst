@@ -9,6 +9,10 @@ The customization of the Overcloud is done in a set of different yaml templates
 Network customization
 =====================
 
+The depency of the different network related files is shown here:
+
+.. image:: network_settings.png
+
 In order to customize the network, different networks have to be defined and the
 Overcloud nodes NIC layout has to be configured. Tripleo supports a flexible 
 way of customizing the network. In this example the following networks are used:

@@ -30,6 +30,10 @@ The snippets below only shows the relevant section of the NIC configuation.
 Network environment configuration
 =================================
 
+.. code-block:: bash
+
+   vi ~/tripleo-heat-templates/environments/contrail/contrail-services.yaml
+
 Enable the number of hugepages
 ------------------------------
 
@@ -71,11 +75,10 @@ The SRIOV NICs are not configured in the NIC templates. However, vRouter NICs mu
 vRouter kernel mode
 -------------------
 
-`Advanced vRouter Kernel Mode Configurations <vrouter>`
-
-:ref:`advanced_vrouter_label`
+See :ref:`advanced_vrouter_label`
 
 vRouter DPDK mode
 -----------------
 
-`Advanced vRouter DPDK Mode Configurations`
+See :ref:`advanced_dpdk_label`
+
