@@ -5,8 +5,11 @@ Remote Compute
 Remote Compute extends the data plane to remote locations (POP) whilest keeping the control plane central.
 For Contrail, each POP will have its own set of Contrail control services, which are running in the central location.
 
+ControlOnly preparation
+=======================
+
 Add ControlOnly Overcloud VMs to Overcloud KVM host
-===================================================
+---------------------------------------------------
 
 .. note:: This has to be done on the Overcloud KVM hosts
 
@@ -59,7 +62,7 @@ On each of the Overcloud KVM hosts two ControlOnly Overcloud VM definitions will
 .. note:: the generated ironic_list will be needed on the Undercloud to import the nodes to ironic
 
 Import ControlOnly nodes to ironic
-==================================
+----------------------------------
 
 Get the ironic_lists from the Overcloud KVM hosts and combine them.
 
@@ -110,14 +113,14 @@ Import
    done < <(cat ironic_list_control_only)
    
 ControlOnly node introspection
-==============================
+------------------------------
 
 .. code:: bash
 
     openstack overcloud node introspect --all-manageable --provide
 
 ControlOnly node flavor creation
-================================
+--------------------------------
 
 .. code:: bash
 
@@ -125,3 +128,143 @@ ControlOnly node flavor creation
    openstack flavor set --property "capabilities:boot_option"="local" \
                         --property "capabilities:profile"="controlonly" control-only
 
+Per ControlOnly node subcluster configuration
+---------------------------------------------
+
+Get the ironic UUID of the ControlOnly nodes
+
+.. code:: bash
+
+   openstack baremetal node list |grep control-only
+   | 4befdfb1-12b9-4963-a16b-521e92d9558b | control-only-1-5b3s30  | None | power off   | available          | False       |
+   | 9ae7a099-3a19-4cd1-b6f6-4df5dbc61684 | control-only-2-5b3s30  | None | power off   | available          | False       |
+   | 0ae4cc2d-5ee3-441c-8b5a-41a72625826f | control-only-1-5b3s31  | None | power off   | available          | False       |
+   | 88e9739e-0d6e-4263-8800-ed91656f9b7e | control-only-2-5b3s31  | None | power off   | available          | False       |
+   | 056d08da-df19-4c74-847d-5cb877654b05 | control-only-1-5b3s32  | None | power off   | available          | False       |
+   | a97dc3ce-139a-4c00-9d4c-8d996347f3f4 | control-only-2-5b3s32  | None | power off   | available          | False       |
+
+The first ControlOnly node on each of the Overcloud KVM hosts will be used for POP1, the second for POP2
+
+Get the system UUIDs:
+
+.. code:: bash
+
+   openstack baremetal introspection data save 4befdfb1-12b9-4963-a16b-521e92d9558b | jq .extra.system.product.uuid \
+     >> ~/control_only_pop1
+   openstack baremetal introspection data save 0ae4cc2d-5ee3-441c-8b5a-41a72625826f | jq .extra.system.product.uuid \
+     >> ~/control_only_pop1
+   openstack baremetal introspection data save 056d08da-df19-4c74-847d-5cb877654b05 | jq .extra.system.product.uuid \
+     >> ~/control_only_pop1
+   openstack baremetal introspection data save 9ae7a099-3a19-4cd1-b6f6-4df5dbc61684 | jq .extra.system.product.uuid \
+     >> ~/control_only_pop2
+   openstack baremetal introspection data save 88e9739e-0d6e-4263-8800-ed91656f9b7e | jq .extra.system.product.uuid \
+     >> ~/control_only_pop2
+   openstack baremetal introspection data save a97dc3ce-139a-4c00-9d4c-8d996347f3f4 | jq .extra.system.product.uuid \
+     >> ~/control_only_pop2
+
+   cat ~/control_only_pop1
+   "73F8D030-E896-4A95-A9F5-E1A4FEBE322D"
+   "28AB0B57-D612-431E-B177-1C578AE0FEA4"
+   "3993957A-ECBF-4520-9F49-0AF6EE1667A7"
+
+   cat ~/control_only_pop2
+   "14639A66-D62C-4408-82EE-FDDC4E509687"
+   "09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0"
+   "AF92F485-C30C-4D0A-BDC4-C6AE97D06A66"
+
+Set node specific hieradata
+
+.. code:: bash
+
+   vi ~/pop1.yaml
+   parameter_defaults:
+     NodeDataLookup: |
+       {"73F8D030-E896-4A95-A9F5-E1A4FEBE322D": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
+       {"28AB0B57-D612-431E-B177-1C578AE0FEA4": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
+       {"3993957A-ECBF-4520-9F49-0AF6EE1667A7": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
+
+   vi ~/pop2.yaml
+   parameter_defaults:
+     NodeDataLookup: |
+       {"14639A66-D62C-4408-82EE-FDDC4E509687": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
+       {"09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
+       {"AF92F485-C30C-4D0A-BDC4-C6AE97D06A66": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
+
+
+Compute node configuration
+==========================
+
+Per Compute subcluster configuration
+------------------------------------
+
+Get the ironic UUID of the ControlOnly nodes
+
+.. code:: bash
+
+   openstack baremetal node list |grep compute
+   | 91d6026c-b9db-49cb-a685-99a63da5d81e | compute-3-5b3s30 | None | power off | available | False |
+   | 8028eb8c-e1e6-4357-8fcf-0796778bd2f7 | compute-4-5b3s30 | None | power off | available | False |
+   | b795b3b9-c4e3-4a76-90af-258d9336d9fb | compute-3-5b3s31 | None | power off | available | False |
+   | 2d4be83e-6fcc-4761-86f2-c2615dd15074 | compute-4-5b3s31 | None | power off | available | False |
+
+From that list the first two compute nodes belong to POP1 the rest to POP2
+
+Get system UUIDs:
+
+.. code:: bash
+
+    openstack baremetal introspection data save 91d6026c-b9db-49cb-a685-99a63da5d81e | jq .extra.system.product.uuid \
+     >> ~/compute_pop1
+    openstack baremetal introspection data save 8028eb8c-e1e6-4357-8fcf-0796778bd2f7 | jq .extra.system.product.uuid \
+     >> ~/compute_pop1
+    openstack baremetal introspection data save b795b3b9-c4e3-4a76-90af-258d9336d9fb | jq .extra.system.product.uuid \
+     >> ~/compute_pop2
+    openstack baremetal introspection data save 2d4be83e-6fcc-4761-86f2-c2615dd15074 | jq .extra.system.product.uuid \
+     >> ~/compute_pop2
+
+    cat compute_pop1
+    "BB9E9D00-57D1-410B-8B19-17A0DA581044"
+    "E1A809DE-FDB2-4EB2-A91F-1B3F75B99510"
+
+    cat compute_pop2
+    "7933C2D8-E61E-4752-854E-B7B18A424971"
+    "041D7B75-6581-41B3-886E-C06847B9C87E"
+
+Set node specific hieradata
+
+.. code:: bash
+
+   vi ~/pop1.yaml
+   parameter_defaults:
+     NodeDataLookup: |
+       {"73F8D030-E896-4A95-A9F5-E1A4FEBE322D": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
+       {"28AB0B57-D612-431E-B177-1C578AE0FEA4": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
+       {"3993957A-ECBF-4520-9F49-0AF6EE1667A7": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
+       {"BB9E9D00-57D1-410B-8B19-17A0DA581044": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"VROUTER_GATEWAY":"10.0.0.1"}}}
+       {"E1A809DE-FDB2-4EB2-A91F-1B3F75B99510": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"VROUTER_GATEWAY":"10.0.0.1"}}}
+
+   vi ~/pop2.yaml
+   parameter_defaults:
+     NodeDataLookup: |
+       {"14639A66-D62C-4408-82EE-FDDC4E509687": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
+       {"09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
+       {"AF92F485-C30C-4D0A-BDC4-C6AE97D06A66": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
+       {"7933C2D8-E61E-4752-854E-B7B18A424971": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"VROUTER_GATEWAY":"10.0.0.1"}}}
+       {"041D7B75-6581-41B3-886E-C06847B9C87E": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"VROUTER_GATEWAY":"10.0.0.1"}}}
+
+Deployment
+----------
+
+Add pop1.yaml and pop2.yaml to the openstack deploy command:
+
+.. code:: bash
+
+   openstack overcloud deploy --templates ~/tripleo-heat-templates \
+    -e ~/overcloud_images.yaml \
+    -e ~/tripleo-heat-templates/environments/network-isolation.yaml \
+    -e ~/tripleo-heat-templates/environments/contrail/contrail-plugins.yaml \
+    -e ~/tripleo-heat-templates/environments/contrail/contrail-services.yaml \
+    -e ~/tripleo-heat-templates/environments/contrail/contrail-net.yaml \
+    -e ~/pop1.yaml \
+    -e ~/pop2.yaml \
+    --roles-file ~/tripleo-heat-templates/roles_data_contrail_aio.yaml
