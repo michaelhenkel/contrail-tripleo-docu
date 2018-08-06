@@ -120,6 +120,7 @@ In the example below the rule matches for system manufacturer "Supermicro" and f
 Create the rule
 
 .. code:: bash
+
    cat << EOF > ~/rule_compute.json
    [
     {

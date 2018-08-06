@@ -183,6 +183,29 @@ openstack overcloud node introspect --all-manageable --provide
 <p>The attributes of the physical server can be evalutated and based on rules the server can be automatically profiled.
 In the example below the rule matches for system manufacturer “Supermicro” and for greater or equal to 128GByte memory.</p>
 <p>Create the rule</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">&lt;&lt;</span> <span class="n">EOF</span> <span class="o">&gt;</span> <span class="o">~/</span><span class="n">rule_compute</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span>
+ <span class="p">{</span>
+     <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;set physical compute&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;conditions&quot;</span><span class="p">:</span> <span class="p">[</span>
+         <span class="p">{</span><span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="s2">&quot;data://auto_discovered&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">},</span>
+         <span class="p">{</span><span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="s2">&quot;data://inventory.system_vendor.manufacturer&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;Supermicro&quot;</span><span class="p">},</span>
+         <span class="p">{</span><span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="s2">&quot;ge&quot;</span><span class="p">,</span> <span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="s2">&quot;memory_mb&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">128000</span><span class="p">}</span>
+     <span class="p">],</span>
+     <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[</span>
+         <span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;set-attribute&quot;</span><span class="p">,</span> <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;driver_info/ipmi_username&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;ADMIN&quot;</span><span class="p">},</span>
+         <span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;set-attribute&quot;</span><span class="p">,</span> <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;driver_info/ipmi_password&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;ADMIN&quot;</span><span class="p">},</span>
+         <span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;set-capability&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;profile&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;compute&quot;</span><span class="p">},</span>
+         <span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;set-attribute&quot;</span><span class="p">,</span> <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;driver_info/ipmi_address&quot;</span><span class="p">,</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{data[inventory][bmc_address]}</span><span class="s2">&quot;</span><span class="p">}</span>
+     <span class="p">]</span>
+ <span class="p">}</span>
+<span class="p">]</span>
+<span class="n">EOF</span>
+</pre></div>
+</div>
 <p>Import the rule</p>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openstack</span> <span class="n">baremetal</span> <span class="n">introspection</span> <span class="n">rule</span> <span class="kn">import</span> <span class="o">~/</span><span class="n">rule_compute</span><span class="o">.</span><span class="n">json</span>
 </pre></div>
