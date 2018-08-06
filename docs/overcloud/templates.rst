@@ -6,6 +6,66 @@ Templates
 
 The customization of the Overcloud is done in a set of different yaml templates
 
+Contrail Services customization
+===============================
+
+.. code:: bash
+
+   vi ~/tripleo-heat-templates/environments/contrail-services.yaml
+
+.. code:: bash
+
+   parameter_defaults:
+     ContrailSettings:
+       VROUTER_GATEWAY: 10.0.0.1
+       # KEY1: value1
+       # KEY2: value2
+
+
+Contrail registry settings
+==========================
+
+.. code:: bash
+
+   vi ~/tripleo-heat-templates/environments/contrail-services.yaml
+
+.. admonition:: Public Juniper registry
+   :class: red
+
+     ::
+
+        parameter_defaults:
+          ContrailRegistry: hub.juniper.net/contrail
+          ContrailRegistryUser: YOURUSER
+          ContrailRegistryPassword: YOURPASSWORD
+
+.. admonition:: Insecure registry
+   :class: green
+
+     ::
+
+        parameter_defaults:
+          ContrailRegistryInsecure: true
+          DockerInsecureRegistryAddress: 10.87.64.32:5000,192.168.24.1:8787
+          ContrailRegistry: 10.87.64.32:5000
+
+.. admonition:: Private secure registry
+   :class: violet
+
+     ::
+
+        parameter_defaults:
+          ContrailRegistryCertUrl: http://satellite.englab.juniper.net/pub/satellite.englab.juniper.net.crt
+          ContrailRegistry: satellite.englab.juniper.net:5443
+
+Contrail container image settings
+=================================
+
+.. code:: bash
+
+   parameter_defaults:
+     ContrailImageTag: queens-5.0-104-rhel-queens
+
 Network customization
 =====================
 
@@ -207,3 +267,11 @@ Advanced Network Configuration
    advanced/vrouter
    advanced/dpdk
    advanced/sriov
+
+Advanced scenarios
+==================
+
+.. toctree::
+   :maxdepth: 3
+
+   advanced/remotecompute

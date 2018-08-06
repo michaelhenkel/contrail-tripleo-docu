@@ -1,0 +1,224 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Remote Compute &#8212; Contrail Tripleo queens documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="../installation.html" />
+    <link rel="prev" title="Advanced vRouter SRIOV Mode Configurations" href="sriov.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="remote-compute">
+<h1>Remote Compute<a class="headerlink" href="#remote-compute" title="Permalink to this headline">¶</a></h1>
+<p>Remote Compute extends the data plane to remote locations (POP) whilest keeping the control plane central.
+For Contrail, each POP will have its own set of Contrail control services, which are running in the central location.</p>
+<div class="section" id="add-controlonly-overcloud-vms-to-overcloud-kvm-host">
+<h2>Add ControlOnly Overcloud VMs to Overcloud KVM host<a class="headerlink" href="#add-controlonly-overcloud-vms-to-overcloud-kvm-host" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This has to be done on the Overcloud KVM hosts</p>
+</div>
+<p>On each of the Overcloud KVM hosts two ControlOnly Overcloud VM definitions will be created.</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>ROLES=control-only:2
+num=4
+ipmi_user=ADMIN
+ipmi_password=ADMIN
+libvirt_path=/var/lib/libvirt/images
+port_group=overcloud
+prov_switch=br0
+
+/bin/rm ironic_list
+IFS=&#39;,&#39; read -ra role_list &lt;&lt;&lt; &quot;${ROLES}&quot;
+for role in ${role_list[@]}; do
+  role_name=`echo $role|cut -d &quot;:&quot; -f 1`
+  role_count=`echo $role|cut -d &quot;:&quot; -f 2`
+  for count in `seq 1 ${role_count}`; do
+    echo $role_name $count
+    qemu-img create -f qcow2 ${libvirt_path}/${role_name}_${count}.qcow2 99G
+    virsh define /dev/stdin &lt;&lt;EOF
+    $(virt-install --name ${role_name}_${count} \
+--disk ${libvirt_path}/${role_name}_${count}.qcow2 \
+--vcpus=4 \
+--ram=16348 \
+--network network=br0,model=virtio,portgroup=${port_group} \
+--network network=br1,model=virtio \
+--virt-type kvm \
+--cpu host \
+--import \
+--os-variant rhel7 \
+--serial pty \
+--console pty,target_type=virtio \
+--graphics vnc \
+--print-xml)
+EOF
+    vbmc add ${role_name}_${count} --port 1623${num} --username ${ipmi_user} --password ${ipmi_password}
+    vbmc start ${role_name}_${count}
+    prov_mac=`virsh domiflist ${role_name}_${count}|grep ${prov_switch}|awk &#39;{print $5}&#39;`
+    vm_name=${role_name}-${count}-`hostname -s`
+    kvm_ip=`ip route get 1  |grep src |awk &#39;{print $7}&#39;`
+    echo ${prov_mac} ${vm_name} ${kvm_ip} ${role_name} 1623${num}&gt;&gt; ironic_list
+    num=$(expr $num + 1)
+  done
+done
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the generated ironic_list will be needed on the Undercloud to import the nodes to ironic</p>
+</div>
+</div>
+<div class="section" id="import-controlonly-nodes-to-ironic">
+<h2>Import ControlOnly nodes to ironic<a class="headerlink" href="#import-controlonly-nodes-to-ironic" title="Permalink to this headline">¶</a></h2>
+<p>Get the ironic_lists from the Overcloud KVM hosts and combine them.</p>
+<p>Examle:</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="n">ironic_list_control_only</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">3</span><span class="n">a</span><span class="p">:</span><span class="mi">2</span><span class="n">f</span><span class="p">:</span><span class="n">ca</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s30</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.31</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span> <span class="mi">16234</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">31</span><span class="p">:</span><span class="mi">4</span><span class="n">f</span><span class="p">:</span><span class="mi">63</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s30</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.31</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span> <span class="mi">16235</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">0</span><span class="n">c</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">74</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s31</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.32</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span> <span class="mi">16234</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="n">ab</span><span class="p">:</span><span class="mi">55</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s31</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.32</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span> <span class="mi">16235</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="n">c1</span><span class="p">:</span><span class="n">f0</span><span class="p">:</span><span class="mi">9</span><span class="n">a</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s32</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.33</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span> <span class="mi">16234</span>
+<span class="mi">52</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="n">f3</span><span class="p">:</span><span class="n">ce</span><span class="p">:</span><span class="mi">13</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="mi">5</span><span class="n">b3s32</span> <span class="mf">10.87</span><span class="o">.</span><span class="mf">64.33</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span> <span class="mi">16235</span>
+</pre></div>
+</div>
+<p>Import</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>ipmi_password=ADMIN
+ipmi_user=ADMIN
+
+DEPLOY_KERNEL=$(openstack image show bm-deploy-kernel -f value -c id)
+DEPLOY_RAMDISK=$(openstack image show bm-deploy-ramdisk -f value -c id)
+
+while IFS= read -r line; do
+  mac=`echo $line|awk &#39;{print $1}&#39;`
+  name=`echo $line|awk &#39;{print $2}&#39;`
+  kvm_ip=`echo $line|awk &#39;{print $3}&#39;`
+  profile=`echo $line|awk &#39;{print $4}&#39;`
+  ipmi_port=`echo $line|awk &#39;{print $5}&#39;`
+  uuid=`openstack baremetal node create --driver ipmi \
+                                        --property cpus=4 \
+                                        --property memory_mb=16348 \
+                                        --property local_gb=100 \
+                                        --property cpu_arch=x86_64 \
+                                        --driver-info ipmi_username=${ipmi_user}  \
+                                        --driver-info ipmi_address=${kvm_ip} \
+                                        --driver-info ipmi_password=${ipmi_password} \
+                                        --driver-info ipmi_port=${ipmi_port} \
+                                        --name=${name} \
+                                        --property capabilities=profile:${profile},boot_option:local \
+                                        -c uuid -f value`
+  openstack baremetal node set ${uuid} --driver-info deploy_kernel=$DEPLOY_KERNEL --driver-info deploy_ramdisk=$DEPLOY_RAMDISK
+  openstack baremetal port create --node ${uuid} ${mac}
+  openstack baremetal node manage ${uuid}
+done &lt; &lt;(cat ironic_list_control_only)
+</pre></div>
+</div>
+</div>
+<div class="section" id="controlonly-node-introspection">
+<h2>ControlOnly node introspection<a class="headerlink" href="#controlonly-node-introspection" title="Permalink to this headline">¶</a></h2>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openstack</span> <span class="n">overcloud</span> <span class="n">node</span> <span class="n">introspect</span> <span class="o">--</span><span class="nb">all</span><span class="o">-</span><span class="n">manageable</span> <span class="o">--</span><span class="n">provide</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="controlonly-node-flavor-creation">
+<h2>ControlOnly node flavor creation<a class="headerlink" href="#controlonly-node-flavor-creation" title="Permalink to this headline">¶</a></h2>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openstack</span> <span class="n">flavor</span> <span class="n">create</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span> <span class="o">--</span><span class="n">ram</span> <span class="mi">4096</span> <span class="o">--</span><span class="n">vcpus</span> <span class="mi">1</span> <span class="o">--</span><span class="n">disk</span> <span class="mi">40</span>
+<span class="n">openstack</span> <span class="n">flavor</span> <span class="nb">set</span> <span class="o">--</span><span class="nb">property</span> <span class="s2">&quot;capabilities:boot_option&quot;</span><span class="o">=</span><span class="s2">&quot;local&quot;</span> \
+                     <span class="o">--</span><span class="nb">property</span> <span class="s2">&quot;capabilities:profile&quot;</span><span class="o">=</span><span class="s2">&quot;controlonly&quot;</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Remote Compute</a><ul>
+<li><a class="reference internal" href="#add-controlonly-overcloud-vms-to-overcloud-kvm-host">Add ControlOnly Overcloud VMs to Overcloud KVM host</a></li>
+<li><a class="reference internal" href="#import-controlonly-nodes-to-ironic">Import ControlOnly nodes to ironic</a></li>
+<li><a class="reference internal" href="#controlonly-node-introspection">ControlOnly node introspection</a></li>
+<li><a class="reference internal" href="#controlonly-node-flavor-creation">ControlOnly node flavor creation</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../templates.html">Templates</a><ul>
+      <li>Previous: <a href="sriov.html" title="previous chapter">Advanced vRouter SRIOV Mode Configurations</a></li>
+      <li>Next: <a href="../installation.html" title="next chapter">&lt;no title&gt;</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/overcloud/advanced/remotecompute.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Michael Henkel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="../../_sources/overcloud/advanced/remotecompute.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
