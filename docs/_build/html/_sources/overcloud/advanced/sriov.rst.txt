@@ -5,16 +5,24 @@ Advanced vRouter SRIOV Mode Configurations
 vRouter SRIOV can be used in the following combinations:
 
   - SRIOV + Kernel mode
+
     - standard
+    
     - vlan
+    
     - bond
+    
     - bond + vlan
 
 
   - SRIOV + DPDK mode
+    
     - standard
+  
     - vlan
+  
     - bond
+  
     - bond + vlan
 
 The snippets below only shows the relevant section of the NIC configuation.
@@ -63,9 +71,11 @@ The SRIOV NICs are not configured in the NIC templates. However, vRouter NICs mu
 vRouter kernel mode
 -------------------
 
-`Advanced vRouter Kernel Mode Configurations`_
+`Advanced vRouter Kernel Mode Configurations <vrouter>`
+
+:ref:`advanced_vrouter_label`
 
 vRouter DPDK mode
 -----------------
 
-`Advanced vRouter DPDK Mode Configurations`_
+`Advanced vRouter DPDK Mode Configurations`

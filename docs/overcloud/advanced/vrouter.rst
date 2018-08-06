@@ -11,6 +11,8 @@ In addition to the standard NIC configuration, the vRouter kernel mode supports 
 The snippets below only shows the relevant section of the NIC configuation.
 
 
+.. _advanced_vrouter_label:
+
 NIC template configurations
 ===========================
 
