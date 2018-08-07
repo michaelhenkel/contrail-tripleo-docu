@@ -237,20 +237,20 @@ Set node specific hieradata
    vi ~/pop1.yaml
    parameter_defaults:
      NodeDataLookup: |
-       {"73F8D030-E896-4A95-A9F5-E1A4FEBE322D": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
-       {"28AB0B57-D612-431E-B177-1C578AE0FEA4": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
-       {"3993957A-ECBF-4520-9F49-0AF6EE1667A7": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
-       {"BB9E9D00-57D1-410B-8B19-17A0DA581044": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"VROUTER_GATEWAY":"10.0.0.1"}}}
-       {"E1A809DE-FDB2-4EB2-A91F-1B3F75B99510": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"VROUTER_GATEWAY":"10.0.0.1"}}}
+       {"73F8D030-E896-4A95-A9F5-E1A4FEBE322D": {"contrail_settings": {"SUBLCUSTER":"subcluster1","BGP_ASN":"64513"}}}
+       {"28AB0B57-D612-431E-B177-1C578AE0FEA4": {"contrail_settings": {"SUBLCUSTER":"subcluster1","BGP_ASN":"64513"}}}
+       {"3993957A-ECBF-4520-9F49-0AF6EE1667A7": {"contrail_settings": {"SUBLCUSTER":"subcluster1","BGP_ASN":"64513"}}}
+       {"BB9E9D00-57D1-410B-8B19-17A0DA581044": {"contrail_settings": {"SUBLCUSTER":"subcluster1","VROUTER_GATEWAY":"10.0.0.1"}}}
+       {"E1A809DE-FDB2-4EB2-A91F-1B3F75B99510": {"contrail_settings": {"SUBLCUSTER":"subcluster1","VROUTER_GATEWAY":"10.0.0.1"}}}
 
    vi ~/pop2.yaml
    parameter_defaults:
      NodeDataLookup: |
-       {"14639A66-D62C-4408-82EE-FDDC4E509687": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
-       {"09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
-       {"AF92F485-C30C-4D0A-BDC4-C6AE97D06A66": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
-       {"7933C2D8-E61E-4752-854E-B7B18A424971": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"VROUTER_GATEWAY":"10.0.0.1"}}}
-       {"041D7B75-6581-41B3-886E-C06847B9C87E": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"VROUTER_GATEWAY":"10.0.0.1"}}}
+       {"14639A66-D62C-4408-82EE-FDDC4E509687": {"contrail_settings": {"SUBLCUSTER":"subcluster2","BGP_ASN":"64514"}}}
+       {"09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0": {"contrail_settings": {"SUBLCUSTER":"subcluster2","BGP_ASN":"64514"}}}
+       {"AF92F485-C30C-4D0A-BDC4-C6AE97D06A66": {"contrail_settings": {"SUBLCUSTER":"subcluster2","BGP_ASN":"64514"}}}
+       {"7933C2D8-E61E-4752-854E-B7B18A424971": {"contrail_settings": {"SUBLCUSTER":"subcluster2","VROUTER_GATEWAY":"10.0.0.1"}}}
+       {"041D7B75-6581-41B3-886E-C06847B9C87E": {"contrail_settings": {"SUBLCUSTER":"subcluster2","VROUTER_GATEWAY":"10.0.0.1"}}}
 
 Deployment
 ----------
