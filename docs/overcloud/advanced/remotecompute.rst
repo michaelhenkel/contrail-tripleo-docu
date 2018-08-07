@@ -89,6 +89,7 @@ Import
    DEPLOY_KERNEL=$(openstack image show bm-deploy-kernel -f value -c id)
    DEPLOY_RAMDISK=$(openstack image show bm-deploy-ramdisk -f value -c id)
     
+   num=0
    while IFS= read -r line; do
      mac=`echo $line|awk '{print $1}'`
      name=`echo $line|awk '{print $2}'`
@@ -105,11 +106,12 @@ Import
                                            --driver-info ipmi_password=${ipmi_password} \
                                            --driver-info ipmi_port=${ipmi_port} \
                                            --name=${name} \
-                                           --property capabilities=profile:${profile},boot_option:local \
+                                           --property capabilities=node:contrail-control-only-${num},profile:${profile},boot_option:local \
                                            -c uuid -f value`
      openstack baremetal node set ${uuid} --driver-info deploy_kernel=$DEPLOY_KERNEL --driver-info deploy_ramdisk=$DEPLOY_RAMDISK
      openstack baremetal port create --node ${uuid} ${mac}
      openstack baremetal node manage ${uuid}
+     num=$(expr $num + 1)
    done < <(cat ironic_list_control_only)
    
 ControlOnly node introspection

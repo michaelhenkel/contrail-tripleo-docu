@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>&lt;no title&gt; &#8212; Contrail Tripleo queens documentation</title>
+    <title>Overcloud Installation &#8212; Contrail Tripleo queens documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Templates" href="templates.html" />
+    <link rel="prev" title="Remote Compute" href="advanced/remotecompute.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -33,18 +33,56 @@
 
           <div class="body" role="main">
             
-  
+  <div class="section" id="overcloud-installation">
+<h1>Overcloud Installation<a class="headerlink" href="#overcloud-installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="deployment">
+<h2>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h2>
+<p>Finally deploy the Overcloud:</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openstack</span> <span class="n">overcloud</span> <span class="n">deploy</span> <span class="o">--</span><span class="n">templates</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span> \
+<span class="o">-</span><span class="n">e</span> <span class="o">~/</span><span class="n">overcloud_images</span><span class="o">.</span><span class="n">yaml</span> \
+<span class="o">-</span><span class="n">e</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">network</span><span class="o">-</span><span class="n">isolation</span><span class="o">.</span><span class="n">yaml</span> \
+<span class="o">-</span><span class="n">e</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">plugins</span><span class="o">.</span><span class="n">yaml</span> \
+<span class="o">-</span><span class="n">e</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">services</span><span class="o">.</span><span class="n">yaml</span> \
+<span class="o">-</span><span class="n">e</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">net</span><span class="o">.</span><span class="n">yaml</span> \
+<span class="o">--</span><span class="n">roles</span><span class="o">-</span><span class="n">file</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">roles_data_contrail_aio</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="quick-test">
+<h2>Quick test<a class="headerlink" href="#quick-test" title="Permalink to this headline">¶</a></h2>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>source overcloudrc
+curl -O http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
+openstack image create --container-format bare --disk-format qcow2 --file cirros-0.3.5-x86_64-disk.img cirros
+openstack flavor create --public cirros --id auto --ram 64 --disk 0 --vcpus 1
+openstack network create net1
+openstack subnet create --subnet-range 1.0.0.0/24 --network net1 sn1
+nova boot --image cirros --flavor cirros --nic net-id=`openstack network show net1 -c id -f value` --availability-zone nova:overcloud-novacompute-0.localdomain c1
+nova list
+</pre></div>
+</div>
+</div>
+</div>
+
 
           </div>
           
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overcloud Installation</a><ul>
+<li><a class="reference internal" href="#deployment">Deployment</a></li>
+<li><a class="reference internal" href="#quick-test">Quick test</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="templates.html" title="previous chapter">Templates</a></li>
+      <li>Previous: <a href="advanced/remotecompute.html" title="previous chapter">Remote Compute</a></li>
   </ul></li>
 </ul>
 </div>

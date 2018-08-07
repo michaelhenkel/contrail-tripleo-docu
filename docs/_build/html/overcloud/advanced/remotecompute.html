@@ -16,7 +16,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="../installation.html" />
+    <link rel="next" title="Overcloud Installation" href="../installation.html" />
     <link rel="prev" title="Advanced vRouter SRIOV Mode Configurations" href="sriov.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
@@ -115,6 +115,7 @@ ipmi_user=ADMIN
 DEPLOY_KERNEL=$(openstack image show bm-deploy-kernel -f value -c id)
 DEPLOY_RAMDISK=$(openstack image show bm-deploy-ramdisk -f value -c id)
 
+num=0
 while IFS= read -r line; do
   mac=`echo $line|awk &#39;{print $1}&#39;`
   name=`echo $line|awk &#39;{print $2}&#39;`
@@ -131,11 +132,12 @@ while IFS= read -r line; do
                                         --driver-info ipmi_password=${ipmi_password} \
                                         --driver-info ipmi_port=${ipmi_port} \
                                         --name=${name} \
-                                        --property capabilities=profile:${profile},boot_option:local \
+                                        --property capabilities=node:contrail-control-only-${num},profile:${profile},boot_option:local \
                                         -c uuid -f value`
   openstack baremetal node set ${uuid} --driver-info deploy_kernel=$DEPLOY_KERNEL --driver-info deploy_ramdisk=$DEPLOY_RAMDISK
   openstack baremetal port create --node ${uuid} ${mac}
   openstack baremetal node manage ${uuid}
+  num=$(expr $num + 1)
 done &lt; &lt;(cat ironic_list_control_only)
 </pre></div>
 </div>
@@ -313,7 +315,7 @@ done &lt; &lt;(cat ironic_list_control_only)
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../templates.html">Templates</a><ul>
       <li>Previous: <a href="sriov.html" title="previous chapter">Advanced vRouter SRIOV Mode Configurations</a></li>
-      <li>Next: <a href="../installation.html" title="next chapter">&lt;no title&gt;</a></li>
+      <li>Next: <a href="../installation.html" title="next chapter">Overcloud Installation</a></li>
   </ul></li>
   </ul></li>
 </ul>
