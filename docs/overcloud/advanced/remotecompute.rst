@@ -126,7 +126,7 @@ ControlOnly node flavor creation
 
    openstack flavor create control-only --ram 4096 --vcpus 1 --disk 40
    openstack flavor set --property "capabilities:boot_option"="local" \
-                        --property "capabilities:profile"="controlonly" control-only
+                        --property "capabilities:profile"="control-only" control-only
 
 Per ControlOnly node subcluster configuration
 ---------------------------------------------
@@ -179,16 +179,16 @@ Set node specific hieradata
    vi ~/pop1.yaml
    parameter_defaults:
      NodeDataLookup: |
-       {"73F8D030-E896-4A95-A9F5-E1A4FEBE322D": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
-       {"28AB0B57-D612-431E-B177-1C578AE0FEA4": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
-       {"3993957A-ECBF-4520-9F49-0AF6EE1667A7": {"contrail_settings": {"SUBLCUSTER":"subcluster1"},{"BGP_ASN":"64513"}}}
+       {"73F8D030-E896-4A95-A9F5-E1A4FEBE322D": {"contrail_settings": {"SUBLCUSTER": "subcluster1","BGP_ASN": "64513"}}}
+       {"28AB0B57-D612-431E-B177-1C578AE0FEA4": {"contrail_settings": {"SUBLCUSTER": "subcluster1","BGP_ASN": "64513"}}}
+       {"3993957A-ECBF-4520-9F49-0AF6EE1667A7": {"contrail_settings": {"SUBLCUSTER": "subcluster1","BGP_ASN": "64513"}}}
 
    vi ~/pop2.yaml
    parameter_defaults:
      NodeDataLookup: |
-       {"14639A66-D62C-4408-82EE-FDDC4E509687": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
-       {"09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
-       {"AF92F485-C30C-4D0A-BDC4-C6AE97D06A66": {"contrail_settings": {"SUBLCUSTER":"subcluster2"},{"BGP_ASN":"64514"}}}
+       {"14639A66-D62C-4408-82EE-FDDC4E509687": {"contrail_settings": {"SUBLCUSTER": "subcluster2","BGP_ASN":" 64514"}}}
+       {"09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0": {"contrail_settings": {"SUBLCUSTER": "subcluster2","BGP_ASN":" 64514"}}}
+       {"AF92F485-C30C-4D0A-BDC4-C6AE97D06A66": {"contrail_settings": {"SUBLCUSTER": "subcluster2","BGP_ASN":" 64514"}}}
 
 
 Compute node configuration
