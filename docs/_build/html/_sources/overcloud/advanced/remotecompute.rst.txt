@@ -162,76 +162,26 @@ Control Only nodes must have static IPs assigned
        - 10.0.0.15
        - 10.0.0.16
 
-Per ControlOnly node subcluster configuration
----------------------------------------------
+Create subcluser nodedata
+-------------------------
 
 Get the ironic UUID of the ControlOnly nodes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: bash
 
    openstack baremetal node list |grep control-only
-   | 4befdfb1-12b9-4963-a16b-521e92d9558b | control-only-1-5b3s30  | None | power off | available | False |
-   | 9ae7a099-3a19-4cd1-b6f6-4df5dbc61684 | control-only-2-5b3s30  | None | power off | available | False |
-   | 0ae4cc2d-5ee3-441c-8b5a-41a72625826f | control-only-1-5b3s31  | None | power off | available | False |
-   | 88e9739e-0d6e-4263-8800-ed91656f9b7e | control-only-2-5b3s31  | None | power off | available | False |
-   | 056d08da-df19-4c74-847d-5cb877654b05 | control-only-1-5b3s32  | None | power off | available | False |
-   | a97dc3ce-139a-4c00-9d4c-8d996347f3f4 | control-only-2-5b3s32  | None | power off | available | False |
+   | 7d758dce-2784-45fd-be09-5a41eb53e764 | control-only-1-5b3s30  | None | power off | available | False |
+   | d26abdeb-d514-4a37-a7fb-2cd2511c351f | control-only-2-5b3s30  | None | power off | available | False |
+   | 91dd9fa9-e8eb-4b51-8b5e-bbaffb6640e4 | control-only-1-5b3s31  | None | power off | available | False |
+   | 09fa57b8-580f-42ec-bf10-a19573521ed4 | control-only-2-5b3s31  | None | power off | available | False |
+   | f4766799-24c8-4e3b-af54-353f2b796ca4 | control-only-1-5b3s32  | None | power off | available | False |
+   | 58a803ae-a785-470e-9789-139abbfa74fb | control-only-2-5b3s32  | None | power off | available | False |
 
 The first ControlOnly node on each of the Overcloud KVM hosts will be used for POP1, the second for POP2
 
-Get the system UUIDs:
-
-.. code:: bash
-
-   openstack baremetal introspection data save 4befdfb1-12b9-4963-a16b-521e92d9558b | jq .extra.system.product.uuid \
-     >> ~/control_only_pop1
-   openstack baremetal introspection data save 0ae4cc2d-5ee3-441c-8b5a-41a72625826f | jq .extra.system.product.uuid \
-     >> ~/control_only_pop1
-   openstack baremetal introspection data save 056d08da-df19-4c74-847d-5cb877654b05 | jq .extra.system.product.uuid \
-     >> ~/control_only_pop1
-   openstack baremetal introspection data save 9ae7a099-3a19-4cd1-b6f6-4df5dbc61684 | jq .extra.system.product.uuid \
-     >> ~/control_only_pop2
-   openstack baremetal introspection data save 88e9739e-0d6e-4263-8800-ed91656f9b7e | jq .extra.system.product.uuid \
-     >> ~/control_only_pop2
-   openstack baremetal introspection data save a97dc3ce-139a-4c00-9d4c-8d996347f3f4 | jq .extra.system.product.uuid \
-     >> ~/control_only_pop2
-
-   cat ~/control_only_pop1
-   "73F8D030-E896-4A95-A9F5-E1A4FEBE322D"
-   "28AB0B57-D612-431E-B177-1C578AE0FEA4"
-   "3993957A-ECBF-4520-9F49-0AF6EE1667A7"
-
-   cat ~/control_only_pop2
-   "14639A66-D62C-4408-82EE-FDDC4E509687"
-   "09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0"
-   "AF92F485-C30C-4D0A-BDC4-C6AE97D06A66"
-
-Set node specific hieradata
-
-.. code:: bash
-
-   vi ~/pop1.yaml
-   parameter_defaults:
-     NodeDataLookup: |
-       {"73F8D030-E896-4A95-A9F5-E1A4FEBE322D": {"contrail_settings": {"SUBLCUSTER": "subcluster1","BGP_ASN": "64513","CONTROL_NODES":"10.0.0.11,10.0.0.12,10.0.0.13"}}}
-       {"28AB0B57-D612-431E-B177-1C578AE0FEA4": {"contrail_settings": {"SUBLCUSTER": "subcluster1","BGP_ASN": "64513","CONTROL_NODES":"10.0.0.11,10.0.0.12,10.0.0.13"}}}
-       {"3993957A-ECBF-4520-9F49-0AF6EE1667A7": {"contrail_settings": {"SUBLCUSTER": "subcluster1","BGP_ASN": "64513","CONTROL_NODES":"10.0.0.11,10.0.0.12,10.0.0.13"}}}
-
-   vi ~/pop2.yaml
-   parameter_defaults:
-     NodeDataLookup: |
-       {"14639A66-D62C-4408-82EE-FDDC4E509687": {"contrail_settings": {"SUBLCUSTER": "subcluster2","BGP_ASN":" 64514","CONTROL_NODES":"10.0.0.14,10.0.0.15,10.0.0.16"}}}
-       {"09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0": {"contrail_settings": {"SUBLCUSTER": "subcluster2","BGP_ASN":" 64514","CONTROL_NODES":"10.0.0.14,10.0.0.15,10.0.0.16"}}}
-       {"AF92F485-C30C-4D0A-BDC4-C6AE97D06A66": {"contrail_settings": {"SUBLCUSTER": "subcluster2","BGP_ASN":" 64514","CONTROL_NODES":"1 0.0.0.14,10.0.0.15,10.0.0.16"}}}
-
-
-Compute node configuration
-==========================
-
-Per Compute subcluster configuration
-------------------------------------
-
-Get the ironic UUID of the ControlOnly nodes
+Get the ironic UUID of the POP compute nodes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: bash
 
@@ -243,48 +193,68 @@ Get the ironic UUID of the ControlOnly nodes
 
 From that list the first two compute nodes belong to POP1 the rest to POP2
 
-Get system UUIDs:
+Create an input yaml
+^^^^^^^^^^^^^^^^^^^^
 
 .. code:: bash
 
-    openstack baremetal introspection data save 91d6026c-b9db-49cb-a685-99a63da5d81e | jq .extra.system.product.uuid \
-     >> ~/compute_pop1
-    openstack baremetal introspection data save 8028eb8c-e1e6-4357-8fcf-0796778bd2f7 | jq .extra.system.product.uuid \
-     >> ~/compute_pop1
-    openstack baremetal introspection data save b795b3b9-c4e3-4a76-90af-258d9336d9fb | jq .extra.system.product.uuid \
-     >> ~/compute_pop2
-    openstack baremetal introspection data save 2d4be83e-6fcc-4761-86f2-c2615dd15074 | jq .extra.system.product.uuid \
-     >> ~/compute_pop2
+   vi ~/subcluster_input.yaml
+   ---
+   - subcluster: subcluster1
+     asn: "65413"
+     control_nodes:
+       - uuid: 7d758dce-2784-45fd-be09-5a41eb53e764
+         ipaddress: 10.0.0.11
+       - uuid: 91dd9fa9-e8eb-4b51-8b5e-bbaffb6640e4
+         ipaddress: 10.0.0.12
+       - uuid: f4766799-24c8-4e3b-af54-353f2b796ca4
+         ipaddress: 10.0.0.13
+     compute_nodes:
+       - uuid: 91d6026c-b9db-49cb-a685-99a63da5d81e
+         vrouter_gateway: 10.0.0.1
+       - uuid: 8028eb8c-e1e6-4357-8fcf-0796778bd2f7
+         vrouter_gateway: 10.0.0.1
+   - subcluster: subcluster2
+     asn: "65414"
+     control_nodes:
+       - uuid: d26abdeb-d514-4a37-a7fb-2cd2511c351f
+         ipaddress: 10.0.0.14
+       - uuid: 09fa57b8-580f-42ec-bf10-a19573521ed4
+         ipaddress: 10.0.0.15
+       - uuid: 58a803ae-a785-470e-9789-139abbfa74fb
+         ipaddress: 10.0.0.16
+     compute_nodes:
+       - uuid: b795b3b9-c4e3-4a76-90af-258d9336d9fb
+         vrouter_gateway: 10.0.0.1
+       - uuid: 2d4be83e-6fcc-4761-86f2-c2615dd15074
+         vrouter_gateway: 10.0.0.1
 
-    cat compute_pop1
-    "BB9E9D00-57D1-410B-8B19-17A0DA581044"
-    "E1A809DE-FDB2-4EB2-A91F-1B3F75B99510"
-
-    cat compute_pop2
-    "7933C2D8-E61E-4752-854E-B7B18A424971"
-    "041D7B75-6581-41B3-886E-C06847B9C87E"
-
-Set node specific hieradata
+Generate subcluster environment file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: bash
 
-   vi ~/pop1.yaml
-   parameter_defaults:
-     NodeDataLookup: |
-       {"73F8D030-E896-4A95-A9F5-E1A4FEBE322D": {"contrail_settings": {"SUBLCUSTER": "subcluster1","BGP_ASN": "64513","CONTROL_NODES":"10.0.0.11,10.0.0.12,10.0.0.13"}}}
-       {"28AB0B57-D612-431E-B177-1C578AE0FEA4": {"contrail_settings": {"SUBLCUSTER": "subcluster1","BGP_ASN": "64513","CONTROL_NODES":"10.0.0.11,10.0.0.12,10.0.0.13"}}}
-       {"3993957A-ECBF-4520-9F49-0AF6EE1667A7": {"contrail_settings": {"SUBLCUSTER": "subcluster1","BGP_ASN": "64513","CONTROL_NODES":"10.0.0.11,10.0.0.12,10.0.0.13"}}}
-       {"BB9E9D00-57D1-410B-8B19-17A0DA581044": {"contrail_settings": {"SUBLCUSTER":"subcluster1","VROUTER_GATEWAY":"10.0.0.1","CONTROL_NODES":"10.0.0.11,10.0.0.12,10.0.0.13"}}}
-       {"E1A809DE-FDB2-4EB2-A91F-1B3F75B99510": {"contrail_settings": {"SUBLCUSTER":"subcluster1","VROUTER_GATEWAY":"10.0.0.1","CONTROL_NODES":"10.0.0.11,10.0.0.12,10.0.0.13"}}}
+   ~/tripleo-heat-templates/tools/contrail/subcluster.py -i ~/subcluster_input.yaml \ 
+                  -o ~/tripleo-heat-templates/environments/contrail/subcluster.yaml
 
-   vi ~/pop2.yaml
+Check subcluster environment file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code:: bash
+
+   cat ~/tripleo-heat-templates/environments/contrail/subcluster.yaml
    parameter_defaults:
      NodeDataLookup: |
-       {"14639A66-D62C-4408-82EE-FDDC4E509687": {"contrail_settings": {"SUBLCUSTER": "subcluster2","BGP_ASN":" 64514","CONTROL_NODES":"10.0.0.14,10.0.0.15,10.0.0.16"}}}
-       {"09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0": {"contrail_settings": {"SUBLCUSTER": "subcluster2","BGP_ASN":" 64514","CONTROL_NODES":"10.0.0.14,10.0.0.15,10.0.0.16"}}}
-       {"AF92F485-C30C-4D0A-BDC4-C6AE97D06A66": {"contrail_settings": {"SUBLCUSTER": "subcluster2","BGP_ASN":" 64514","CONTROL_NODES":"1 0.0.0.14,10.0.0.15,10.0.0.16"}}}
-       {"7933C2D8-E61E-4752-854E-B7B18A424971": {"contrail_settings": {"SUBLCUSTER":"subcluster2","VROUTER_GATEWAY":"10.0.0.1","CONTROL_NODES":"10.0.0.14,10.0.0.15,10.0.0.16"}}}
-       {"041D7B75-6581-41B3-886E-C06847B9C87E": {"contrail_settings": {"SUBLCUSTER":"subcluster2","VROUTER_GATEWAY":"10.0.0.1","CONTROL_NODES":"10.0.0.14,10.0.0.15,10.0.0.16"}}}
+        {"73F8D030-E896-4A95-A9F5-E1A4FEBE322D": {"contrail_settings": {"SUBCLUSTER": "subcluster1", "BGP_ASN": "65413"}}}
+        {"28AB0B57-D612-431E-B177-1C578AE0FEA4": {"contrail_settings": {"SUBCLUSTER": "subcluster1", "BGP_ASN": "65413"}}}
+        {"3993957A-ECBF-4520-9F49-0AF6EE1667A7": {"contrail_settings": {"SUBCLUSTER": "subcluster1", "BGP_ASN": "65413"}}}
+        {"BB9E9D00-57D1-410B-8B19-17A0DA581044": {"contrail_settings": {"VROUTER_GATEWAY": "10.0.0.1", "CONTROL_NODES": "10.0.0.11,10.0.0.12,10.0.0.13", "SUBCLUSTER": "subcluster1"}}}
+        {"E1A809DE-FDB2-4EB2-A91F-1B3F75B99510": {"contrail_settings": {"VROUTER_GATEWAY": "10.0.0.1", "CONTROL_NODES": "10.0.0.11,10.0.0.12,10.0.0.13", "SUBCLUSTER": "subcluster1"}}}
+        {"14639A66-D62C-4408-82EE-FDDC4E509687": {"contrail_settings": {"SUBCLUSTER": "subcluster2", "BGP_ASN": "65414"}}}
+        {"09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0": {"contrail_settings": {"SUBCLUSTER": "subcluster2", "BGP_ASN": "65414"}}}
+        {"AF92F485-C30C-4D0A-BDC4-C6AE97D06A66": {"contrail_settings": {"SUBCLUSTER": "subcluster2", "BGP_ASN": "65414"}}}
+        {"7933C2D8-E61E-4752-854E-B7B18A424971": {"contrail_settings": {"VROUTER_GATEWAY": "10.0.0.1", "CONTROL_NODES": "10.0.0.14,10.0.0.15,10.0.0.16", "SUBCLUSTER": "subcluster2"}}}
+        {"041D7B75-6581-41B3-886E-C06847B9C87E": {"contrail_settings": {"VROUTER_GATEWAY": "10.0.0.1", "CONTROL_NODES": "10.0.0.14,10.0.0.15,10.0.0.16", "SUBCLUSTER": "subcluster2"}}}
 
 Deployment
 ----------
@@ -299,6 +269,5 @@ Add pop1.yaml and pop2.yaml to the openstack deploy command:
     -e ~/tripleo-heat-templates/environments/contrail/contrail-plugins.yaml \
     -e ~/tripleo-heat-templates/environments/contrail/contrail-services.yaml \
     -e ~/tripleo-heat-templates/environments/contrail/contrail-net.yaml \
-    -e ~/pop1.yaml \
-    -e ~/pop2.yaml \
+    -e ~/tripleo-heat-templates/environments/contrail/subcluster.yaml \
     --roles-file ~/tripleo-heat-templates/roles_data_contrail_aio.yaml
