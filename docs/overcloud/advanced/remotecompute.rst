@@ -235,14 +235,14 @@ Generate subcluster environment file
 .. code:: bash
 
    ~/tripleo-heat-templates/tools/contrail/subcluster.py -i ~/subcluster_input.yaml \ 
-                  -o ~/tripleo-heat-templates/environments/contrail/subcluster.yaml
+                  -o ~/tripleo-heat-templates/environments/contrail/contrail-subcluster.yaml
 
 Check subcluster environment file
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: bash
 
-   cat ~/tripleo-heat-templates/environments/contrail/subcluster.yaml
+   cat ~/tripleo-heat-templates/environments/contrail/contrail-subcluster.yaml
    parameter_defaults:
      NodeDataLookup: |
         {"73F8D030-E896-4A95-A9F5-E1A4FEBE322D": {"contrail_settings": {"SUBCLUSTER": "subcluster1", "BGP_ASN": "65413"}}}
@@ -259,7 +259,7 @@ Check subcluster environment file
 Deployment
 ----------
 
-Add pop1.yaml and pop2.yaml to the openstack deploy command:
+Add contrail-subcluster.yaml to the openstack deploy command:
 
 .. code:: bash
 
@@ -269,5 +269,5 @@ Add pop1.yaml and pop2.yaml to the openstack deploy command:
     -e ~/tripleo-heat-templates/environments/contrail/contrail-plugins.yaml \
     -e ~/tripleo-heat-templates/environments/contrail/contrail-services.yaml \
     -e ~/tripleo-heat-templates/environments/contrail/contrail-net.yaml \
-    -e ~/tripleo-heat-templates/environments/contrail/subcluster.yaml \
+    -e ~/tripleo-heat-templates/environments/contrail/contrail-subcluster.yaml \
     --roles-file ~/tripleo-heat-templates/roles_data_contrail_aio.yaml
