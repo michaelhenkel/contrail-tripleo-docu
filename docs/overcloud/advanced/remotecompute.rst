@@ -293,7 +293,7 @@ Check subcluster environment file
 Deployment
 ----------
 
-Add contrail-subcluster.yaml to the openstack deploy command:
+Add contrail-subcluster.yaml and contrail-ips-from-pool-all.yaml to the openstack deploy command:
 
 .. code:: bash
 
@@ -304,4 +304,5 @@ Add contrail-subcluster.yaml to the openstack deploy command:
     -e ~/tripleo-heat-templates/environments/contrail/contrail-services.yaml \
     -e ~/tripleo-heat-templates/environments/contrail/contrail-net.yaml \
     -e ~/tripleo-heat-templates/environments/contrail/contrail-subcluster.yaml \
+    -e ~/tripleo-heat-templates/environments/contrail/contrail-ips-from-pool-all.yaml \
     --roles-file ~/tripleo-heat-templates/roles_data_contrail_aio.yaml
