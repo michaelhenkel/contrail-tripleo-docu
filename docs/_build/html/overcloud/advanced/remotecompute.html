@@ -55,21 +55,77 @@ In order to achieve that the following methods are used:</p>
 </div>
 <div class="section" id="mapping-table">
 <h2>Mapping table<a class="headerlink" href="#mapping-table" title="Permalink to this headline">¶</a></h2>
-<p>+================================+=======================+======================================+======================================+========+===========+======+
-| Nova Name                      | Ironic Name           | Ironic UUID                          | DMI UUID                             | KVM    | IP address| POP  |
-+================================+=======================+======================================+======================================+========+===========+======+
-<a href="#id1"><span class="problematic" id="id2">|</span></a>overcloud-contrailcontrolonly-0 | control-only-1-5b3s30 | 7d758dce-2784-45fd-be09-5a41eb53e764 | 73F8D030-E896-4A95-A9F5-E1A4FEBE322D | 5b3s30 | 10.0.0.11 | POP1 |
-+——————————–+———————–+————————————–+————————————–+——–+———–+——+
-<a href="#id3"><span class="problematic" id="id4">|</span></a>overcloud-contrailcontrolonly-1 | control-only-2-5b3s30 | d26abdeb-d514-4a37-a7fb-2cd2511c351f | 14639A66-D62C-4408-82EE-FDDC4E509687 | 5b3s30 | 10.0.0.14 | POP2 |
-+——————————–+———————–+————————————–+————————————–+——–+———–+——+
-<a href="#id5"><span class="problematic" id="id6">|</span></a>overcloud-contrailcontrolonly-2 | control-only-1-5b3s31 | 91dd9fa9-e8eb-4b51-8b5e-bbaffb6640e4 | 28AB0B57-D612-431E-B177-1C578AE0FEA4 | 5b3s31 | 10.0.0.12 | POP1 |
-+——————————–+———————–+————————————–+————————————–+——–+———–+——+
-<a href="#id7"><span class="problematic" id="id8">|</span></a>overcloud-contrailcontrolonly-3 | control-only-2-5b3s31 | 09fa57b8-580f-42ec-bf10-a19573521ed4 | 09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0 | 5b3s31 | 10.0.0.15 | POP2 |
-+——————————–+———————–+————————————–+————————————–+——–+———–+——+
-<a href="#id9"><span class="problematic" id="id10">|</span></a>overcloud-contrailcontrolonly-4 | control-only-1-5b3s32 | f4766799-24c8-4e3b-af54-353f2b796ca4 | 3993957A-ECBF-4520-9F49-0AF6EE1667A7 | 5b3s32 | 10.0.0.13 | POP1 |
-+——————————–+———————–+————————————–+————————————–+——–+———–+——+
-<a href="#id11"><span class="problematic" id="id12">|</span></a>overcloud-contrailcontrolonly-5 | control-only-2-5b3s32 | 58a803ae-a785-470e-9789-139abbfa74fb | AF92F485-C30C-4D0A-BDC4-C6AE97D06A66 | 5b3s32 | 10.0.0.16 | POP2 |
-+——————————–+———————–+————————————–+————————————–+——–+———–+——+</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="15%" />
+<col width="24%" />
+<col width="24%" />
+<col width="5%" />
+<col width="7%" />
+<col width="4%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Nova Name</th>
+<th class="head">Ironic Name</th>
+<th class="head">Ironic UUID</th>
+<th class="head">DMI UUID</th>
+<th class="head">KVM</th>
+<th class="head">IP address</th>
+<th class="head">POP</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>overcloud-contrailcontrolonly-0</td>
+<td>control-only-1-5b3s30</td>
+<td>7d758dce-2784-45fd-be09-5a41eb53e764</td>
+<td>73F8D030-E896-4A95-A9F5-E1A4FEBE322D</td>
+<td>5b3s30</td>
+<td>10.0.0.11</td>
+<td>POP1</td>
+</tr>
+<tr class="row-odd"><td>overcloud-contrailcontrolonly-1</td>
+<td>control-only-2-5b3s30</td>
+<td>d26abdeb-d514-4a37-a7fb-2cd2511c351f</td>
+<td>14639A66-D62C-4408-82EE-FDDC4E509687</td>
+<td>5b3s30</td>
+<td>10.0.0.14</td>
+<td>POP2</td>
+</tr>
+<tr class="row-even"><td>overcloud-contrailcontrolonly-2</td>
+<td>control-only-1-5b3s31</td>
+<td>91dd9fa9-e8eb-4b51-8b5e-bbaffb6640e4</td>
+<td>28AB0B57-D612-431E-B177-1C578AE0FEA4</td>
+<td>5b3s31</td>
+<td>10.0.0.12</td>
+<td>POP1</td>
+</tr>
+<tr class="row-odd"><td>overcloud-contrailcontrolonly-3</td>
+<td>control-only-2-5b3s31</td>
+<td>09fa57b8-580f-42ec-bf10-a19573521ed4</td>
+<td>09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0</td>
+<td>5b3s31</td>
+<td>10.0.0.15</td>
+<td>POP2</td>
+</tr>
+<tr class="row-even"><td>overcloud-contrailcontrolonly-4</td>
+<td>control-only-1-5b3s32</td>
+<td>f4766799-24c8-4e3b-af54-353f2b796ca4</td>
+<td>3993957A-ECBF-4520-9F49-0AF6EE1667A7</td>
+<td>5b3s32</td>
+<td>10.0.0.13</td>
+<td>POP1</td>
+</tr>
+<tr class="row-odd"><td>overcloud-contrailcontrolonly-5</td>
+<td>control-only-2-5b3s32</td>
+<td>58a803ae-a785-470e-9789-139abbfa74fb</td>
+<td>AF92F485-C30C-4D0A-BDC4-C6AE97D06A66</td>
+<td>5b3s32</td>
+<td>10.0.0.16</td>
+<td>POP2</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="controlonly-preparation">
 <h2>ControlOnly preparation<a class="headerlink" href="#controlonly-preparation" title="Permalink to this headline">¶</a></h2>
