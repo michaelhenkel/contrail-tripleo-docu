@@ -37,7 +37,17 @@
   <div class="section" id="remote-compute">
 <h1>Remote Compute<a class="headerlink" href="#remote-compute" title="Permalink to this headline">¶</a></h1>
 <p>Remote Compute extends the data plane to remote locations (POP) whilest keeping the control plane central.
-For Contrail, each POP will have its own set of Contrail control services, which are running in the central location.</p>
+For Contrail, each POP will have its own set of Contrail control services, which are running in the central location.
+The difficulty is to ensure that the compute nodes of a given POP connect to the Control nodes assigned to that POC.
+The Control nodes must have predictable IP addresses and the compute nodes have to know these IP addresses.
+In order to achieve that the following methods are used:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Static IP assignment</li>
+<li>Precise Node placement</li>
+<li>Per Node hieradata</li>
+</ul>
+</div></blockquote>
 <div class="section" id="controlonly-preparation">
 <h2>ControlOnly preparation<a class="headerlink" href="#controlonly-preparation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="add-controlonly-overcloud-vms-to-overcloud-kvm-host">
@@ -186,6 +196,15 @@ done &lt; &lt;(cat ironic_list_control_only)
 </pre></div>
 </div>
 </div>
+<div class="section" id="create-scheduler-hints">
+<h3>Create scheduler hints<a class="headerlink" href="#create-scheduler-hints" title="Permalink to this headline">¶</a></h3>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">scheduler</span><span class="o">-</span><span class="n">hints</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">parameter_defaults</span><span class="p">:</span>
+ <span class="n">ContrailControlOnlySchedulerHints</span><span class="p">:</span>
+     <span class="s1">&#39;capabilities:node&#39;</span><span class="p">:</span> <span class="s1">&#39;contrail-control-only-</span><span class="si">%i</span><span class="s1">ndex%&#39;</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="create-subcluser-nodedata">
 <h3>Create subcluser nodedata<a class="headerlink" href="#create-subcluser-nodedata" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="get-the-ironic-uuid-of-the-controlonly-nodes">
@@ -309,7 +328,7 @@ done &lt; &lt;(cat ironic_list_control_only)
 </div>
 <div class="section" id="deployment">
 <h3>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h3>
-<p>Add contrail-subcluster.yaml and contrail-ips-from-pool-all.yaml to the openstack deploy command:</p>
+<p>Add contrail-subcluster.yaml, contrail-ips-from-pool-all.yaml and contrail-scheduler-hints.yaml to the openstack deploy command:</p>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openstack</span> <span class="n">overcloud</span> <span class="n">deploy</span> <span class="o">--</span><span class="n">templates</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span> \
  <span class="o">-</span><span class="n">e</span> <span class="o">~/</span><span class="n">overcloud_images</span><span class="o">.</span><span class="n">yaml</span> \
  <span class="o">-</span><span class="n">e</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">network</span><span class="o">-</span><span class="n">isolation</span><span class="o">.</span><span class="n">yaml</span> \
@@ -318,6 +337,7 @@ done &lt; &lt;(cat ironic_list_control_only)
  <span class="o">-</span><span class="n">e</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">net</span><span class="o">.</span><span class="n">yaml</span> \
  <span class="o">-</span><span class="n">e</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">subcluster</span><span class="o">.</span><span class="n">yaml</span> \
  <span class="o">-</span><span class="n">e</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">ips</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">pool</span><span class="o">-</span><span class="nb">all</span><span class="o">.</span><span class="n">yaml</span> \
+ <span class="o">-</span><span class="n">e</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">scheduler</span><span class="o">-</span><span class="n">hints</span><span class="o">.</span><span class="n">yaml</span> \
  <span class="o">--</span><span class="n">roles</span><span class="o">-</span><span class="n">file</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">roles_data_contrail_aio</span><span class="o">.</span><span class="n">yaml</span>
 </pre></div>
 </div>
@@ -341,6 +361,7 @@ done &lt; &lt;(cat ironic_list_control_only)
 <li><a class="reference internal" href="#controlonly-node-introspection">ControlOnly node introspection</a></li>
 <li><a class="reference internal" href="#controlonly-node-flavor-creation">ControlOnly node flavor creation</a></li>
 <li><a class="reference internal" href="#static-ip-assignment">Static IP assignment</a></li>
+<li><a class="reference internal" href="#create-scheduler-hints">Create scheduler hints</a></li>
 <li><a class="reference internal" href="#create-subcluser-nodedata">Create subcluser nodedata</a><ul>
 <li><a class="reference internal" href="#get-the-ironic-uuid-of-the-controlonly-nodes">Get the ironic UUID of the ControlOnly nodes</a></li>
 <li><a class="reference internal" href="#get-the-ironic-uuid-of-the-pop-compute-nodes">Get the ironic UUID of the POP compute nodes</a></li>

@@ -4,6 +4,15 @@ Remote Compute
 
 Remote Compute extends the data plane to remote locations (POP) whilest keeping the control plane central.
 For Contrail, each POP will have its own set of Contrail control services, which are running in the central location.
+The difficulty is to ensure that the compute nodes of a given POP connect to the Control nodes assigned to that POC.
+The Control nodes must have predictable IP addresses and the compute nodes have to know these IP addresses.
+In order to achieve that the following methods are used:
+
+  - Static IP assignment
+
+  - Precise Node placement
+
+  - Per Node hieradata
 
 ControlOnly preparation
 =======================
@@ -162,6 +171,16 @@ Control Only nodes must have static IPs assigned
        - 10.0.0.15
        - 10.0.0.16
 
+Create scheduler hints
+----------------------
+
+.. code:: bash
+
+   cat ~/tripleo-heat-templates/environments/contrail/contrail-scheduler-hints.yaml
+   parameter_defaults:
+    ContrailControlOnlySchedulerHints:
+        'capabilities:node': 'contrail-control-only-%index%'
+
 Create subcluser nodedata
 -------------------------
 
@@ -293,7 +312,7 @@ Check subcluster environment file
 Deployment
 ----------
 
-Add contrail-subcluster.yaml and contrail-ips-from-pool-all.yaml to the openstack deploy command:
+Add contrail-subcluster.yaml, contrail-ips-from-pool-all.yaml and contrail-scheduler-hints.yaml to the openstack deploy command:
 
 .. code:: bash
 
@@ -305,4 +324,5 @@ Add contrail-subcluster.yaml and contrail-ips-from-pool-all.yaml to the openstac
     -e ~/tripleo-heat-templates/environments/contrail/contrail-net.yaml \
     -e ~/tripleo-heat-templates/environments/contrail/contrail-subcluster.yaml \
     -e ~/tripleo-heat-templates/environments/contrail/contrail-ips-from-pool-all.yaml \
+    -e ~/tripleo-heat-templates/environments/contrail/contrail-scheduler-hints.yaml \
     --roles-file ~/tripleo-heat-templates/roles_data_contrail_aio.yaml
