@@ -48,6 +48,29 @@ In order to achieve that the following methods are used:</p>
 <li>Per Node hieradata</li>
 </ul>
 </div></blockquote>
+<p>Each overcloud node has a unique DMI UUID. This UUID is known on the undercloud as well as on the overcloud nodes. Hence, this UUID can be used for mapping node specific information.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<img alt="../../_images/remote_compute_overview.png" src="../../_images/remote_compute_overview.png" />
+</div>
+<div class="section" id="mapping-table">
+<h2>Mapping table<a class="headerlink" href="#mapping-table" title="Permalink to this headline">¶</a></h2>
+<p>+================================+=======================+======================================+======================================+========+===========+======+
+| Nova Name                      | Ironic Name           | Ironic UUID                          | DMI UUID                             | KVM    | IP address| POP  |
++================================+=======================+======================================+======================================+========+===========+======+
+<a href="#id1"><span class="problematic" id="id2">|</span></a>overcloud-contrailcontrolonly-0 | control-only-1-5b3s30 | 7d758dce-2784-45fd-be09-5a41eb53e764 | 73F8D030-E896-4A95-A9F5-E1A4FEBE322D | 5b3s30 | 10.0.0.11 | POP1 |
++——————————–+———————–+————————————–+————————————–+——–+———–+——+
+<a href="#id3"><span class="problematic" id="id4">|</span></a>overcloud-contrailcontrolonly-1 | control-only-2-5b3s30 | d26abdeb-d514-4a37-a7fb-2cd2511c351f | 14639A66-D62C-4408-82EE-FDDC4E509687 | 5b3s30 | 10.0.0.14 | POP2 |
++——————————–+———————–+————————————–+————————————–+——–+———–+——+
+<a href="#id5"><span class="problematic" id="id6">|</span></a>overcloud-contrailcontrolonly-2 | control-only-1-5b3s31 | 91dd9fa9-e8eb-4b51-8b5e-bbaffb6640e4 | 28AB0B57-D612-431E-B177-1C578AE0FEA4 | 5b3s31 | 10.0.0.12 | POP1 |
++——————————–+———————–+————————————–+————————————–+——–+———–+——+
+<a href="#id7"><span class="problematic" id="id8">|</span></a>overcloud-contrailcontrolonly-3 | control-only-2-5b3s31 | 09fa57b8-580f-42ec-bf10-a19573521ed4 | 09BEC8CB-77E9-42A6-AFF4-6D4880FD87D0 | 5b3s31 | 10.0.0.15 | POP2 |
++——————————–+———————–+————————————–+————————————–+——–+———–+——+
+<a href="#id9"><span class="problematic" id="id10">|</span></a>overcloud-contrailcontrolonly-4 | control-only-1-5b3s32 | f4766799-24c8-4e3b-af54-353f2b796ca4 | 3993957A-ECBF-4520-9F49-0AF6EE1667A7 | 5b3s32 | 10.0.0.13 | POP1 |
++——————————–+———————–+————————————–+————————————–+——–+———–+——+
+<a href="#id11"><span class="problematic" id="id12">|</span></a>overcloud-contrailcontrolonly-5 | control-only-2-5b3s32 | 58a803ae-a785-470e-9789-139abbfa74fb | AF92F485-C30C-4D0A-BDC4-C6AE97D06A66 | 5b3s32 | 10.0.0.16 | POP2 |
++——————————–+———————–+————————————–+————————————–+——–+———–+——+</p>
+</div>
 <div class="section" id="controlonly-preparation">
 <h2>ControlOnly preparation<a class="headerlink" href="#controlonly-preparation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="add-controlonly-overcloud-vms-to-overcloud-kvm-host">
@@ -181,17 +204,17 @@ done &lt; &lt;(cat ironic_list_control_only)
   <span class="n">ContrailControlOnlyIPs</span><span class="p">:</span>
     <span class="n">internal_api</span><span class="p">:</span>
     <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.11</span>
-    <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.12</span>
-    <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.13</span>
     <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.14</span>
+    <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.12</span>
     <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.15</span>
+    <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.13</span>
     <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.16</span>
     <span class="n">tenant</span><span class="p">:</span>
     <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.11</span>
-    <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.12</span>
-    <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.13</span>
     <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.14</span>
+    <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.12</span>
     <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.15</span>
+    <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.13</span>
     <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.16</span>
 </pre></div>
 </div>
@@ -355,6 +378,8 @@ done &lt; &lt;(cat ironic_list_control_only)
   <h3><a href="../../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Remote Compute</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#mapping-table">Mapping table</a></li>
 <li><a class="reference internal" href="#controlonly-preparation">ControlOnly preparation</a><ul>
 <li><a class="reference internal" href="#add-controlonly-overcloud-vms-to-overcloud-kvm-host">Add ControlOnly Overcloud VMs to Overcloud KVM host</a></li>
 <li><a class="reference internal" href="#import-controlonly-nodes-to-ironic">Import ControlOnly nodes to ironic</a></li>
