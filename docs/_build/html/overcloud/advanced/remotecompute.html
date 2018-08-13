@@ -236,56 +236,6 @@ done &lt; &lt;(cat ironic_list_control_only)
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openstack</span> <span class="n">overcloud</span> <span class="n">node</span> <span class="n">introspect</span> <span class="o">--</span><span class="nb">all</span><span class="o">-</span><span class="n">manageable</span> <span class="o">--</span><span class="n">provide</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="controlonly-node-flavor-creation">
-<h3>ControlOnly node flavor creation<a class="headerlink" href="#controlonly-node-flavor-creation" title="Permalink to this headline">¶</a></h3>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openstack</span> <span class="n">flavor</span> <span class="n">create</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span> <span class="o">--</span><span class="n">ram</span> <span class="mi">4096</span> <span class="o">--</span><span class="n">vcpus</span> <span class="mi">1</span> <span class="o">--</span><span class="n">disk</span> <span class="mi">40</span>
-<span class="n">openstack</span> <span class="n">flavor</span> <span class="nb">set</span> <span class="o">--</span><span class="nb">property</span> <span class="s2">&quot;capabilities:boot_option&quot;</span><span class="o">=</span><span class="s2">&quot;local&quot;</span> \
-                     <span class="o">--</span><span class="nb">property</span> <span class="s2">&quot;capabilities:profile&quot;</span><span class="o">=</span><span class="s2">&quot;control-only&quot;</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="static-ip-assignment">
-<h3>Static IP assignment<a class="headerlink" href="#static-ip-assignment" title="Permalink to this headline">¶</a></h3>
-<p>Control Only nodes must have static IPs assigned</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">ips</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">pool</span><span class="o">-</span><span class="nb">all</span><span class="o">.</span><span class="n">yaml</span>
-<span class="c1"># Environment file demonstrating how to pre-assign IPs to all node types</span>
-<span class="n">resource_registry</span><span class="p">:</span>
-  <span class="n">OS</span><span class="p">::</span><span class="n">TripleO</span><span class="p">::</span><span class="n">ContrailControlOnly</span><span class="p">::</span><span class="n">Ports</span><span class="p">::</span><span class="n">InternalApiPort</span><span class="p">:</span> <span class="o">../../</span><span class="n">network</span><span class="o">/</span><span class="n">ports</span><span class="o">/</span><span class="n">internal_api_from_pool</span><span class="o">.</span><span class="n">yaml</span>
-  <span class="n">OS</span><span class="p">::</span><span class="n">TripleO</span><span class="p">::</span><span class="n">ContrailControlOnly</span><span class="p">::</span><span class="n">Ports</span><span class="p">::</span><span class="n">TenantPort</span><span class="p">:</span> <span class="o">../../</span><span class="n">network</span><span class="o">/</span><span class="n">ports</span><span class="o">/</span><span class="n">tenant_from_pool</span><span class="o">.</span><span class="n">yaml</span>
-  <span class="c1"># Management network is optional and disabled by default</span>
-  <span class="c1">#OS::TripleO::Controller::Ports::ManagementPort: ../network/ports/management_from_pool.yaml</span>
-
-<span class="n">parameter_defaults</span><span class="p">:</span>
-  <span class="n">ContrailControlOnlyIPs</span><span class="p">:</span>
-    <span class="n">internal_api</span><span class="p">:</span>
-    <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.11</span>
-    <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.14</span>
-    <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.12</span>
-    <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.15</span>
-    <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.13</span>
-    <span class="o">-</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">0.16</span>
-    <span class="n">tenant</span><span class="p">:</span>
-    <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.11</span>
-    <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.14</span>
-    <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.12</span>
-    <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.15</span>
-    <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.13</span>
-    <span class="o">-</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.16</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="create-scheduler-hints">
-<h3>Create scheduler hints<a class="headerlink" href="#create-scheduler-hints" title="Permalink to this headline">¶</a></h3>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">scheduler</span><span class="o">-</span><span class="n">hints</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">parameter_defaults</span><span class="p">:</span>
- <span class="n">ContrailControlOnlySchedulerHints</span><span class="p">:</span>
-     <span class="s1">&#39;capabilities:node&#39;</span><span class="p">:</span> <span class="s1">&#39;contrail-control-only-</span><span class="si">%i</span><span class="s1">ndex%&#39;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="create-subcluser-nodedata">
-<h3>Create subcluser nodedata<a class="headerlink" href="#create-subcluser-nodedata" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="get-the-ironic-uuid-of-the-controlonly-nodes">
 <h4>Get the ironic UUID of the ControlOnly nodes<a class="headerlink" href="#get-the-ironic-uuid-of-the-controlonly-nodes" title="Permalink to this headline">¶</a></h4>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openstack</span> <span class="n">baremetal</span> <span class="n">node</span> <span class="nb">list</span> <span class="o">|</span><span class="n">grep</span> <span class="n">control</span><span class="o">-</span><span class="n">only</span>
@@ -439,11 +389,7 @@ done &lt; &lt;(cat ironic_list_control_only)
 <li><a class="reference internal" href="#controlonly-preparation">ControlOnly preparation</a><ul>
 <li><a class="reference internal" href="#add-controlonly-overcloud-vms-to-overcloud-kvm-host">Add ControlOnly Overcloud VMs to Overcloud KVM host</a></li>
 <li><a class="reference internal" href="#import-controlonly-nodes-to-ironic">Import ControlOnly nodes to ironic</a></li>
-<li><a class="reference internal" href="#controlonly-node-introspection">ControlOnly node introspection</a></li>
-<li><a class="reference internal" href="#controlonly-node-flavor-creation">ControlOnly node flavor creation</a></li>
-<li><a class="reference internal" href="#static-ip-assignment">Static IP assignment</a></li>
-<li><a class="reference internal" href="#create-scheduler-hints">Create scheduler hints</a></li>
-<li><a class="reference internal" href="#create-subcluser-nodedata">Create subcluser nodedata</a><ul>
+<li><a class="reference internal" href="#controlonly-node-introspection">ControlOnly node introspection</a><ul>
 <li><a class="reference internal" href="#get-the-ironic-uuid-of-the-controlonly-nodes">Get the ironic UUID of the ControlOnly nodes</a></li>
 <li><a class="reference internal" href="#get-the-ironic-uuid-of-the-pop-compute-nodes">Get the ironic UUID of the POP compute nodes</a></li>
 <li><a class="reference internal" href="#create-an-input-yaml">Create an input yaml</a></li>

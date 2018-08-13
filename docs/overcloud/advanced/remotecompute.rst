@@ -157,60 +157,6 @@ ControlOnly node introspection
 
     openstack overcloud node introspect --all-manageable --provide
 
-ControlOnly node flavor creation
---------------------------------
-
-.. code:: bash
-
-   openstack flavor create control-only --ram 4096 --vcpus 1 --disk 40
-   openstack flavor set --property "capabilities:boot_option"="local" \
-                        --property "capabilities:profile"="control-only" control-only
-
-Static IP assignment
---------------------
-
-Control Only nodes must have static IPs assigned
-
-.. code:: bash
-
-   cat ~/tripleo-heat-templates/environments/contrail/contrail-ips-from-pool-all.yaml
-   # Environment file demonstrating how to pre-assign IPs to all node types
-   resource_registry:
-     OS::TripleO::ContrailControlOnly::Ports::InternalApiPort: ../../network/ports/internal_api_from_pool.yaml
-     OS::TripleO::ContrailControlOnly::Ports::TenantPort: ../../network/ports/tenant_from_pool.yaml
-     # Management network is optional and disabled by default
-     #OS::TripleO::Controller::Ports::ManagementPort: ../network/ports/management_from_pool.yaml
-
-   parameter_defaults:
-     ContrailControlOnlyIPs:
-       internal_api:
-       - 10.1.0.11
-       - 10.1.0.14
-       - 10.1.0.12
-       - 10.1.0.15
-       - 10.1.0.13
-       - 10.1.0.16
-       tenant:
-       - 10.0.0.11
-       - 10.0.0.14
-       - 10.0.0.12
-       - 10.0.0.15
-       - 10.0.0.13
-       - 10.0.0.16
-
-Create scheduler hints
-----------------------
-
-.. code:: bash
-
-   cat ~/tripleo-heat-templates/environments/contrail/contrail-scheduler-hints.yaml
-   parameter_defaults:
-    ContrailControlOnlySchedulerHints:
-        'capabilities:node': 'contrail-control-only-%index%'
-
-Create subcluser nodedata
--------------------------
-
 Get the ironic UUID of the ControlOnly nodes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
