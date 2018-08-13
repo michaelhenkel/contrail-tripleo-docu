@@ -221,7 +221,7 @@ while IFS= read -r line; do
                                         --driver-info ipmi_password=${ipmi_password} \
                                         --driver-info ipmi_port=${ipmi_port} \
                                         --name=${name} \
-                                        --property capabilities=node:contrail-control-only-${num},profile:${profile},boot_option:local \
+                                        --property capabilities=boot_option:local \
                                         -c uuid -f value`
   openstack baremetal node set ${uuid} --driver-info deploy_kernel=$DEPLOY_KERNEL --driver-info deploy_ramdisk=$DEPLOY_RAMDISK
   openstack baremetal port create --node ${uuid} ${mac}
