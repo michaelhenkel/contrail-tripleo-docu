@@ -37,18 +37,20 @@
   <div class="section" id="remote-compute">
 <h1>Remote Compute<a class="headerlink" href="#remote-compute" title="Permalink to this headline">¶</a></h1>
 <p>Remote Compute extends the data plane to remote locations (POP) whilest keeping the control plane central.
-For Contrail, each POP will have its own set of Contrail control services, which are running in the central location.
+Each POP will have its own set of Contrail control services, which are running in the central location.
 The difficulty is to ensure that the compute nodes of a given POP connect to the Control nodes assigned to that POC.
 The Control nodes must have predictable IP addresses and the compute nodes have to know these IP addresses.
 In order to achieve that the following methods are used:</p>
 <blockquote>
 <div><ul class="simple">
+<li>Custom roles</li>
 <li>Static IP assignment</li>
 <li>Precise Node placement</li>
 <li>Per Node hieradata</li>
 </ul>
 </div></blockquote>
-<p>Each overcloud node has a unique DMI UUID. This UUID is known on the undercloud as well as on the overcloud nodes. Hence, this UUID can be used for mapping node specific information.</p>
+<p>Each overcloud node has a unique DMI UUID. This UUID is known on the undercloud as well as on the overcloud nodes. Hence, this UUID can be used for mapping node specific information.
+For each POP a Control and Compute role has to be created.</p>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <img alt="../../_images/remote_compute_overview.png" src="../../_images/remote_compute_overview.png" />
@@ -260,8 +262,8 @@ done &lt; &lt;(cat ironic_list_control_only)
 </div>
 <p>From that list the first two compute nodes belong to POP1 the rest to POP2</p>
 </div>
-<div class="section" id="create-an-input-yaml">
-<h4>Create an input yaml<a class="headerlink" href="#create-an-input-yaml" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="create-an-input-yaml-using-the-ironic-uuids">
+<h4>Create an input yaml using the ironic uuids<a class="headerlink" href="#create-an-input-yaml-using-the-ironic-uuids" title="Permalink to this headline">¶</a></h4>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vi</span> <span class="o">~/</span><span class="n">subcluster_input</span><span class="o">.</span><span class="n">yaml</span>
 <span class="o">---</span>
 <span class="o">-</span> <span class="n">subcluster</span><span class="p">:</span> <span class="n">subcluster1</span>
@@ -294,10 +296,15 @@ done &lt; &lt;(cat ironic_list_control_only)
       <span class="n">vrouter_gateway</span><span class="p">:</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">0.1</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Supported node types</p>
+<p class="last">control_nodes, compute_nodes, dpdk_nodes and sriov_nodes are supported</p>
 </div>
-<div class="section" id="generate-subcluster-environment-file">
-<h4>Generate subcluster environment file<a class="headerlink" href="#generate-subcluster-environment-file" title="Permalink to this headline">¶</a></h4>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">subcluster</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">i</span> <span class="o">~/</span><span class="n">subcluster_input</span><span class="o">.</span><span class="n">yaml</span> \
+</div>
+<div class="section" id="generate-subcluster-environment">
+<h4>Generate subcluster environment<a class="headerlink" href="#generate-subcluster-environment" title="Permalink to this headline">¶</a></h4>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">create_subcluster_environment</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">i</span> <span class="o">~/</span><span class="n">subcluster_input</span><span class="o">.</span><span class="n">yaml</span> \
                <span class="o">-</span><span class="n">o</span> <span class="o">~/</span><span class="n">tripleo</span><span class="o">-</span><span class="n">heat</span><span class="o">-</span><span class="n">templates</span><span class="o">/</span><span class="n">environments</span><span class="o">/</span><span class="n">contrail</span><span class="o">/</span><span class="n">contrail</span><span class="o">-</span><span class="n">subcluster</span><span class="o">.</span><span class="n">yaml</span>
 </pre></div>
 </div>
@@ -392,8 +399,8 @@ done &lt; &lt;(cat ironic_list_control_only)
 <li><a class="reference internal" href="#controlonly-node-introspection">ControlOnly node introspection</a><ul>
 <li><a class="reference internal" href="#get-the-ironic-uuid-of-the-controlonly-nodes">Get the ironic UUID of the ControlOnly nodes</a></li>
 <li><a class="reference internal" href="#get-the-ironic-uuid-of-the-pop-compute-nodes">Get the ironic UUID of the POP compute nodes</a></li>
-<li><a class="reference internal" href="#create-an-input-yaml">Create an input yaml</a></li>
-<li><a class="reference internal" href="#generate-subcluster-environment-file">Generate subcluster environment file</a></li>
+<li><a class="reference internal" href="#create-an-input-yaml-using-the-ironic-uuids">Create an input yaml using the ironic uuids</a></li>
+<li><a class="reference internal" href="#generate-subcluster-environment">Generate subcluster environment</a></li>
 <li><a class="reference internal" href="#check-subcluster-environment-file">Check subcluster environment file</a></li>
 </ul>
 </li>

@@ -3,10 +3,12 @@ Remote Compute
 ==============
 
 Remote Compute extends the data plane to remote locations (POP) whilest keeping the control plane central.
-For Contrail, each POP will have its own set of Contrail control services, which are running in the central location.
+Each POP will have its own set of Contrail control services, which are running in the central location.
 The difficulty is to ensure that the compute nodes of a given POP connect to the Control nodes assigned to that POC.
 The Control nodes must have predictable IP addresses and the compute nodes have to know these IP addresses.
 In order to achieve that the following methods are used:
+
+  - Custom roles
 
   - Static IP assignment
 
@@ -15,6 +17,7 @@ In order to achieve that the following methods are used:
   - Per Node hieradata
 
 Each overcloud node has a unique DMI UUID. This UUID is known on the undercloud as well as on the overcloud nodes. Hence, this UUID can be used for mapping node specific information.
+For each POP a Control and Compute role has to be created.
 
 Overview
 ========
@@ -185,8 +188,8 @@ Get the ironic UUID of the POP compute nodes
 
 From that list the first two compute nodes belong to POP1 the rest to POP2
 
-Create an input yaml
-^^^^^^^^^^^^^^^^^^^^
+Create an input yaml using the ironic uuids
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: bash
 
@@ -221,12 +224,16 @@ Create an input yaml
        - uuid: 2d4be83e-6fcc-4761-86f2-c2615dd15074
          vrouter_gateway: 10.0.0.1
 
-Generate subcluster environment file
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. note:: Supported node types
+
+          control_nodes, compute_nodes, dpdk_nodes and sriov_nodes are supported
+
+Generate subcluster environment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: bash
 
-   ~/tripleo-heat-templates/tools/contrail/subcluster.py -i ~/subcluster_input.yaml \ 
+   ~/tripleo-heat-templates/tools/contrail/create_subcluster_environment.py -i ~/subcluster_input.yaml \ 
                   -o ~/tripleo-heat-templates/environments/contrail/contrail-subcluster.yaml
 
 Check subcluster environment file
