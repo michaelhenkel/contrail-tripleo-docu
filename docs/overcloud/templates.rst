@@ -66,6 +66,46 @@ Contrail container image settings
    parameter_defaults:
      ContrailImageTag: queens-5.0-104-rhel-queens
 
+Overriding global setting for registry and tag for specific images
+=================================
+
+Each of the container image names may be given with registry and image tag, that will effectively override global values of registry and image tag given in `ContrailRegistry` and `ContrailImageTag`. Example of such setting is given below for each supported image name.
+
+.. code:: bash
+
+   parameter_defaults:
+     DockerContrailAnalyticsAlarmGenImageName: satellite.englab.juniper.net:5443/contrail-analytics-alarm-gen:queens-5.0-104-rhel-queens
+     DockerContrailAnalyticsApiImageName: satellite.englab.juniper.net:5443/contrail-analytics-api:queens-5.0-104-rhel-queens
+     DockerContrailAnalyticsCollectorImageName: satellite.englab.juniper.net:5443/contrail-analytics-collector:queens-5.0-104-rhel-queens
+     DockerContrailAnalyticsQueryEngineImageName: satellite.englab.juniper.net:5443/contrail-analytics-query-engine:queens-5.0-104-rhel-queens
+     DockerContrailAnalyticsSnmpCollectorImageName: satellite.englab.juniper.net:5443/contrail-analytics-snmp-collector:queens-5.0-104-rhel-queens
+     DockerContrailAnalyticsTopologyImageName: satellite.englab.juniper.net:5443/contrail-analytics-topology:queens-5.0-104-rhel-queens
+     DockerContrailCassandraImageName: satellite.englab.juniper.net:5443/contrail-external-cassandra:queens-5.0-104-rhel-queens
+     DockerContrailConfigApiImageName: satellite.englab.juniper.net:5443/contrail-controller-config-api:queens-5.0-104-rhel-queens
+     DockerContrailConfigDevicemgrImageName: satellite.englab.juniper.net:5443/contrail-controller-config-devicemgr:queens-5.0-104-rhel-queens
+     DockerContrailConfigSchemaImageName: satellite.englab.juniper.net:5443/contrail-controller-config-schema:queens-5.0-104-rhel-queens
+     DockerContrailConfigSvcmonitorImageName: satellite.englab.juniper.net:5443/contrail-controller-config-svcmonitor:queens-5.0-104-rhel-queens
+     DockerContrailControlControlImageName: satellite.englab.juniper.net:5443/contrail-controller-control-control:queens-5.0-104-rhel-queens
+     DockerContrailControlDnsImageName: satellite.englab.juniper.net:5443/contrail-controller-control-dns:queens-5.0-104-rhel-queens
+     DockerContrailControlNamedImageName: satellite.englab.juniper.net:5443/contrail-controller-control-named:queens-5.0-104-rhel-queens
+     DockerContrailHeatPluginImageName: satellite.englab.juniper.net:5443/contrail-openstack-heat-init:queens-5.0-104-rhel-queens
+     DockerContrailKafkaImageName: satellite.englab.juniper.net:5443/contrail-external-kafka:queens-5.0-104-rhel-queens
+     DockerContrailNeutronPluginImageName: satellite.englab.juniper.net:5443/contrail-openstack-neutron-init:queens-5.0-104-rhel-queens
+     DockerContrailNodeInitImageName: satellite.englab.juniper.net:5443/contrail-node-init:queens-5.0-104-rhel-queens
+     DockerContrailNodemgrImageName: satellite.englab.juniper.net:5443/contrail-nodemgr:queens-5.0-104-rhel-queens
+     DockerContrailNovaPluginImageName: satellite.englab.juniper.net:5443/contrail-openstack-compute-init:queens-5.0-104-rhel-queens
+     DockerContrailRabbitmqImageName: satellite.englab.juniper.net:5443/contrail-external-rabbitmq:queens-5.0-104-rhel-queens
+     DockerContrailStatusImageName: satellite.englab.juniper.net:5443/contrail-status:queens-5.0-104-rhel-queens
+     DockerContrailVrouterAgentContainerName: satellite.englab.juniper.net:5443/contrail-vrouter-agent:queens-5.0-104-rhel-queens
+     DockerContrailVrouterAgentDpdkContainerName: satellite.englab.juniper.net:5443/contrail-vrouter-agent-dpdk:queens-5.0-104-rhel-queens
+     DockerContrailVrouterAgentImageName: satellite.englab.juniper.net:5443/contrail-vrouter-agent:queens-5.0-104-rhel-queens
+     DockerContrailVrouterKernelInitDpdkImageName: satellite.englab.juniper.net:5443/contrail-vrouter-kernel-init-dpdk:queens-5.0-104-rhel-queens
+     DockerContrailVrouterKernelInitImageName: satellite.englab.juniper.net:5443/contrail-vrouter-kernel-init:queens-5.0-104-rhel-queens
+     DockerContrailWebuiJobImageName: satellite.englab.juniper.net:5443/contrail-controller-webui-job:queens-5.0-104-rhel-queens
+     DockerContrailWebuiWebImageName: satellite.englab.juniper.net:5443/contrail-controller-webui-web:queens-5.0-104-rhel-queens
+     DockerContrailZookeeperImageName: satellite.englab.juniper.net:5443/contrail-external-zookeeper:queens-5.0-104-rhel-queens
+     DockerContrailRedisImageName: satellite.englab.juniper.net:5443/dockerio-redis:latest:queens-5.0-104-rhel-queens
+
 Network customization
 =====================
 
